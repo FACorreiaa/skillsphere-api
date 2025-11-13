@@ -1,3 +1,4 @@
+-- +goose Up
 -- Add a new ENUM type for the subscription source
 CREATE TYPE subscription_provider AS ENUM ('stripe', 'apple_app_store', 'google_play_store');
 

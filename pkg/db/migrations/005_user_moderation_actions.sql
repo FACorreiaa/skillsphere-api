@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TYPE moderation_action_type AS ENUM ('warning', 'suspension', 'ban');
 
 CREATE TABLE user_moderation_actions (

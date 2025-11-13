@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE user_availability (
                                  user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 

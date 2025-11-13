@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TYPE token_type AS ENUM ('password_reset', 'email_verification');
 
 CREATE TABLE user_tokens (

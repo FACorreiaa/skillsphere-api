@@ -1,3 +1,4 @@
+-- +goose Up
 -- A simple key-value store for platform-wide settings.
 CREATE TABLE platform_settings (
   key VARCHAR(100) PRIMARY KEY,
@@ -53,7 +54,7 @@ CREATE TABLE announcements (
                              content TEXT NOT NULL,
                              priority announcement_priority NOT NULL DEFAULT 'low',
 
-                             created_at TIMESTAMT_AT TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                             created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
                              expires_at TIMESTAMPTZ
 );
 

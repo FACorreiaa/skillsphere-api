@@ -1,8 +1,9 @@
+-- +goose Up
 CREATE TYPE dispute_status AS ENUM ('pending', 'under_review', 'resolved', 'escalated');
 
 CREATE TABLE disputes (
                         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-                        session_id UUID REFERENCES sessions(id), -- Assuming you have a 'sessions' table
+                        session_id UUID REFERENCES user_sessions(id), -- Assuming you have a 'sessions' table
 
                         disputing_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                         disputed_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,

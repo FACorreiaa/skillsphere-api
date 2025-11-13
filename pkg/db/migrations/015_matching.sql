@@ -1,3 +1,4 @@
+-- +goose Up
 -- This materialized view transforms the user_skills data into a dense vector format
 -- that is ready for mathematical comparison.
 CREATE MATERIALIZED VIEW user_skill_vectors AS
@@ -30,7 +31,7 @@ SELECT
     -- This requires a function to aggregate embeddings, which can be complex.
     -- For simplicity here, we assume a separate process updates this.
     -- See notes below on how this would be generated.
-  (SELECT vector FROM users WHERE id = uv.user_id) AS embedding_vector -- Placeholder
+  NULL::VECTOR(768) AS embedding_vector -- Placeholder, to be updated by a separate process
 
 FROM user_skills_ranked uv
 GROUP BY uv.user_id;
@@ -48,7 +49,7 @@ CREATE UNIQUE INDEX idx_user_skill_vectors_user_id ON user_skill_vectors (user_i
 
     -- Did the match result in an interaction?
                                interaction_initiated BOOLEAN NOT NULL DEFAULT false,
-                               session_id UUID REFERENCES sessions(id), -- If a session was scheduled
+                               session_id UUID REFERENCES user_sessions(id), -- If a session was scheduled
 
                                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 

@@ -17,6 +17,8 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE EXTENSION IF NOT EXISTS timescaledb;
 
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
 -- +goose StatementBegin
 CREATE OR REPLACE FUNCTION set_updated_at()
     RETURNS TRIGGER AS $$

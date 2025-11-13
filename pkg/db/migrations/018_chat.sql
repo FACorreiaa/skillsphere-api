@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE conversations (
                              id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
@@ -6,15 +7,15 @@ CREATE TABLE conversations (
                              user_a_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                              user_b_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 
-  -- To quickly find a conversation between two users without worrying about order (A->B vs B->A)
-                             UNIQUE (LEAST(user_a_id, user_b_id), GREATEST(user_a_id, user_b_id)),
-
   -- Denormalized data for fast conversation list rendering
                              last_message_id UUID, -- Can be a foreign key later
                              last_message_at TIMESTAMPTZ,
 
                              created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- To quickly find a conversation between two users without worrying about order (A->B vs B->A)
+CREATE UNIQUE INDEX idx_conversations_unique_pair ON conversations (LEAST(user_a_id, user_b_id), GREATEST(user_a_id, user_b_id));
 
 -- Index for finding all conversations a user is part of.
 CREATE INDEX idx_conversations_user_a ON conversations (user_a_id);

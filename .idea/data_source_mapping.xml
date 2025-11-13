@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/pkg/db/migrations/002_users.sql" value="27d927de-72fb-4a3b-a3ca-8ebc5913098c" />
+    <file url="file://$PROJECT_DIR$/pkg/db/migrations/015_matching.sql" value="27d927de-72fb-4a3b-a3ca-8ebc5913098c" />
+    <file url="file://$PROJECT_DIR$/pkg/db/migrations/019_gigs.sql" value="27d927de-72fb-4a3b-a3ca-8ebc5913098c" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/27d927de-72fb-4a3b-a3ca-8ebc5913098c/console.sql" value="27d927de-72fb-4a3b-a3ca-8ebc5913098c" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/3bbf4fea-e0c1-4a3f-9092-21943b01e598/console.sql" value="3bbf4fea-e0c1-4a3f-9092-21943b01e598" />
+  </component>
+</project>

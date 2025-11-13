@@ -1,3 +1,4 @@
+-- +goose Up
 -- This table should already exist from your AuthService schema.
 -- We'll add a few columns to it.
 

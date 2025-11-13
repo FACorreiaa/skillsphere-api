@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE customers (
                          user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 
@@ -12,8 +13,6 @@ CREATE TABLE customers (
 );
 
 CREATE TYPE subscription_tier AS ENUM ('free', 'premium', 'pro');
-CREATE TYPE subscription_status AS ENUM ('active', 'trialing', 'past_due', 'canceled', 'unpaid');
-
 CREATE TABLE subscriptions (
                              id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                              user_id UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- Assuming one subscription per user

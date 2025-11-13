@@ -28,18 +28,11 @@ CREATE INDEX idx_users_username ON users (username);
 CREATE TABLE user_oauth_identities (
     provider_name VARCHAR(50) NOT NULL, -- e.g., 'google', 'github'
     provider_user_id VARCHAR(255) NOT NULL, -- The unique ID from the provider (e.g., Google's 'sub' claim)
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-
-                                                                                                                    -- Store the access/refresh tokens from the provider if you need to make API calls on behalf of the user.
-                                                                                                                    -- Encrypt these tokens at rest for security.
-                                                                                                                    provider_access_token TEXT,
-                                                                                                                    provider_refresh_token TEXT,
-
-                                                                                                                    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-                                                                                                                    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-                                                                                                                    -- A user can only link one account per provider.
-                                                                                                                    PRIMARY KEY (provider_name, provider_user_id)
-                                                                                                                    );
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE                                                                                                          );
 
 CREATE INDEX idx_user_oauth_user_id ON user_oauth_identities (user_id);
+
+ALTER TABLE users ADD COLUMN embedding VECTOR(768);
+
+-- Add an index to make user-to-user similarity searches fast
+CREATE INDEX idx_users_embedding_cosine ON users USING IVFFLAT (embedding vector_cosine_ops);

@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE user_stats (
                           user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 

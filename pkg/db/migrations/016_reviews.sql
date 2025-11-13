@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TYPE review_status AS ENUM ('pending', 'accepted', 'in_progress', 'completed', 'revision_requested', 'declined', 'cancelled');
 CREATE TYPE review_type AS ENUM ('code_review', 'design_review', 'writing_review', 'video_review', 'portfolio_review', 'resume_review');
 CREATE TYPE review_depth AS ENUM ('quick', 'standard', 'comprehensive');
