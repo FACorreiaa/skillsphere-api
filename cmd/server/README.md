@@ -194,7 +194,7 @@ The main function is only 47 lines and reads like a script:
 Each component can be tested independently:
 
 ```go
-// Test handler with mock service
+// Test service with mock service
 func TestHandler(t *testing.T) {
     mockService := &MockService{}
     handler := handlers.NewMyServiceHandler(mockService, logger)

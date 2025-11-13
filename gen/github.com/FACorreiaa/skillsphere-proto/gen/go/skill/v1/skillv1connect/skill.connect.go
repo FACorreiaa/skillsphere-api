@@ -5,12 +5,14 @@
 package skillv1connect
 
 import (
-	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/skill/v1"
 	http "net/http"
 	strings "strings"
+
+	connect "connectrpc.com/connect"
+
+	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/skill/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -303,10 +305,10 @@ type SkillServiceHandler interface {
 	GetSkillSuggestions(context.Context, *connect.Request[v1.GetSkillSuggestionsRequest]) (*connect.Response[v1.GetSkillSuggestionsResponse], error)
 }
 
-// NewSkillServiceHandler builds an HTTP handler from the service implementation. It returns the
-// path on which to mount the handler and the handler itself.
+// NewSkillServiceHandler builds an HTTP service from the service implementation. It returns the
+// path on which to mount the service and the service itself.
 //
-// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// By default, service support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewSkillServiceHandler(svc SkillServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	skillServiceCreateSkillHandler := connect.NewUnaryHandler(

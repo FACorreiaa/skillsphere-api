@@ -284,16 +284,16 @@ import (
 )
 
 func main() {
-    // Initialize services
+    // Initialize handler
     matchingSvc := service.NewMatchingService()
     matchingServer := server.NewMatchingServer(matchingSvc)
 
-    // Create Connect handlers
+    // Create Connect service
     mux := http.NewServeMux()
     path, handler := skillspherev1connect.NewMatchingServiceHandler(matchingServer)
     mux.Handle(path, handler)
 
-    // Add CORS and auth interceptors
+    // Add CORS and service interceptors
     interceptors := connect.WithInterceptors(
         NewAuthInterceptor(),
         NewLoggingInterceptor(),

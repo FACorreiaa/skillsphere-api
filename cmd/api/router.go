@@ -6,13 +6,11 @@ import (
 	"connectrpc.com/connect"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/FACorreiaa/skillsphere-proto/gen/myservice/myserviceconnect"
-
 	"github.com/FACorreiaa/skillsphere-api/pkg/interceptors"
 	"github.com/FACorreiaa/skillsphere-api/pkg/observability"
 )
 
-// SetupRouter configures all routes and returns the HTTP handler
+// SetupRouter configures all routes and returns the HTTP service
 func SetupRouter(deps *Dependencies) http.Handler {
 	mux := http.NewServeMux()
 
@@ -33,22 +31,18 @@ func SetupRouter(deps *Dependencies) http.Handler {
 	return mux
 }
 
-// registerConnectRoutes registers all Connect RPC service handlers
+// registerConnectRoutes registers all Connect RPC service service
 func registerConnectRoutes(mux *http.ServeMux, deps *Dependencies, opts connect.HandlerOption) {
-	// MyService routes
-	myServicePath, myServiceHandler := myserviceconnect.NewMyServiceHandler(
-		deps.MyServiceHandler,
-		opts,
-	)
-	mux.Handle(myServicePath, myServiceHandler)
-	deps.Logger.Info("registered Connect RPC service", "path", myServicePath)
-
-	// Add more services here as you implement them:
-	// userServicePath, userServiceHandler := userserviceconnect.NewUserServiceHandler(
-	//     deps.UserServiceHandler,
+	// Connect RPC handler will be registered here as they are implemented
+	// Example:
+	// authServicePath, authServiceHandler := authv1connect.NewAuthServiceHandler(
+	//     deps.AuthServiceHandler,
 	//     opts,
 	// )
-	// mux.Handle(userServicePath, userServiceHandler)
+	// mux.Handle(authServicePath, authServiceHandler)
+	// deps.Logger.Info("registered Connect RPC service", "path", authServicePath)
+
+	deps.Logger.Info("Connect RPC routes configured")
 }
 
 // registerUtilityRoutes registers health check, metrics, and other utility routes

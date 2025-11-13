@@ -2,17 +2,18 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        (unknown)
-// source: auth/v1/auth.proto
+// source: service/v1/service.proto
 
 package authv1
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -755,7 +756,7 @@ func (x *ValidateTokenResponse) GetPermissions() []string {
 
 type OAuthLoginRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	Provider          OAuthProvider          `protobuf:"varint,1,opt,name=provider,proto3,enum=skillsphere.auth.v1.OAuthProvider" json:"provider,omitempty"`
+	Provider          OAuthProvider          `protobuf:"varint,1,opt,name=provider,proto3,enum=skillsphere.service.v1.OAuthProvider" json:"provider,omitempty"`
 	AuthorizationCode string                 `protobuf:"bytes,2,opt,name=authorization_code,json=authorizationCode,proto3" json:"authorization_code,omitempty"`
 	RedirectUri       string                 `protobuf:"bytes,3,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -1397,7 +1398,7 @@ var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/v1/auth.proto\x12\x13skillsphere.auth.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x01\n" +
+	"\x12auth/v1/service.proto\x12\x13skillsphere.service.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x01\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
@@ -1420,7 +1421,7 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\rrefresh_token\x18\x03 \x01(\tR\frefreshToken\x129\n" +
 	"\n" +
 	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x124\n" +
-	"\x04user\x18\x05 \x01(\v2 .skillsphere.auth.v1.UserProfileR\x04user\"\xbb\x01\n" +
+	"\x04user\x18\x05 \x01(\v2 .skillsphere.service.v1.UserProfileR\x04user\"\xbb\x01\n" +
 	"\vUserProfile\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
@@ -1451,7 +1452,7 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"expires_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x12 \n" +
 	"\vpermissions\x18\x04 \x03(\tR\vpermissions\"\xa5\x01\n" +
 	"\x11OAuthLoginRequest\x12>\n" +
-	"\bprovider\x18\x01 \x01(\x0e2\".skillsphere.auth.v1.OAuthProviderR\bprovider\x12-\n" +
+	"\bprovider\x18\x01 \x01(\x0e2\".skillsphere.service.v1.OAuthProviderR\bprovider\x12-\n" +
 	"\x12authorization_code\x18\x02 \x01(\tR\x11authorizationCode\x12!\n" +
 	"\fredirect_uri\x18\x03 \x01(\tR\vredirectUri\"\x86\x02\n" +
 	"\x12OAuthLoginResponse\x12\x17\n" +
@@ -1460,7 +1461,7 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\rrefresh_token\x18\x03 \x01(\tR\frefreshToken\x129\n" +
 	"\n" +
 	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x124\n" +
-	"\x04user\x18\x05 \x01(\v2 .skillsphere.auth.v1.UserProfileR\x04user\x12\x1e\n" +
+	"\x04user\x18\x05 \x01(\v2 .skillsphere.service.v1.UserProfileR\x04user\x12\x1e\n" +
 	"\vis_new_user\x18\x06 \x01(\bR\tisNewUser\"3\n" +
 	"\x1bRequestPasswordResetRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\"R\n" +
@@ -1497,18 +1498,18 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\x17OAUTH_PROVIDER_LINKEDIN\x10\x03\x12\x1b\n" +
 	"\x17OAUTH_PROVIDER_FACEBOOK\x10\x042\xee\b\n" +
 	"\vAuthService\x12W\n" +
-	"\bRegister\x12$.skillsphere.auth.v1.RegisterRequest\x1a%.skillsphere.auth.v1.RegisterResponse\x12N\n" +
-	"\x05Login\x12!.skillsphere.auth.v1.LoginRequest\x1a\".skillsphere.auth.v1.LoginResponse\x12Q\n" +
-	"\x06Logout\x12\".skillsphere.auth.v1.LogoutRequest\x1a#.skillsphere.auth.v1.LogoutResponse\x12c\n" +
-	"\fRefreshToken\x12(.skillsphere.auth.v1.RefreshTokenRequest\x1a).skillsphere.auth.v1.RefreshTokenResponse\x12f\n" +
-	"\rValidateToken\x12).skillsphere.auth.v1.ValidateTokenRequest\x1a*.skillsphere.auth.v1.ValidateTokenResponse\x12]\n" +
+	"\bRegister\x12$.skillsphere.service.v1.RegisterRequest\x1a%.skillsphere.service.v1.RegisterResponse\x12N\n" +
+	"\x05Login\x12!.skillsphere.service.v1.LoginRequest\x1a\".skillsphere.service.v1.LoginResponse\x12Q\n" +
+	"\x06Logout\x12\".skillsphere.service.v1.LogoutRequest\x1a#.skillsphere.service.v1.LogoutResponse\x12c\n" +
+	"\fRefreshToken\x12(.skillsphere.service.v1.RefreshTokenRequest\x1a).skillsphere.service.v1.RefreshTokenResponse\x12f\n" +
+	"\rValidateToken\x12).skillsphere.service.v1.ValidateTokenRequest\x1a*.skillsphere.service.v1.ValidateTokenResponse\x12]\n" +
 	"\n" +
-	"OAuthLogin\x12&.skillsphere.auth.v1.OAuthLoginRequest\x1a'.skillsphere.auth.v1.OAuthLoginResponse\x12{\n" +
-	"\x14RequestPasswordReset\x120.skillsphere.auth.v1.RequestPasswordResetRequest\x1a1.skillsphere.auth.v1.RequestPasswordResetResponse\x12f\n" +
-	"\rResetPassword\x12).skillsphere.auth.v1.ResetPasswordRequest\x1a*.skillsphere.auth.v1.ResetPasswordResponse\x12i\n" +
-	"\x0eChangePassword\x12*.skillsphere.auth.v1.ChangePasswordRequest\x1a+.skillsphere.auth.v1.ChangePasswordResponse\x12`\n" +
-	"\vVerifyEmail\x12'.skillsphere.auth.v1.VerifyEmailRequest\x1a(.skillsphere.auth.v1.VerifyEmailResponse\x12\x84\x01\n" +
-	"\x17ResendVerificationEmail\x123.skillsphere.auth.v1.ResendVerificationEmailRequest\x1a4.skillsphere.auth.v1.ResendVerificationEmailResponseB?Z=github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1;authv1b\x06proto3"
+	"OAuthLogin\x12&.skillsphere.service.v1.OAuthLoginRequest\x1a'.skillsphere.service.v1.OAuthLoginResponse\x12{\n" +
+	"\x14RequestPasswordReset\x120.skillsphere.service.v1.RequestPasswordResetRequest\x1a1.skillsphere.service.v1.RequestPasswordResetResponse\x12f\n" +
+	"\rResetPassword\x12).skillsphere.service.v1.ResetPasswordRequest\x1a*.skillsphere.service.v1.ResetPasswordResponse\x12i\n" +
+	"\x0eChangePassword\x12*.skillsphere.service.v1.ChangePasswordRequest\x1a+.skillsphere.service.v1.ChangePasswordResponse\x12`\n" +
+	"\vVerifyEmail\x12'.skillsphere.service.v1.VerifyEmailRequest\x1a(.skillsphere.service.v1.VerifyEmailResponse\x12\x84\x01\n" +
+	"\x17ResendVerificationEmail\x123.skillsphere.service.v1.ResendVerificationEmailRequest\x1a4.skillsphere.service.v1.ResendVerificationEmailResponseB?Z=github.com/FACorreiaa/skillsphere-proto/gen/go/service/v1;authv1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once
@@ -1522,66 +1523,69 @@ func file_auth_v1_auth_proto_rawDescGZIP() []byte {
 	return file_auth_v1_auth_proto_rawDescData
 }
 
-var file_auth_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
-var file_auth_v1_auth_proto_goTypes = []any{
-	(OAuthProvider)(0),                      // 0: skillsphere.auth.v1.OAuthProvider
-	(*RegisterRequest)(nil),                 // 1: skillsphere.auth.v1.RegisterRequest
-	(*RegisterResponse)(nil),                // 2: skillsphere.auth.v1.RegisterResponse
-	(*LoginRequest)(nil),                    // 3: skillsphere.auth.v1.LoginRequest
-	(*LoginResponse)(nil),                   // 4: skillsphere.auth.v1.LoginResponse
-	(*UserProfile)(nil),                     // 5: skillsphere.auth.v1.UserProfile
-	(*LogoutRequest)(nil),                   // 6: skillsphere.auth.v1.LogoutRequest
-	(*LogoutResponse)(nil),                  // 7: skillsphere.auth.v1.LogoutResponse
-	(*RefreshTokenRequest)(nil),             // 8: skillsphere.auth.v1.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil),            // 9: skillsphere.auth.v1.RefreshTokenResponse
-	(*ValidateTokenRequest)(nil),            // 10: skillsphere.auth.v1.ValidateTokenRequest
-	(*ValidateTokenResponse)(nil),           // 11: skillsphere.auth.v1.ValidateTokenResponse
-	(*OAuthLoginRequest)(nil),               // 12: skillsphere.auth.v1.OAuthLoginRequest
-	(*OAuthLoginResponse)(nil),              // 13: skillsphere.auth.v1.OAuthLoginResponse
-	(*RequestPasswordResetRequest)(nil),     // 14: skillsphere.auth.v1.RequestPasswordResetRequest
-	(*RequestPasswordResetResponse)(nil),    // 15: skillsphere.auth.v1.RequestPasswordResetResponse
-	(*ResetPasswordRequest)(nil),            // 16: skillsphere.auth.v1.ResetPasswordRequest
-	(*ResetPasswordResponse)(nil),           // 17: skillsphere.auth.v1.ResetPasswordResponse
-	(*ChangePasswordRequest)(nil),           // 18: skillsphere.auth.v1.ChangePasswordRequest
-	(*ChangePasswordResponse)(nil),          // 19: skillsphere.auth.v1.ChangePasswordResponse
-	(*VerifyEmailRequest)(nil),              // 20: skillsphere.auth.v1.VerifyEmailRequest
-	(*VerifyEmailResponse)(nil),             // 21: skillsphere.auth.v1.VerifyEmailResponse
-	(*ResendVerificationEmailRequest)(nil),  // 22: skillsphere.auth.v1.ResendVerificationEmailRequest
-	(*ResendVerificationEmailResponse)(nil), // 23: skillsphere.auth.v1.ResendVerificationEmailResponse
-	(*timestamppb.Timestamp)(nil),           // 24: google.protobuf.Timestamp
-}
+var (
+	file_auth_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+	file_auth_v1_auth_proto_msgTypes  = make([]protoimpl.MessageInfo, 23)
+	file_auth_v1_auth_proto_goTypes   = []any{
+		(OAuthProvider)(0),                      // 0: skillsphere.service.v1.OAuthProvider
+		(*RegisterRequest)(nil),                 // 1: skillsphere.service.v1.RegisterRequest
+		(*RegisterResponse)(nil),                // 2: skillsphere.service.v1.RegisterResponse
+		(*LoginRequest)(nil),                    // 3: skillsphere.service.v1.LoginRequest
+		(*LoginResponse)(nil),                   // 4: skillsphere.service.v1.LoginResponse
+		(*UserProfile)(nil),                     // 5: skillsphere.service.v1.UserProfile
+		(*LogoutRequest)(nil),                   // 6: skillsphere.service.v1.LogoutRequest
+		(*LogoutResponse)(nil),                  // 7: skillsphere.service.v1.LogoutResponse
+		(*RefreshTokenRequest)(nil),             // 8: skillsphere.service.v1.RefreshTokenRequest
+		(*RefreshTokenResponse)(nil),            // 9: skillsphere.service.v1.RefreshTokenResponse
+		(*ValidateTokenRequest)(nil),            // 10: skillsphere.service.v1.ValidateTokenRequest
+		(*ValidateTokenResponse)(nil),           // 11: skillsphere.service.v1.ValidateTokenResponse
+		(*OAuthLoginRequest)(nil),               // 12: skillsphere.service.v1.OAuthLoginRequest
+		(*OAuthLoginResponse)(nil),              // 13: skillsphere.service.v1.OAuthLoginResponse
+		(*RequestPasswordResetRequest)(nil),     // 14: skillsphere.service.v1.RequestPasswordResetRequest
+		(*RequestPasswordResetResponse)(nil),    // 15: skillsphere.service.v1.RequestPasswordResetResponse
+		(*ResetPasswordRequest)(nil),            // 16: skillsphere.service.v1.ResetPasswordRequest
+		(*ResetPasswordResponse)(nil),           // 17: skillsphere.service.v1.ResetPasswordResponse
+		(*ChangePasswordRequest)(nil),           // 18: skillsphere.service.v1.ChangePasswordRequest
+		(*ChangePasswordResponse)(nil),          // 19: skillsphere.service.v1.ChangePasswordResponse
+		(*VerifyEmailRequest)(nil),              // 20: skillsphere.service.v1.VerifyEmailRequest
+		(*VerifyEmailResponse)(nil),             // 21: skillsphere.service.v1.VerifyEmailResponse
+		(*ResendVerificationEmailRequest)(nil),  // 22: skillsphere.service.v1.ResendVerificationEmailRequest
+		(*ResendVerificationEmailResponse)(nil), // 23: skillsphere.service.v1.ResendVerificationEmailResponse
+		(*timestamppb.Timestamp)(nil),           // 24: google.protobuf.Timestamp
+	}
+)
+
 var file_auth_v1_auth_proto_depIdxs = []int32{
-	24, // 0: skillsphere.auth.v1.RegisterResponse.expires_at:type_name -> google.protobuf.Timestamp
-	24, // 1: skillsphere.auth.v1.LoginResponse.expires_at:type_name -> google.protobuf.Timestamp
-	5,  // 2: skillsphere.auth.v1.LoginResponse.user:type_name -> skillsphere.auth.v1.UserProfile
-	24, // 3: skillsphere.auth.v1.RefreshTokenResponse.expires_at:type_name -> google.protobuf.Timestamp
-	24, // 4: skillsphere.auth.v1.ValidateTokenResponse.expires_at:type_name -> google.protobuf.Timestamp
-	0,  // 5: skillsphere.auth.v1.OAuthLoginRequest.provider:type_name -> skillsphere.auth.v1.OAuthProvider
-	24, // 6: skillsphere.auth.v1.OAuthLoginResponse.expires_at:type_name -> google.protobuf.Timestamp
-	5,  // 7: skillsphere.auth.v1.OAuthLoginResponse.user:type_name -> skillsphere.auth.v1.UserProfile
-	1,  // 8: skillsphere.auth.v1.AuthService.Register:input_type -> skillsphere.auth.v1.RegisterRequest
-	3,  // 9: skillsphere.auth.v1.AuthService.Login:input_type -> skillsphere.auth.v1.LoginRequest
-	6,  // 10: skillsphere.auth.v1.AuthService.Logout:input_type -> skillsphere.auth.v1.LogoutRequest
-	8,  // 11: skillsphere.auth.v1.AuthService.RefreshToken:input_type -> skillsphere.auth.v1.RefreshTokenRequest
-	10, // 12: skillsphere.auth.v1.AuthService.ValidateToken:input_type -> skillsphere.auth.v1.ValidateTokenRequest
-	12, // 13: skillsphere.auth.v1.AuthService.OAuthLogin:input_type -> skillsphere.auth.v1.OAuthLoginRequest
-	14, // 14: skillsphere.auth.v1.AuthService.RequestPasswordReset:input_type -> skillsphere.auth.v1.RequestPasswordResetRequest
-	16, // 15: skillsphere.auth.v1.AuthService.ResetPassword:input_type -> skillsphere.auth.v1.ResetPasswordRequest
-	18, // 16: skillsphere.auth.v1.AuthService.ChangePassword:input_type -> skillsphere.auth.v1.ChangePasswordRequest
-	20, // 17: skillsphere.auth.v1.AuthService.VerifyEmail:input_type -> skillsphere.auth.v1.VerifyEmailRequest
-	22, // 18: skillsphere.auth.v1.AuthService.ResendVerificationEmail:input_type -> skillsphere.auth.v1.ResendVerificationEmailRequest
-	2,  // 19: skillsphere.auth.v1.AuthService.Register:output_type -> skillsphere.auth.v1.RegisterResponse
-	4,  // 20: skillsphere.auth.v1.AuthService.Login:output_type -> skillsphere.auth.v1.LoginResponse
-	7,  // 21: skillsphere.auth.v1.AuthService.Logout:output_type -> skillsphere.auth.v1.LogoutResponse
-	9,  // 22: skillsphere.auth.v1.AuthService.RefreshToken:output_type -> skillsphere.auth.v1.RefreshTokenResponse
-	11, // 23: skillsphere.auth.v1.AuthService.ValidateToken:output_type -> skillsphere.auth.v1.ValidateTokenResponse
-	13, // 24: skillsphere.auth.v1.AuthService.OAuthLogin:output_type -> skillsphere.auth.v1.OAuthLoginResponse
-	15, // 25: skillsphere.auth.v1.AuthService.RequestPasswordReset:output_type -> skillsphere.auth.v1.RequestPasswordResetResponse
-	17, // 26: skillsphere.auth.v1.AuthService.ResetPassword:output_type -> skillsphere.auth.v1.ResetPasswordResponse
-	19, // 27: skillsphere.auth.v1.AuthService.ChangePassword:output_type -> skillsphere.auth.v1.ChangePasswordResponse
-	21, // 28: skillsphere.auth.v1.AuthService.VerifyEmail:output_type -> skillsphere.auth.v1.VerifyEmailResponse
-	23, // 29: skillsphere.auth.v1.AuthService.ResendVerificationEmail:output_type -> skillsphere.auth.v1.ResendVerificationEmailResponse
+	24, // 0: skillsphere.service.v1.RegisterResponse.expires_at:type_name -> google.protobuf.Timestamp
+	24, // 1: skillsphere.service.v1.LoginResponse.expires_at:type_name -> google.protobuf.Timestamp
+	5,  // 2: skillsphere.service.v1.LoginResponse.user:type_name -> skillsphere.service.v1.UserProfile
+	24, // 3: skillsphere.service.v1.RefreshTokenResponse.expires_at:type_name -> google.protobuf.Timestamp
+	24, // 4: skillsphere.service.v1.ValidateTokenResponse.expires_at:type_name -> google.protobuf.Timestamp
+	0,  // 5: skillsphere.service.v1.OAuthLoginRequest.provider:type_name -> skillsphere.service.v1.OAuthProvider
+	24, // 6: skillsphere.service.v1.OAuthLoginResponse.expires_at:type_name -> google.protobuf.Timestamp
+	5,  // 7: skillsphere.service.v1.OAuthLoginResponse.user:type_name -> skillsphere.service.v1.UserProfile
+	1,  // 8: skillsphere.service.v1.AuthService.Register:input_type -> skillsphere.service.v1.RegisterRequest
+	3,  // 9: skillsphere.service.v1.AuthService.Login:input_type -> skillsphere.service.v1.LoginRequest
+	6,  // 10: skillsphere.service.v1.AuthService.Logout:input_type -> skillsphere.service.v1.LogoutRequest
+	8,  // 11: skillsphere.service.v1.AuthService.RefreshToken:input_type -> skillsphere.service.v1.RefreshTokenRequest
+	10, // 12: skillsphere.service.v1.AuthService.ValidateToken:input_type -> skillsphere.service.v1.ValidateTokenRequest
+	12, // 13: skillsphere.service.v1.AuthService.OAuthLogin:input_type -> skillsphere.service.v1.OAuthLoginRequest
+	14, // 14: skillsphere.service.v1.AuthService.RequestPasswordReset:input_type -> skillsphere.service.v1.RequestPasswordResetRequest
+	16, // 15: skillsphere.service.v1.AuthService.ResetPassword:input_type -> skillsphere.service.v1.ResetPasswordRequest
+	18, // 16: skillsphere.service.v1.AuthService.ChangePassword:input_type -> skillsphere.service.v1.ChangePasswordRequest
+	20, // 17: skillsphere.service.v1.AuthService.VerifyEmail:input_type -> skillsphere.service.v1.VerifyEmailRequest
+	22, // 18: skillsphere.service.v1.AuthService.ResendVerificationEmail:input_type -> skillsphere.service.v1.ResendVerificationEmailRequest
+	2,  // 19: skillsphere.service.v1.AuthService.Register:output_type -> skillsphere.service.v1.RegisterResponse
+	4,  // 20: skillsphere.service.v1.AuthService.Login:output_type -> skillsphere.service.v1.LoginResponse
+	7,  // 21: skillsphere.service.v1.AuthService.Logout:output_type -> skillsphere.service.v1.LogoutResponse
+	9,  // 22: skillsphere.service.v1.AuthService.RefreshToken:output_type -> skillsphere.service.v1.RefreshTokenResponse
+	11, // 23: skillsphere.service.v1.AuthService.ValidateToken:output_type -> skillsphere.service.v1.ValidateTokenResponse
+	13, // 24: skillsphere.service.v1.AuthService.OAuthLogin:output_type -> skillsphere.service.v1.OAuthLoginResponse
+	15, // 25: skillsphere.service.v1.AuthService.RequestPasswordReset:output_type -> skillsphere.service.v1.RequestPasswordResetResponse
+	17, // 26: skillsphere.service.v1.AuthService.ResetPassword:output_type -> skillsphere.service.v1.ResetPasswordResponse
+	19, // 27: skillsphere.service.v1.AuthService.ChangePassword:output_type -> skillsphere.service.v1.ChangePasswordResponse
+	21, // 28: skillsphere.service.v1.AuthService.VerifyEmail:output_type -> skillsphere.service.v1.VerifyEmailResponse
+	23, // 29: skillsphere.service.v1.AuthService.ResendVerificationEmail:output_type -> skillsphere.service.v1.ResendVerificationEmailResponse
 	19, // [19:30] is the sub-list for method output_type
 	8,  // [8:19] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name

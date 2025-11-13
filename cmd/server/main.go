@@ -64,7 +64,7 @@ func main() {
 func startPprofServer(cfg *config.Config, logger *slog.Logger) {
 	mux := http.NewServeMux()
 
-	// Register pprof handlers
+	// Register pprof service
 	mux.HandleFunc("/debug/pprof/", pprof.Index)
 	mux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
 	mux.HandleFunc("/debug/pprof/profile", pprof.Profile)

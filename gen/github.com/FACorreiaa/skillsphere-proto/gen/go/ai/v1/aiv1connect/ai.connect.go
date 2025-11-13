@@ -5,12 +5,14 @@
 package aiv1connect
 
 import (
-	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/ai/v1"
 	http "net/http"
 	strings "strings"
+
+	connect "connectrpc.com/connect"
+
+	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/ai/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -265,10 +267,10 @@ type AIServiceHandler interface {
 	AnalyzeProgress(context.Context, *connect.Request[v1.AnalyzeProgressRequest]) (*connect.Response[v1.AnalyzeProgressResponse], error)
 }
 
-// NewAIServiceHandler builds an HTTP handler from the service implementation. It returns the path
-// on which to mount the handler and the handler itself.
+// NewAIServiceHandler builds an HTTP service from the service implementation. It returns the path
+// on which to mount the service and the service itself.
 //
-// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// By default, service support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewAIServiceHandler(svc AIServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	aIServiceGenerateSkillEmbeddingHandler := connect.NewUnaryHandler(

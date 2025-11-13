@@ -5,7 +5,6 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/FACorreiaa/skillsphere-api/internal/example"
 	"github.com/FACorreiaa/skillsphere-api/pkg/config"
 	"github.com/FACorreiaa/skillsphere-api/pkg/db"
 )
@@ -17,13 +16,16 @@ type Dependencies struct {
 	Logger *slog.Logger
 
 	// Repositories
-	MyServiceRepo example.MyServiceRepository
+	// Add your repositories here as you implement them
+	// AuthRepo *repository.AuthRepository
 
 	// Services
-	MyServiceSvc example.MyServiceService
+	// Add your handler here as you implement them
+	// AuthService *handler.AuthService
 
 	// Handlers
-	MyServiceHandler *example.MyServiceHandler
+	// Add your service here as you implement them
+	// AuthHandler *service.AuthHandler
 }
 
 // InitDependencies initializes all application dependencies
@@ -41,10 +43,10 @@ func InitDependencies(cfg *config.Config, logger *slog.Logger) (*Dependencies, e
 	// Initialize repositories
 	deps.initRepositories()
 
-	// Initialize services
+	// Initialize handler
 	deps.initServices()
 
-	// Initialize handlers
+	// Initialize service
 	deps.initHandlers()
 
 	logger.Info("all dependencies initialized successfully")
@@ -78,20 +80,26 @@ func (d *Dependencies) initDatabase() error {
 
 // initRepositories initializes all repository layer dependencies
 func (d *Dependencies) initRepositories() {
-	d.MyServiceRepo = example.NewMyServiceRepository(d.DB.Pool)
+	// Initialize repositories here as you implement them
+	// d.AuthRepo = repository.NewAuthRepository(d.DB.Pool)
+
 	d.Logger.Info("repositories initialized")
 }
 
 // initServices initializes all service layer dependencies
 func (d *Dependencies) initServices() {
-	d.MyServiceSvc = example.NewMyServiceService(d.MyServiceRepo)
-	d.Logger.Info("services initialized")
+	// Initialize handler here as you implement them
+	// d.AuthService = handler.NewAuthService(d.AuthRepo, tokenManager, emailService)
+
+	d.Logger.Info("handler initialized")
 }
 
-// initHandlers initializes all handler dependencies
+// initHandlers initializes all service dependencies
 func (d *Dependencies) initHandlers() {
-	d.MyServiceHandler = example.NewMyServiceHandler(d.MyServiceSvc, d.Logger)
-	d.Logger.Info("handlers initialized")
+	// Initialize service here as you implement them
+	// d.AuthHandler = service.NewAuthHandler(d.AuthService, d.Logger)
+
+	d.Logger.Info("service initialized")
 }
 
 // Cleanup closes all resources

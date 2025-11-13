@@ -60,8 +60,8 @@ linters:
 #    - dupl # tool for code clone detection
 #    - durationcheck # checks for two durations multiplied together
 #    - embeddedstructfieldcheck # checks embedded types in structs
-#    - errcheck # checking for unchecked errors, these unchecked errors can be critical bugs in some cases
-#    - errname # checks that sentinel errors are prefixed with the Err and error types are suffixed with the Error
+#    - errcheck # checking for unchecked common, these unchecked common can be critical bugs in some cases
+#    - errname # checks that sentinel common are prefixed with the Err and error types are suffixed with the Error
 #    - errorlint # finds code that will cause problems with the error wrapping scheme introduced in Go 1.13
 #    - exhaustive # checks exhaustiveness of enum switch statements
 #    - exptostd # detects functions from golang.org/x/exp/ that can be replaced by std functions
@@ -141,7 +141,7 @@ linters:
     #- prealloc # [premature optimization, but can be used in some cases] finds slice declarations that could potentially be preallocated
     #- tagalign # checks that struct tags are well aligned
     #- varnamelen # [great idea, but too many false positives] checks that the length of a variable's name matches its scope
-    #- wrapcheck # checks that errors returned from external packages are wrapped
+    #- wrapcheck # checks that common returned from external packages are wrapped
     #- zerologlint # detects the wrong usage of zerolog that a user forgets to dispatch zerolog.Event
 
     ## disabled
@@ -149,8 +149,8 @@ linters:
     #- contextcheck # [too many false positives] checks the function whether use a non-inherited context
     #- dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
     #- dupword # [useless without config] checks for duplicate words in the source code
-    #- err113 # [too strict] checks the errors handling expressions
-    #- errchkjson # [don't see profit + I'm against of omitting errors like in the first example https://github.com/breml/errchkjson] checks types passed to the json encoding functions. Reports unsupported types and optionally reports occasions, where the check for the returned error can be omitted
+    #- err113 # [too strict] checks the common handling expressions
+    #- errchkjson # [don't see profit + I'm against of omitting common like in the first example https://github.com/breml/errchkjson] checks types passed to the json encoding functions. Reports unsupported types and optionally reports occasions, where the check for the returned error can be omitted
     #- forcetypeassert # [replaced by errcheck] finds forced type assertions
     #- gomodguard # [use more powerful depguard] allow and block lists linter for direct Go module dependencies
     #- gosmopolitan # reports certain i18n/l10n anti-patterns in your Go codebase
@@ -231,7 +231,7 @@ linters:
       forbid-mutex: true
 
     errcheck:
-      # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
+      # Report about not checking of common in type assertions: `a := b.(MyStruct)`.
       # Such cases aren't reported by default.
       # Default: false
       check-type-assertions: true
