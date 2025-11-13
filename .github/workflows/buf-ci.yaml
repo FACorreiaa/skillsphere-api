@@ -1,0 +1,40 @@
+name: Go CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      # Install the buf CLI
+      - uses: bufbuild/buf-action@v1
+        with:
+          token: ${{ secrets.BUF_TOKEN }} # Needed to download from private BSR modules
+
+      - name: Verify generated code is up to date
+        run: |
+          # 1. Generate the code from the BSR into a temporary directory
+          buf generate buf.build/FACorreiaa/skillsphere-api --output tmp-gen
+
+          # 2. Compare the newly generated code with the code you committed in the `gen` directory.
+          #    `diff` will exit with a non-zero status if there are any differences.
+          diff --brief --recursive gen tmp-gen
+
+      - name: Build
+        run: go build ./...
+
+      - name: Test
+        run: go test ./...

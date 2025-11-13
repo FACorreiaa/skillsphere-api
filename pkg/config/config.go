@@ -1,0 +1,98 @@
+package config
+
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
+// Config holds all application configuration
+type Config struct {
+	Server        ServerConfig
+	Database      DatabaseConfig
+	Observability ObservabilityConfig
+	Profiling     ProfilingConfig
+}
+
+type ServerConfig struct {
+	Host string
+	Port int
+}
+
+type DatabaseConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Database string
+	SSLMode  string
+}
+
+type ObservabilityConfig struct {
+	MetricsEnabled bool
+	MetricsPort    int
+}
+
+type ProfilingConfig struct {
+	Enabled bool
+	Port    int
+}
+
+// Load reads configuration from environment variables
+func Load() (*Config, error) {
+	cfg := &Config{
+		Server: ServerConfig{
+			Host: getEnv("SERVER_HOST", "localhost"),
+			Port: getEnvAsInt("SERVER_PORT", 8080),
+		},
+		Database: DatabaseConfig{
+			Host:     getEnv("DB_HOST", "localhost"),
+			Port:     getEnvAsInt("DB_PORT", 5432),
+			User:     getEnv("DB_USER", "postgres"),
+			Password: getEnv("DB_PASSWORD", "postgres"),
+			Database: getEnv("DB_NAME", "skillsphere"),
+			SSLMode:  getEnv("DB_SSLMODE", "disable"),
+		},
+		Observability: ObservabilityConfig{
+			MetricsEnabled: getEnvAsBool("METRICS_ENABLED", true),
+			MetricsPort:    getEnvAsInt("METRICS_PORT", 9090),
+		},
+		Profiling: ProfilingConfig{
+			Enabled: getEnvAsBool("PPROF_ENABLED", false),
+			Port:    getEnvAsInt("PPROF_PORT", 6060),
+		},
+	}
+
+	return cfg, nil
+}
+
+// DSN returns the database connection string
+func (c *DatabaseConfig) DSN() string {
+	return fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		c.Host, c.Port, c.User, c.Password, c.Database, c.SSLMode,
+	)
+}
+
+func getEnv(key, defaultValue string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return defaultValue
+}
+
+func getEnvAsInt(key string, defaultValue int) int {
+	valueStr := os.Getenv(key)
+	if value, err := strconv.Atoi(valueStr); err == nil {
+		return value
+	}
+	return defaultValue
+}
+
+func getEnvAsBool(key string, defaultValue bool) bool {
+	valueStr := os.Getenv(key)
+	if value, err := strconv.ParseBool(valueStr); err == nil {
+		return value
+	}
+	return defaultValue
+}
