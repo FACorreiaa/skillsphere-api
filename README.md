@@ -703,4 +703,3 @@ These build on your freemium model, targeting $500K+ revenue by Year 2 via 20% M
 7. **Observability**: Add Prometheus metrics via interceptors. Track RPC call counts, latency, error rates per service/method.
 
 For more Connect RPC examples and SkillSphere-specific implementations, see the `internal/server/` and `internal/service/` directories.
-# skillsphere-api
