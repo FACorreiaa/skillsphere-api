@@ -16,6 +16,7 @@ ALTER TABLE disputes
 
 -- Drop the old incorrect foreign key if it exists
 -- Note: The original migration didn't have an explicit FK name, so PostgreSQL auto-generated one
+-- +goose StatementBegin
 DO $$
 BEGIN
     -- Try to drop the constraint if it exists
@@ -27,6 +28,7 @@ BEGIN
         ALTER TABLE disputes DROP CONSTRAINT disputes_session_id_fkey;
     END IF;
 END $$;
+-- +goose StatementEnd
 
 -- Add the correct foreign key to sessions table
 ALTER TABLE disputes
@@ -39,6 +41,7 @@ ALTER TABLE disputes
 ALTER TABLE match_history
   ALTER COLUMN session_id DROP NOT NULL;
 
+-- +goose StatementBegin
 DO $$
 BEGIN
     -- Try to drop the constraint if it exists
@@ -50,6 +53,7 @@ BEGIN
         ALTER TABLE match_history DROP CONSTRAINT match_history_session_id_fkey;
     END IF;
 END $$;
+-- +goose StatementEnd
 
 -- Add the correct foreign key to sessions table
 ALTER TABLE match_history

@@ -15,8 +15,7 @@ CREATE INDEX idx_users_is_verified ON users (is_verified); -- From 008_users_col
 CREATE INDEX idx_users_deleted_at ON users (deleted_at) WHERE deleted_at IS NOT NULL; -- Partial index for soft deletes
 
 -- User OAuth Identities: Composite index for OAuth login lookups
-CREATE INDEX idx_user_oauth_provider_lookup ON user_oauth_identities (provider_name, provider_user_id);
-CREATE INDEX idx_user_oauth_updated_at ON user_oauth_identities (updated_at);
+-- Note: idx_user_oauth_updated_at moved to 024_fix_user_oauth_identities.sql after adding missing columns
 
 -- ============================================================================
 -- 003_users_sessions.sql - User Sessions

@@ -28,9 +28,33 @@ CREATE INDEX idx_users_username ON users (username);
 CREATE TABLE user_oauth_identities (
     provider_name VARCHAR(50) NOT NULL, -- e.g., 'google', 'github'
     provider_user_id VARCHAR(255) NOT NULL, -- The unique ID from the provider (e.g., Google's 'sub' claim)
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE                                                                                                          );
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+    -- Store the access/refresh tokens from the provider if you need to make API calls on behalf of the user.
+    -- Encrypt these tokens at rest for security.
+    provider_access_token TEXT,
+    provider_refresh_token TEXT,
+
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    -- A user can only link one account per provider.
+    PRIMARY KEY (provider_name, provider_user_id)
+);
 
 CREATE INDEX idx_user_oauth_user_id ON user_oauth_identities (user_id);
+
+-- Trigger to auto-update updated_at timestamp
+CREATE TRIGGER update_user_oauth_identities_updated_at
+  BEFORE UPDATE ON user_oauth_identities
+  FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
+-- Trigger to auto-update updated_at timestamp for users table
+CREATE TRIGGER update_users_updated_at
+  BEFORE UPDATE ON users
+  FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
 
 ALTER TABLE users ADD COLUMN embedding VECTOR(768);
 
