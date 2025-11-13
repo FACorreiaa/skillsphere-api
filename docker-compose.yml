@@ -1,9 +1,10 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:15-alpine
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
     container_name: skillsphere-postgres
     restart: unless-stopped
     env_file:
@@ -12,12 +13,16 @@ services:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_NAME:-skillsphere}
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      TIMESCALEDB_TELEMETRY: "off"
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
       - postgres_data:/var/lib/postgresql/data
       # Note: Migrations are embedded in the Go binary (pkg/db/migrations/)
       # and run automatically via goose when the API starts
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-skillsphere}"]
       interval: 10s
@@ -27,33 +32,33 @@ services:
       - skillsphere-network
 
   # SkillSphere API
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: skillsphere-api
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      # Override DB_HOST to use Docker service name
-      DB_HOST: postgres
-      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:${DB_PORT}/${DB_NAME:-skillsphere}?sslmode=disable
-    ports:
-      - "${SERVER_PORT:-8080}:8080"
-      - "${METRICS_PORT:-9090}:9090"
-      - "${PPROF_PORT:-6060}:6060"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    networks:
-      - skillsphere-network
+#  api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: skillsphere-api
+#    restart: unless-stopped
+#    env_file:
+#      - .env
+#    environment:
+#      # Override DB_HOST to use Docker service name
+#      DB_HOST: postgres
+#      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:${DB_PORT}/${DB_NAME:-skillsphere}?sslmode=disable
+#    ports:
+#      - "${SERVER_PORT:-8080}:8080"
+#      - "${METRICS_PORT:-9090}:9090"
+#      - "${PPROF_PORT:-6060}:6060"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#    healthcheck:
+#      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 40s
+#    networks:
+#      - skillsphere-network
 
 volumes:
   postgres_data:
