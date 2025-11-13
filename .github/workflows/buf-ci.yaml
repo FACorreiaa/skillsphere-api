@@ -28,7 +28,7 @@ jobs:
       - name: Verify generated code is up to date
         run: |
           # 1. Generate the code from the BSR into a temporary directory
-          buf generate buf.build/FACorreiaa/skillsphere-api --output tmp-gen
+          buf generate buf.build/skillsphere/proto --output tmp-gen
 
           # 2. Compare the newly generated code with the code you committed in the `gen` directory.
           #    `diff` will exit with a non-zero status if there are any differences.
