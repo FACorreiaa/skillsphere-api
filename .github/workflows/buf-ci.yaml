@@ -32,7 +32,8 @@ jobs:
 
           # 2. Compare the newly generated code with the code you committed in the `gen` directory.
           #    `diff` will exit with a non-zero status if there are any differences.
-          diff --brief --recursive gen tmp-gen
+          #    Note: buf respects the 'out: gen' setting, so we compare with tmp-gen/gen
+          diff --brief --recursive gen tmp-gen/gen
 
       - name: Build
         run: go build ./...
