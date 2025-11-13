@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/pkg/db/migrations/002_users.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/pkg/db/migrations/009_user_skills.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/pkg/db/migrations/014_sessions.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/pkg/db/migrations/015_matching.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/pkg/db/migrations/019_gigs.sql" dialect="PostgreSQL" />
   </component>

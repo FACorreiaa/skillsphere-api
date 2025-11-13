@@ -22,6 +22,7 @@ jobs:
       # Install the buf CLI
       - uses: bufbuild/buf-action@v1
         with:
+          setup-only: true # Skip automatic buf build since we don't have local proto files
           token: ${{ secrets.BUF_TOKEN }} # Needed to download from private BSR modules
 
       - name: Verify generated code is up to date
