@@ -132,32 +132,30 @@ func metadataFromRequest[T any](req *connect.Request[T]) service.SessionMetadata
 }
 
 func (h *AuthHandler) toConnectError(err error) error {
-	code := connect.CodeInternal
 	switch {
 	case errors.Is(err, common.ErrUserAlreadyExists):
-		code = connect.CodeAlreadyExists
+		return connect.NewError(connect.CodeAlreadyExists, err)
 	case errors.Is(err, common.ErrInvalidCredentials):
-		code = connect.CodeUnauthenticated
+		return connect.NewError(connect.CodeUnauthenticated, err)
 	case errors.Is(err, common.ErrInvalidToken), errors.Is(err, common.ErrSessionNotFound):
-		code = connect.CodeUnauthenticated
+		return connect.NewError(connect.CodeUnauthenticated, err)
 	case errors.Is(err, common.ErrUserNotFound):
-		code = connect.CodeNotFound
+		return connect.NewError(connect.CodeNotFound, err)
 	case errors.Is(err, service.ErrAccountInactive):
-		code = connect.CodePermissionDenied
+		return connect.NewError(connect.CodePermissionDenied, err)
 	case errors.Is(err, service.ErrPasswordTooShort),
 		errors.Is(err, service.ErrPasswordNoDigit),
 		errors.Is(err, service.ErrPasswordNoLowercase),
 		errors.Is(err, service.ErrPasswordNoUppercase),
 		errors.Is(err, service.ErrPasswordNoSpecial):
-		code = connect.CodeInvalidArgument
+		return connect.NewError(connect.CodeInvalidArgument, err)
 	default:
-		code = connect.CodeInternal
+		return connect.NewError(connect.CodeInternal, err)
 	}
-	return connect.NewError(code, err)
 }
 
 // OAuthLogin is intentionally not implemented since OAuth flows happen via HTTP redirects.
-func (h *AuthHandler) OAuthLogin(ctx context.Context, req *connect.Request[authv1.OAuthLoginRequest]) (*connect.Response[authv1.OAuthLoginResponse], error) {
+func (h *AuthHandler) OAuthLogin(_ context.Context, _ *connect.Request[authv1.OAuthLoginRequest]) (*connect.Response[authv1.OAuthLoginResponse], error) {
 	return nil, connect.NewError(
 		connect.CodeUnimplemented,
 		errors.New("oauth login must be completed using the HTTP redirect endpoints"),
