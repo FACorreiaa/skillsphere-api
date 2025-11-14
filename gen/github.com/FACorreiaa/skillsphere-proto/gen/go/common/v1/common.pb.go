@@ -7,13 +7,12 @@
 package commonv1
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -1588,7 +1587,7 @@ func (x *NotificationPreferences) GetMarketing() bool {
 	return false
 }
 
-// Search filters (reusable across handler)
+// Search filters (reusable across services)
 type SearchFilters struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Categories      []SkillCategory        `protobuf:"varint,1,rep,packed,name=categories,proto3,enum=skillsphere.common.v1.SkillCategory" json:"categories,omitempty"`
@@ -1888,36 +1887,34 @@ func file_common_v1_common_proto_rawDescGZIP() []byte {
 	return file_common_v1_common_proto_rawDescData
 }
 
-var (
-	file_common_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
-	file_common_v1_common_proto_msgTypes  = make([]protoimpl.MessageInfo, 14)
-	file_common_v1_common_proto_goTypes   = []any{
-		(SkillCategory)(0),              // 0: skillsphere.common.v1.SkillCategory
-		(ProficiencyLevel)(0),           // 1: skillsphere.common.v1.ProficiencyLevel
-		(UserStatus)(0),                 // 2: skillsphere.common.v1.UserStatus
-		(SessionStatus)(0),              // 3: skillsphere.common.v1.SessionStatus
-		(PaymentStatus)(0),              // 4: skillsphere.common.v1.PaymentStatus
-		(SubscriptionTier)(0),           // 5: skillsphere.common.v1.SubscriptionTier
-		(ContentType)(0),                // 6: skillsphere.common.v1.ContentType
-		(ChallengeDifficulty)(0),        // 7: skillsphere.common.v1.ChallengeDifficulty
-		(DayOfWeek)(0),                  // 8: skillsphere.common.v1.DayOfWeek
-		(*Location)(nil),                // 9: skillsphere.common.v1.Location
-		(*TimeSlot)(nil),                // 10: skillsphere.common.v1.TimeSlot
-		(*Availability)(nil),            // 11: skillsphere.common.v1.Availability
-		(*Skill)(nil),                   // 12: skillsphere.common.v1.Skill
-		(*UserSkill)(nil),               // 13: skillsphere.common.v1.UserSkill
-		(*User)(nil),                    // 14: skillsphere.common.v1.User
-		(*Rating)(nil),                  // 15: skillsphere.common.v1.Rating
-		(*Attachment)(nil),              // 16: skillsphere.common.v1.Attachment
-		(*PageInfo)(nil),                // 17: skillsphere.common.v1.PageInfo
-		(*ErrorDetail)(nil),             // 18: skillsphere.common.v1.ErrorDetail
-		(*Money)(nil),                   // 19: skillsphere.common.v1.Money
-		(*NotificationPreferences)(nil), // 20: skillsphere.common.v1.NotificationPreferences
-		(*SearchFilters)(nil),           // 21: skillsphere.common.v1.SearchFilters
-		nil,                             // 22: skillsphere.common.v1.ErrorDetail.MetadataEntry
-		(*timestamppb.Timestamp)(nil),   // 23: google.protobuf.Timestamp
-	}
-)
+var file_common_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
+var file_common_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_common_v1_common_proto_goTypes = []any{
+	(SkillCategory)(0),              // 0: skillsphere.common.v1.SkillCategory
+	(ProficiencyLevel)(0),           // 1: skillsphere.common.v1.ProficiencyLevel
+	(UserStatus)(0),                 // 2: skillsphere.common.v1.UserStatus
+	(SessionStatus)(0),              // 3: skillsphere.common.v1.SessionStatus
+	(PaymentStatus)(0),              // 4: skillsphere.common.v1.PaymentStatus
+	(SubscriptionTier)(0),           // 5: skillsphere.common.v1.SubscriptionTier
+	(ContentType)(0),                // 6: skillsphere.common.v1.ContentType
+	(ChallengeDifficulty)(0),        // 7: skillsphere.common.v1.ChallengeDifficulty
+	(DayOfWeek)(0),                  // 8: skillsphere.common.v1.DayOfWeek
+	(*Location)(nil),                // 9: skillsphere.common.v1.Location
+	(*TimeSlot)(nil),                // 10: skillsphere.common.v1.TimeSlot
+	(*Availability)(nil),            // 11: skillsphere.common.v1.Availability
+	(*Skill)(nil),                   // 12: skillsphere.common.v1.Skill
+	(*UserSkill)(nil),               // 13: skillsphere.common.v1.UserSkill
+	(*User)(nil),                    // 14: skillsphere.common.v1.User
+	(*Rating)(nil),                  // 15: skillsphere.common.v1.Rating
+	(*Attachment)(nil),              // 16: skillsphere.common.v1.Attachment
+	(*PageInfo)(nil),                // 17: skillsphere.common.v1.PageInfo
+	(*ErrorDetail)(nil),             // 18: skillsphere.common.v1.ErrorDetail
+	(*Money)(nil),                   // 19: skillsphere.common.v1.Money
+	(*NotificationPreferences)(nil), // 20: skillsphere.common.v1.NotificationPreferences
+	(*SearchFilters)(nil),           // 21: skillsphere.common.v1.SearchFilters
+	nil,                             // 22: skillsphere.common.v1.ErrorDetail.MetadataEntry
+	(*timestamppb.Timestamp)(nil),   // 23: google.protobuf.Timestamp
+}
 var file_common_v1_common_proto_depIdxs = []int32{
 	8,  // 0: skillsphere.common.v1.TimeSlot.day:type_name -> skillsphere.common.v1.DayOfWeek
 	10, // 1: skillsphere.common.v1.Availability.time_slots:type_name -> skillsphere.common.v1.TimeSlot

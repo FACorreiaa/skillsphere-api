@@ -3,8 +3,10 @@
 help: ## Display this help screen
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-generate: ## Generate code from proto files
+generate: ## Generate code from proto files and sync vendored protos
 	buf generate buf.build/skillsphere/proto
+	go mod tidy
+	go mod vendor
 
 build: ## Build the application
 	go build -o bin/server cmd/server/main.go

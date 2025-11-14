@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
+	authv1connect "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/FACorreiaa/skillsphere-api/pkg/interceptors"
@@ -14,11 +15,27 @@ import (
 func SetupRouter(deps *Dependencies) http.Handler {
 	mux := http.NewServeMux()
 
+	jwtSecret := []byte(deps.Config.Auth.JWTSecret)
+	if len(jwtSecret) == 0 {
+		deps.Logger.Warn("JWT secret is empty; authentication interceptor will reject requests")
+	}
+
+	publicProcedures := []string{
+		authv1connect.AuthServiceRegisterProcedure,
+		authv1connect.AuthServiceLoginProcedure,
+		authv1connect.AuthServiceRequestPasswordResetProcedure,
+		authv1connect.AuthServiceResetPasswordProcedure,
+		authv1connect.AuthServiceRefreshTokenProcedure,
+		authv1connect.AuthServiceVerifyEmailProcedure,
+		authv1connect.AuthServiceResendVerificationEmailProcedure,
+		authv1connect.AuthServiceOAuthLoginProcedure,
+	}
+
 	// Setup interceptor chain
 	interceptorChain := connect.WithInterceptors(
 		interceptors.NewRecoveryInterceptor(deps.Logger),
 		interceptors.NewLoggingInterceptor(deps.Logger),
-		interceptors.NewAuthInterceptor(deps.Logger),
+		interceptors.NewAuthInterceptor(jwtSecret, publicProcedures...),
 		observability.NewMetricsInterceptor(),
 	)
 
@@ -33,14 +50,12 @@ func SetupRouter(deps *Dependencies) http.Handler {
 
 // registerConnectRoutes registers all Connect RPC service service
 func registerConnectRoutes(mux *http.ServeMux, deps *Dependencies, opts connect.HandlerOption) {
-	// Connect RPC handler will be registered here as they are implemented
-	// Example:
-	// authServicePath, authServiceHandler := authv1connect.NewAuthServiceHandler(
-	//     deps.AuthServiceHandler,
-	//     opts,
-	// )
-	// mux.Handle(authServicePath, authServiceHandler)
-	// deps.Logger.Info("registered Connect RPC service", "path", authServicePath)
+	authServicePath, authServiceHandler := authv1connect.NewAuthServiceHandler(
+		deps.AuthHandler,
+		opts,
+	)
+	mux.Handle(authServicePath, authServiceHandler)
+	deps.Logger.Info("registered Connect RPC service", "path", authServicePath)
 
 	deps.Logger.Info("Connect RPC routes configured")
 }

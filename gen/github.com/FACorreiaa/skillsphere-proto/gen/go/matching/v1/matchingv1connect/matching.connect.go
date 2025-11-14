@@ -5,14 +5,12 @@
 package matchingv1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
+	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/matching/v1"
 	http "net/http"
 	strings "strings"
-
-	connect "connectrpc.com/connect"
-
-	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/matching/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -168,10 +166,10 @@ type MatchingServiceHandler interface {
 	GenerateEmbeddings(context.Context, *connect.Request[v1.GenerateEmbeddingsRequest]) (*connect.Response[v1.GenerateEmbeddingsResponse], error)
 }
 
-// NewMatchingServiceHandler builds an HTTP service from the service implementation. It returns the
-// path on which to mount the service and the service itself.
+// NewMatchingServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
-// By default, service support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewMatchingServiceHandler(svc MatchingServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	matchingServiceFindMatchesHandler := connect.NewUnaryHandler(

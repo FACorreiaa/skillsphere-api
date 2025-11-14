@@ -1,10 +1,14 @@
 package api
 
 import (
+	"database/sql"
 	"fmt"
 	"log/slog"
 	"time"
 
+	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/handler"
+	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
+	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/service"
 	"github.com/FACorreiaa/skillsphere-api/pkg/config"
 	"github.com/FACorreiaa/skillsphere-api/pkg/db"
 )
@@ -15,17 +19,17 @@ type Dependencies struct {
 	DB     *db.DB
 	Logger *slog.Logger
 
+	sqlDB *sql.DB
+
 	// Repositories
-	// Add your repositories here as you implement them
-	// AuthRepo *repository.AuthRepository
+	AuthRepo repository.AuthRepository
 
 	// Services
-	// Add your handler here as you implement them
-	// AuthService *handler.AuthService
+	TokenManager *service.TokenManager
+	AuthService  *service.AuthService
 
 	// Handlers
-	// Add your service here as you implement them
-	// AuthHandler *service.AuthHandler
+	AuthHandler *handler.AuthHandler
 }
 
 // InitDependencies initializes all application dependencies
@@ -41,13 +45,19 @@ func InitDependencies(cfg *config.Config, logger *slog.Logger) (*Dependencies, e
 	}
 
 	// Initialize repositories
-	deps.initRepositories()
+	if err := deps.initRepositories(); err != nil {
+		return nil, fmt.Errorf("failed to init repositories: %w", err)
+	}
 
 	// Initialize handler
-	deps.initServices()
+	if err := deps.initServices(); err != nil {
+		return nil, fmt.Errorf("failed to init services: %w", err)
+	}
 
 	// Initialize service
-	deps.initHandlers()
+	if err := deps.initHandlers(); err != nil {
+		return nil, fmt.Errorf("failed to init handlers: %w", err)
+	}
 
 	logger.Info("all dependencies initialized successfully")
 
@@ -79,33 +89,54 @@ func (d *Dependencies) initDatabase() error {
 }
 
 // initRepositories initializes all repository layer dependencies
-func (d *Dependencies) initRepositories() {
-	// Initialize repositories here as you implement them
-	// d.AuthRepo = repository.NewAuthRepository(d.DB.Pool)
+func (d *Dependencies) initRepositories() error {
+	sqlDB, err := sql.Open("pgx", d.Config.Database.DSN())
+	if err != nil {
+		return fmt.Errorf("failed to open sql DB: %w", err)
+	}
+	if err := sqlDB.Ping(); err != nil {
+		return fmt.Errorf("failed to ping sql DB: %w", err)
+	}
+
+	d.sqlDB = sqlDB
+	d.AuthRepo = repository.NewPostgresAuthRepository(sqlDB)
 
 	d.Logger.Info("repositories initialized")
+	return nil
 }
 
 // initServices initializes all service layer dependencies
-func (d *Dependencies) initServices() {
-	// Initialize handler here as you implement them
-	// d.AuthService = handler.NewAuthService(d.AuthRepo, tokenManager, emailService)
+func (d *Dependencies) initServices() error {
+	jwtSecret := []byte(d.Config.Auth.JWTSecret)
+	if len(jwtSecret) == 0 {
+		return fmt.Errorf("jwt secret is required")
+	}
 
-	d.Logger.Info("handler initialized")
+	accessTokenTTL := 15 * time.Minute
+	refreshTokenTTL := 30 * 24 * time.Hour
+
+	d.TokenManager = service.NewTokenManager(jwtSecret, jwtSecret, accessTokenTTL, refreshTokenTTL)
+	emailService := service.NewEmailService()
+	d.AuthService = service.NewAuthService(d.AuthRepo, d.TokenManager, emailService, d.Logger, refreshTokenTTL)
+
+	d.Logger.Info("services initialized")
+	return nil
 }
 
-// initHandlers initializes all service dependencies
-func (d *Dependencies) initHandlers() {
-	// Initialize service here as you implement them
-	// d.AuthHandler = service.NewAuthHandler(d.AuthService, d.Logger)
-
-	d.Logger.Info("service initialized")
+// initHandlers initializes all handler dependencies
+func (d *Dependencies) initHandlers() error {
+	d.AuthHandler = handler.NewAuthHandler(d.AuthService)
+	d.Logger.Info("handlers initialized")
+	return nil
 }
 
 // Cleanup closes all resources
 func (d *Dependencies) Cleanup() {
 	if d.DB != nil {
 		d.DB.Close()
+	}
+	if d.sqlDB != nil {
+		d.sqlDB.Close()
 	}
 	d.Logger.Info("cleanup completed")
 }

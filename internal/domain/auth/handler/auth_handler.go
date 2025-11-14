@@ -3,191 +3,115 @@ package handler
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"connectrpc.com/connect"
 	authv1 "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1"
 	pb "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect"
-	userv1 "github.com/FACorreiaa/skillsphere-proto/gen/go/user/v1"
-	"github.com/google/uuid"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
+	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/common"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/service"
 )
 
-// AuthHandler implements the AuthHandler RPC methods
+// AuthHandler implements the AuthService Connect handlers.
 type AuthHandler struct {
 	pb.UnimplementedAuthServiceHandler
 	service *service.AuthService
 }
 
-// NewAuthHandler creates a new service service
+// NewAuthHandler constructs a new handler.
 func NewAuthHandler(svc *service.AuthService) *AuthHandler {
 	return &AuthHandler{
-		service: svc
+		service: svc,
 	}
 }
 
-// Register handles user registration
+// Register handles user registration RPCs.
 func (h *AuthHandler) Register(
 	ctx context.Context,
 	req *connect.Request[authv1.RegisterRequest],
 ) (*connect.Response[authv1.RegisterResponse], error) {
-
-	user, err := h.service.RegisterUser(ctx,
-		req.Msg.Email,
-		req.Msg.Username,
-		req.Msg.Password,
-		req.Msg.DisplayName,
-	)
-
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+	if req.Msg.Email == "" || req.Msg.Password == "" || req.Msg.Username == "" {
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("email, username, and password are required"))
 	}
 
-	return connect.NewResponse(&authv1.RegisterResponse{
-		UserId: user.ID.String(),
-		AccessToken:  user.AccessToken,
-		RefreshToken: user.RefreshToken,
-	}), nil
+	result, err := h.service.RegisterUser(ctx, service.RegisterParams{
+		Email:       req.Msg.Email,
+		Username:    req.Msg.Username,
+		Password:    req.Msg.Password,
+		DisplayName: req.Msg.DisplayName,
+		Metadata:    metadataFromRequest(req),
+	})
+	if err != nil {
+		return nil, h.toConnectError(err)
+	}
+
+	resp := &authv1.RegisterResponse{
+		UserId:                    result.User.ID.String(),
+		AccessToken:               result.Tokens.AccessToken,
+		RefreshToken:              result.Tokens.RefreshToken,
+		ExpiresAt:                 toProtoTimestamp(result.Tokens.ExpiresAt),
+		EmailVerificationRequired: result.EmailVerificationRequired,
+	}
+
+	return connect.NewResponse(resp), nil
 }
 
-// Login handles user login
-func (s *AuthHandler) Login(ctx context.Context, req *connect.Request[authv1.LoginRequest]) (*connect.Response[authv1.LoginResponse], error) {
-	// Validate input
+// Login authenticates a user.
+func (h *AuthHandler) Login(ctx context.Context, req *connect.Request[authv1.LoginRequest]) (*connect.Response[authv1.LoginResponse], error) {
 	if req.Msg.Email == "" || req.Msg.Password == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("email and password are required"))
 	}
 
-	// Get user
-	user, err := s.repo.GetUserByEmail(ctx, req.Msg.Email)
+	result, err := h.service.Login(ctx, service.LoginParams{
+		Email:    req.Msg.Email,
+		Password: req.Msg.Password,
+		Metadata: metadataFromRequest(req),
+	})
 	if err != nil {
-		if errors.Is(err, repository.ErrUserNotFound) {
-			return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid email or password"))
-		}
-		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to get user"))
+		return nil, h.toConnectError(err)
 	}
 
-	// Check if user is active
-	if !user.IsActive {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("account is deactivated"))
+	resp := &authv1.LoginResponse{
+		UserId:       result.User.ID.String(),
+		AccessToken:  result.Tokens.AccessToken,
+		RefreshToken: result.Tokens.RefreshToken,
+		ExpiresAt:    toProtoTimestamp(result.Tokens.ExpiresAt),
+		User:         toUserProfile(result.User),
 	}
 
-	// Verify password
-	if !handler2.ComparePassword(user.HashedPassword, req.Msg.Password) {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid email or password"))
-	}
-
-	// Update last login
-	go s.repo.UpdateLastLogin(context.Background(), user.ID)
-
-	// Generate tokens
-	tokens, err := s.tokenManager.GenerateTokenPair(
-		user.ID.String(),
-		user.Email,
-		user.Username,
-		user.Role,
-	)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to generate tokens"))
-	}
-
-	// Store refresh token session
-	hashedRefreshToken := hashToken(tokens.RefreshToken)
-	userAgent := req.Header().Get("User-Agent")
-	clientIP := req.Peer().Addr // Get client IP
-	_, err = s.repo.CreateUserSession(ctx, user.ID, hashedRefreshToken, userAgent, clientIP, tokens.ExpiresAt.Add(7*24*time.Hour))
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create session"))
-	}
-
-	return connect.NewResponse(&authv1.LoginResponse{
-		User: &userv1.User{
-			UserId:      user.ID.String(),
-			Email:       user.Email,
-			Username:    user.Username,
-			DisplayName: user.DisplayName,
-			Role:        user.Role,
-			IsActive:    user.IsActive,
-			CreatedAt:   toProtoTimestamp(user.CreatedAt),
-		},
-		AccessToken:  tokens.AccessToken,
-		RefreshToken: tokens.RefreshToken,
-		ExpiresAt:    toProtoTimestamp(tokens.ExpiresAt),
-	}), nil
+	return connect.NewResponse(resp), nil
 }
 
-// Logout handles user logout
-func (s *AuthHandler) Logout(ctx context.Context, req *connect.Request[authv1.LogoutRequest]) (*connect.Response[authv1.LogoutResponse], error) {
+// Logout deletes the refresh token session.
+func (h *AuthHandler) Logout(ctx context.Context, req *connect.Request[authv1.LogoutRequest]) (*connect.Response[authv1.LogoutResponse], error) {
 	if req.Msg.RefreshToken == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("refresh token is required"))
 	}
 
-	// Delete the session
-	hashedToken := hashToken(req.Msg.RefreshToken)
-	if err := s.repo.DeleteUserSession(ctx, hashedToken); err != nil {
-		// Don't fail if session doesn't exist
-		if !errors.Is(err, repository.ErrSessionNotFound) {
-			return nil, connect.NewError(connect.CodeInternal, errors.New("failed to delete session"))
-		}
+	if err := h.service.Logout(ctx, req.Msg.RefreshToken); err != nil {
+		return nil, h.toConnectError(err)
 	}
 
 	return connect.NewResponse(&authv1.LogoutResponse{
 		Success: true,
-		Message: "Logged out successfully",
 	}), nil
 }
 
-// RefreshToken handles token refresh
-func (s *AuthHandler) RefreshToken(ctx context.Context, req *connect.Request[authv1.RefreshTokenRequest]) (*connect.Response[authv1.RefreshTokenResponse], error) {
+// RefreshToken issues new access/refresh tokens.
+func (h *AuthHandler) RefreshToken(ctx context.Context, req *connect.Request[authv1.RefreshTokenRequest]) (*connect.Response[authv1.RefreshTokenResponse], error) {
 	if req.Msg.RefreshToken == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("refresh token is required"))
 	}
 
-	// Validate refresh token
-	claims, err := s.tokenManager.ValidateRefreshToken(req.Msg.RefreshToken)
+	tokens, err := h.service.RefreshTokens(ctx, service.RefreshTokenParams{
+		RefreshToken: req.Msg.RefreshToken,
+		Metadata:     metadataFromRequest(req),
+	})
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid refresh token"))
-	}
-
-	// Verify session exists
-	hashedToken := hashToken(req.Msg.RefreshToken)
-	session, err := s.repo.GetUserSessionByToken(ctx, hashedToken)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("session not found or expired"))
-	}
-
-	// Get user to ensure still active
-	userID, _ := uuid.Parse(claims.UserID)
-	user, err := s.repo.GetUserByID(ctx, userID)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("user not found"))
-	}
-
-	if !user.IsActive {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("account is deactivated"))
-	}
-
-	// Generate new token pair
-	tokens, err := s.tokenManager.GenerateTokenPair(
-		user.ID.String(),
-		user.Email,
-		user.Username,
-		user.Role,
-	)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to generate tokens"))
-	}
-
-	// Delete old session and create new one
-	s.repo.DeleteUserSession(ctx, hashedToken)
-	newHashedToken := hashToken(tokens.RefreshToken)
-	userAgent := req.Header().Get("User-Agent")
-	clientIP := req.Peer().Addr
-	_, err = s.repo.CreateUserSession(ctx, user.ID, newHashedToken, userAgent, clientIP, tokens.ExpiresAt.Add(7*24*time.Hour))
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create session"))
+		return nil, h.toConnectError(err)
 	}
 
 	return connect.NewResponse(&authv1.RefreshTokenResponse{
@@ -197,25 +121,87 @@ func (s *AuthHandler) RefreshToken(ctx context.Context, req *connect.Request[aut
 	}), nil
 }
 
-// ValidateToken validates an access token
-func (s *AuthHandler) ValidateToken(ctx context.Context, req *connect.Request[authv1.ValidateTokenRequest]) (*connect.Response[authv1.ValidateTokenResponse], error) {
+// ValidateToken validates the provided access token.
+func (h *AuthHandler) ValidateToken(ctx context.Context, req *connect.Request[authv1.ValidateTokenRequest]) (*connect.Response[authv1.ValidateTokenResponse], error) {
 	if req.Msg.AccessToken == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("access token is required"))
 	}
 
-	claims, err := s.tokenManager.ValidateAccessToken(req.Msg.AccessToken)
+	claims, err := h.service.ValidateAccessToken(ctx, req.Msg.AccessToken)
 	if err != nil {
 		return connect.NewResponse(&authv1.ValidateTokenResponse{
-			Valid: false,
+			IsValid: false,
 		}), nil
 	}
 
-	return connect.NewResponse(&authv1.ValidateTokenResponse{
-		Valid:  true,
-		UserId: claims.UserID,
-		Email:  claims.Email,
-		Role:   claims.Role,
-	}), nil
+	resp := &authv1.ValidateTokenResponse{
+		IsValid: true,
+		UserId:  claims.UserID,
+	}
+	if claims.ExpiresAt != nil {
+		resp.ExpiresAt = timestamppb.New(claims.ExpiresAt.Time)
+	}
+
+	return connect.NewResponse(resp), nil
 }
 
-// Continue in next message...
+func toUserProfile(user *repository.User) *authv1.UserProfile {
+	if user == nil {
+		return nil
+	}
+
+	profile := &authv1.UserProfile{
+		UserId:      user.ID.String(),
+		Email:       user.Email,
+		Username:    user.Username,
+		DisplayName: user.DisplayName,
+	}
+
+	if user.AvatarURL != nil {
+		profile.AvatarUrl = *user.AvatarURL
+	}
+	if user.EmailVerifiedAt != nil {
+		profile.IsVerified = true
+	}
+
+	return profile
+}
+
+func metadataFromRequest[T any](req *connect.Request[T]) service.SessionMetadata {
+	return service.SessionMetadata{
+		UserAgent: req.Header().Get("User-Agent"),
+		ClientIP:  req.Peer().Addr,
+	}
+}
+
+func toProtoTimestamp(t time.Time) *timestamppb.Timestamp {
+	if t.IsZero() {
+		return nil
+	}
+	return timestamppb.New(t)
+}
+
+func (h *AuthHandler) toConnectError(err error) error {
+	code := connect.CodeInternal
+	switch {
+	case errors.Is(err, common.ErrUserAlreadyExists):
+		code = connect.CodeAlreadyExists
+	case errors.Is(err, common.ErrInvalidCredentials):
+		code = connect.CodeUnauthenticated
+	case errors.Is(err, common.ErrInvalidToken), errors.Is(err, common.ErrSessionNotFound):
+		code = connect.CodeUnauthenticated
+	case errors.Is(err, common.ErrUserNotFound):
+		code = connect.CodeNotFound
+	case errors.Is(err, service.ErrAccountInactive):
+		code = connect.CodePermissionDenied
+	case errors.Is(err, service.ErrPasswordTooShort),
+		errors.Is(err, service.ErrPasswordNoDigit),
+		errors.Is(err, service.ErrPasswordNoLowercase),
+		errors.Is(err, service.ErrPasswordNoUppercase),
+		errors.Is(err, service.ErrPasswordNoSpecial):
+		code = connect.CodeInvalidArgument
+	default:
+		code = connect.CodeInternal
+	}
+	return connect.NewError(code, err)
+}

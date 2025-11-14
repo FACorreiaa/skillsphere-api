@@ -29,13 +29,24 @@ const (
 
 // AuthInterceptor handles JWT authentication for Connect RPC
 type AuthInterceptor struct {
-	jwtSecret []byte
+	jwtSecret          []byte
+	optionalProcedures map[string]struct{}
 }
 
+var _ connect.Interceptor = (*AuthInterceptor)(nil)
+
 // NewAuthInterceptor creates a new JWT authentication interceptor
-func NewAuthInterceptor(jwtSecret []byte) *AuthInterceptor {
+func NewAuthInterceptor(jwtSecret []byte, optionalProcedures ...string) *AuthInterceptor {
+	procedureMap := make(map[string]struct{}, len(optionalProcedures))
+	for _, procedure := range optionalProcedures {
+		if procedure != "" {
+			procedureMap[procedure] = struct{}{}
+		}
+	}
+
 	return &AuthInterceptor{
-		jwtSecret: jwtSecret,
+		jwtSecret:          jwtSecret,
+		optionalProcedures: procedureMap,
 	}
 }
 
@@ -51,9 +62,15 @@ func (a *AuthInterceptor) UnaryInterceptor() connect.UnaryInterceptorFunc {
 				return next(ctx, req)
 			}
 
+			// Allow certain procedures to skip strict auth (e.g. Register).
+			_, optional := a.optionalProcedures[req.Spec().Procedure]
+
 			// Extract token from Authorization header
 			authHeader := req.Header().Get("Authorization")
 			if authHeader == "" {
+				if optional {
+					return next(ctx, req)
+				}
 				return nil, connect.NewError(
 					connect.CodeUnauthenticated,
 					errors.New("missing authorization header"),
@@ -210,4 +227,19 @@ func NewRoleAuthInterceptor(requiredRoles ...string) connect.UnaryInterceptorFun
 			return next(ctx, req)
 		}
 	}
+}
+
+// WrapUnary implements connect.Interceptor.
+func (a *AuthInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc {
+	return a.UnaryInterceptor()(next)
+}
+
+// WrapStreamingClient implements connect.Interceptor (no streaming support yet).
+func (a *AuthInterceptor) WrapStreamingClient(next connect.StreamingClientFunc) connect.StreamingClientFunc {
+	return next
+}
+
+// WrapStreamingHandler implements connect.Interceptor (no streaming support yet).
+func (a *AuthInterceptor) WrapStreamingHandler(next connect.StreamingHandlerFunc) connect.StreamingHandlerFunc {
+	return next
 }

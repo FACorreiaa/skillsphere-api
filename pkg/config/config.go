@@ -11,6 +11,7 @@ import (
 type Config struct {
 	Server        ServerConfig
 	Database      DatabaseConfig
+	Auth          AuthConfig
 	Observability ObservabilityConfig
 	Profiling     ProfilingConfig
 }
@@ -27,6 +28,10 @@ type DatabaseConfig struct {
 	Password string
 	Database string
 	SSLMode  string
+}
+
+type AuthConfig struct {
+	JWTSecret string
 }
 
 type ObservabilityConfig struct {
@@ -53,6 +58,9 @@ func Load() (*Config, error) {
 			Password: getEnv("DB_PASSWORD", "postgres"),
 			Database: getEnv("DB_NAME", "skillsphere"),
 			SSLMode:  getEnv("DB_SSLMODE", "disable"),
+		},
+		Auth: AuthConfig{
+			JWTSecret: getEnv("JWT_SECRET", "changeme"),
 		},
 		Observability: ObservabilityConfig{
 			MetricsEnabled: getEnvAsBool("METRICS_ENABLED", true),

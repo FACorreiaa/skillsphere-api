@@ -9,8 +9,6 @@ connectrpc.com/connect/internal/gen/connectext/grpc/status/v1
 ## explicit; go 1.25.4
 github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1
 github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect
-github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1
-github.com/FACorreiaa/skillsphere-proto/gen/go/user/v1
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
@@ -251,6 +249,5 @@ google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/known/anypb
-google.golang.org/protobuf/types/known/fieldmaskpb
 google.golang.org/protobuf/types/known/timestamppb
 # github.com/FACorreiaa/skillsphere-proto => ./gen/github.com/FACorreiaa/skillsphere-proto

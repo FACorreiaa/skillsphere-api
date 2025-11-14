@@ -5,14 +5,12 @@
 package analyticsv1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
+	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/analytics/v1"
 	http "net/http"
 	strings "strings"
-
-	connect "connectrpc.com/connect"
-
-	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/analytics/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -289,10 +287,10 @@ type AnalyticsServiceHandler interface {
 	GetUserJourney(context.Context, *connect.Request[v1.GetUserJourneyRequest]) (*connect.Response[v1.GetUserJourneyResponse], error)
 }
 
-// NewAnalyticsServiceHandler builds an HTTP service from the service implementation. It returns the
-// path on which to mount the service and the service itself.
+// NewAnalyticsServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
-// By default, service support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewAnalyticsServiceHandler(svc AnalyticsServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	analyticsServiceGetPlatformStatsHandler := connect.NewUnaryHandler(
