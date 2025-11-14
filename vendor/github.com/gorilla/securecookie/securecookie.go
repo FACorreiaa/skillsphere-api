@@ -124,7 +124,7 @@ type Codec interface {
 // GenerateRandomKey(). It is recommended to use a key with 32 or 64 bytes.
 //
 // blockKey is optional, used to encrypt values. Create it using
-// GenerateRandomKey(). The key length must correspond to the block size
+// GenerateRandomKey(). The key length must correspond to the key size
 // of the encryption algorithm. For AES, used by default, valid lengths are
 // 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256.
 // The default encoder used for cookie serialization is encoding/gob.
@@ -141,7 +141,7 @@ func New(hashKey, blockKey []byte) *SecureCookie {
 		maxLength: 4096,
 		sz:        GobEncoder{},
 	}
-	if hashKey == nil {
+	if len(hashKey) == 0 {
 		s.err = errHashKeyNotSet
 	}
 	if blockKey != nil {
@@ -286,7 +286,7 @@ func (s *SecureCookie) Encode(name string, value interface{}) (string, error) {
 	b = encode(b)
 	// 5. Check length.
 	if s.maxLength != 0 && len(b) > s.maxLength {
-		return "", errEncodedValueTooLong
+		return "", fmt.Errorf("%s: %d", errEncodedValueTooLong, len(b))
 	}
 	// Done.
 	return string(b), nil
@@ -310,7 +310,7 @@ func (s *SecureCookie) Decode(name, value string, dst interface{}) error {
 	}
 	// 1. Check length.
 	if s.maxLength != 0 && len(value) > s.maxLength {
-		return errValueToDecodeTooLong
+		return fmt.Errorf("%s: %d", errValueToDecodeTooLong, len(value))
 	}
 	// 2. Decode from base64.
 	b, err := decode([]byte(value))
@@ -391,7 +391,7 @@ func verifyMac(h hash.Hash, value []byte, mac []byte) error {
 
 // encrypt encrypts a value using the given block in counter mode.
 //
-// A random initialization vector (http://goo.gl/zF67k) with the length of the
+// A random initialization vector ( https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Initialization_vector_(IV) ) with the length of the
 // block size is prepended to the resulting ciphertext.
 func encrypt(block cipher.Block, value []byte) ([]byte, error) {
 	iv := GenerateRandomKey(block.BlockSize())
@@ -408,7 +408,7 @@ func encrypt(block cipher.Block, value []byte) ([]byte, error) {
 // decrypt decrypts a value using the given block in counter mode.
 //
 // The value to be decrypted must be prepended by a initialization vector
-// (http://goo.gl/zF67k) with the length of the block size.
+// ( https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Initialization_vector_(IV) ) with the length of the block size.
 func decrypt(block cipher.Block, value []byte) ([]byte, error) {
 	size := block.BlockSize()
 	if len(value) > size {
@@ -505,6 +505,10 @@ func decode(value []byte) ([]byte, error) {
 
 // GenerateRandomKey creates a random key with the given length in bytes.
 // On failure, returns nil.
+//
+// Note that keys created using `GenerateRandomKey()` are not automatically
+// persisted. New keys will be created when the application is restarted, and
+// previously issued cookies will not be able to be decoded.
 //
 // Callers should explicitly check for the possibility of a nil return, treat
 // it as a failure of the system random number generator, and not continue.
