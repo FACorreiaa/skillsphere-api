@@ -17,10 +17,10 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Host                string
-	Port                int
-	RateLimitPerSecond  int
-	RateLimitBurst      int
+	Host               string
+	Port               int
+	RateLimitPerSecond int
+	RateLimitBurst     int
 }
 
 type DatabaseConfig struct {

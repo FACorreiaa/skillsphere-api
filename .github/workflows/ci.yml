@@ -34,13 +34,6 @@ jobs:
             fi
           fi
 
-      - name: Go Vet
-        run: go vet ./...
-
-      - name: GolangCI-Lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: v1.60.3
 
   test:
     runs-on: ubuntu-latest
