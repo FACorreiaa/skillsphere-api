@@ -8,6 +8,11 @@ SkillSphere is a peer-to-peer (P2P) skill exchange platform that connects users 
 
 The platform uses skill matching algorithms (e.g., cosine similarity on skill vectors or embedding-based semantic matching via AI) to recommend partners. It's designed for the gig economy, where users can discover, exchange, and even certify skills in a freemium model.
 
+## Architecture & Current Focus
+- **Proto source of truth**: All service definitions live in the shared [`buf.build/skillsphere/proto`](https://buf.build/skillsphere/proto) module. This Go repo consumes that module via Buf; no `.proto` files are committed here.
+- **Transport**: Connect RPC powers every endpoint, exposing Connect, gRPC, and gRPC-Web out of the same handlers. Interceptors handle JWT auth, rate limiting, tracing, Prometheus metrics, structured logging, and payload validation.
+- **Clients**: First-class Kotlin Multiplatform clients (Android/iOS, with the option for Kotlin/JS on web) consume the same proto module to stay type-safe with the backend. Because Connect supports HTTP/JSON, curl/HTMX/web clients can also interact without extra gateways.
+
 ### Key Features
 - **User Profiles**: Create detailed profiles with bio, offered/wanted skills (e.g., programming, languages, arts, cooking, fitness), proficiency levels (1-10 scale), location, and availability.
 - **Skill Matching**: Search and get recommendations using algorithms like Euclidean distance, cosine similarity, or AI embeddings for semantic matches (e.g., "ML" matches "machine learning").
@@ -26,7 +31,7 @@ The platform uses skill matching algorithms (e.g., cosine similarity on skill ve
 SkillSphere is built with a modern, type-safe RPC architecture optimized for server-side rendering and minimal JavaScript.
 
 - **Backend**: Go with **Connect RPC** (by Buf) for type-safe, protocol buffer-based APIs. Connect provides gRPC, gRPC-Web, and Connect protocol support with better browser compatibility than pure gRPC. Authentication via JWT/OAuth (e.g., integrate with Google/Auth0) using Connect interceptors. Database: PostgreSQL with GORM ORM for data persistence; add TimescaleDB for time-series data (e.g., session logs) and pgvector for vector storage in AI-based matching (e.g., skill embeddings). (Alternative: Start with SQLite via Turso for MVP simplicity if not needing vectors immediately.)
-- **API Layer**: Protocol Buffers (proto3) define services and messages. Buf CLI manages protobuf generation and breaking change detection. Connect handlers serve both RPC clients and traditional HTTP endpoints.
+- **API Layer**: Protocol Buffers (proto3) define services and messages. Buf CLI manages protobuf generation and breaking change detection. Connect handlers serve both RPC clients and traditional HTTP endpoints. Proto sources live in `buf.build/skillsphere/proto`, which is shared with Kotlin (mobile/web) clients.
 - **Frontend**: Templ for server-rendered HTML templates, HTMX for asynchronous updates (e.g., dynamic search results without page reloads via Connect RPC calls), and Alpine.js for lightweight client-side interactivity (e.g., modals, toggles). Connect's HTTP/JSON support integrates seamlessly with HTMX for partial page updates.
 - **Real-Time Features**: Gorilla WebSocket for chat and session notifications (Connect RPC supports streaming for real-time updates as an alternative).
 - **AI Integration**: Optional but recommended for advanced matching—use Google Gemini SDK (Go client) to generate skill embeddings for semantic similarity. This enhances discovery by handling synonyms and related skills.
@@ -156,6 +161,11 @@ Connect RPC services are accessible via:
 - **Connect Protocol**: `POST /connect/skillsphere.v1.UserService/GetUser` (JSON body)
 - **gRPC**: Standard gRPC clients (port 8080)
 - **gRPC-Web**: Browser-compatible gRPC
+
+### Kotlin Clients
+- Kotlin Multiplatform clients depend on the same Buf module (`buf.build/skillsphere/proto`) to generate stubs.
+- Mobile apps can call this API via HTTP/2 gRPC (for efficiency) or via Connect’s HTTP/JSON paths when a lightweight transport is needed.
+- Kotlin/JS (or any browser client) can use Connect’s JSON endpoints without extra gateways, which keeps web support optional but straightforward.
 
 Example with curl (Connect protocol):
 ```bash
