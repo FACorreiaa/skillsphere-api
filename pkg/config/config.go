@@ -17,8 +17,10 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Host string
-	Port int
+	Host                string
+	Port                int
+	RateLimitPerSecond  int
+	RateLimitBurst      int
 }
 
 type DatabaseConfig struct {
@@ -48,8 +50,10 @@ type ProfilingConfig struct {
 func Load() (*Config, error) {
 	cfg := &Config{
 		Server: ServerConfig{
-			Host: getEnv("SERVER_HOST", "localhost"),
-			Port: getEnvAsInt("SERVER_PORT", 8080),
+			Host:               getEnv("SERVER_HOST", "localhost"),
+			Port:               getEnvAsInt("SERVER_PORT", 8080),
+			RateLimitPerSecond: getEnvAsInt("SERVER_RATE_LIMIT_PER_SECOND", 100),
+			RateLimitBurst:     getEnvAsInt("SERVER_RATE_LIMIT_BURST", 200),
 		},
 		Database: DatabaseConfig{
 			Host:     getEnv("DB_HOST", "localhost"),

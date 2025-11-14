@@ -76,8 +76,8 @@ type ResendVerificationResult struct {
 // AuthService coordinates AUTH business logic.
 type AuthService struct {
 	repo         repository.AuthRepository
-	tokenManager *TokenManager
-	emailService *EmailService
+	tokenManager TokenManager
+	emailService EmailSender
 	sessionTTL   time.Duration
 	logger       *slog.Logger
 }
@@ -85,8 +85,8 @@ type AuthService struct {
 // NewAuthService constructs a new AuthService.
 func NewAuthService(
 	repo repository.AuthRepository,
-	tokenManager *TokenManager,
-	emailService *EmailService,
+	tokenManager TokenManager,
+	emailService EmailSender,
 	logger *slog.Logger,
 	sessionTTL time.Duration,
 ) *AuthService {

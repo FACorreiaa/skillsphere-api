@@ -25,7 +25,7 @@ type Dependencies struct {
 	AuthRepo repository.AuthRepository
 
 	// Services
-	TokenManager *service.TokenManager
+	TokenManager service.TokenManager
 	AuthService  *service.AuthService
 
 	// Handlers

@@ -1,3 +1,13 @@
+# buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.9-20250912141014-52f32327d4b0.1
+## explicit; go 1.23
+buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate
+# buf.build/go/protovalidate v1.0.0
+## explicit; go 1.24.0
+buf.build/go/protovalidate
+buf.build/go/protovalidate/cel
+# cel.dev/expr v0.24.0
+## explicit; go 1.22.0
+cel.dev/expr
 # cloud.google.com/go/compute/metadata v0.3.0
 ## explicit; go 1.19
 cloud.google.com/go/compute/metadata
@@ -5,10 +15,16 @@ cloud.google.com/go/compute/metadata
 ## explicit; go 1.24.0
 connectrpc.com/connect
 connectrpc.com/connect/internal/gen/connectext/grpc/status/v1
+# connectrpc.com/validate v0.6.0
+## explicit; go 1.24.0
+connectrpc.com/validate
 # github.com/FACorreiaa/skillsphere-proto v0.0.0 => ./gen/github.com/FACorreiaa/skillsphere-proto
 ## explicit; go 1.25.4
 github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1
 github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect
+# github.com/antlr4-go/antlr/v4 v4.13.1
+## explicit; go 1.22
+github.com/antlr4-go/antlr/v4
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
@@ -21,6 +37,13 @@ github.com/decred/dcrd/dcrec/secp256k1/v4
 # github.com/go-chi/chi/v5 v5.2.2
 ## explicit; go 1.20
 github.com/go-chi/chi/v5
+# github.com/go-logr/logr v1.4.2
+## explicit; go 1.18
+github.com/go-logr/logr
+github.com/go-logr/logr/funcr
+# github.com/go-logr/stdr v1.2.2
+## explicit; go 1.16
+github.com/go-logr/stdr
 # github.com/goccy/go-json v0.10.2
 ## explicit; go 1.12
 github.com/goccy/go-json
@@ -35,6 +58,30 @@ github.com/goccy/go-json/internal/runtime
 # github.com/golang-jwt/jwt/v5 v5.2.2
 ## explicit; go 1.18
 github.com/golang-jwt/jwt/v5
+# github.com/google/cel-go v0.26.1
+## explicit; go 1.22.0
+github.com/google/cel-go/cel
+github.com/google/cel-go/checker
+github.com/google/cel-go/checker/decls
+github.com/google/cel-go/common
+github.com/google/cel-go/common/ast
+github.com/google/cel-go/common/containers
+github.com/google/cel-go/common/debug
+github.com/google/cel-go/common/decls
+github.com/google/cel-go/common/env
+github.com/google/cel-go/common/functions
+github.com/google/cel-go/common/operators
+github.com/google/cel-go/common/overloads
+github.com/google/cel-go/common/runes
+github.com/google/cel-go/common/stdlib
+github.com/google/cel-go/common/types
+github.com/google/cel-go/common/types/pb
+github.com/google/cel-go/common/types/ref
+github.com/google/cel-go/common/types/traits
+github.com/google/cel-go/ext
+github.com/google/cel-go/interpreter
+github.com/google/cel-go/parser
+github.com/google/cel-go/parser/gen
 # github.com/google/uuid v1.6.0
 ## explicit
 github.com/google/uuid
@@ -112,11 +159,6 @@ github.com/lestrrat-go/jwx/x25519
 # github.com/lestrrat-go/option v1.0.1
 ## explicit; go 1.16
 github.com/lestrrat-go/option
-# github.com/lib/pq v1.10.9
-## explicit; go 1.13
-github.com/lib/pq
-github.com/lib/pq/oid
-github.com/lib/pq/scram
 # github.com/markbates/goth v1.82.0
 ## explicit; go 1.23.0
 github.com/markbates/goth
@@ -165,6 +207,30 @@ github.com/prometheus/procfs/internal/util
 # github.com/sethvargo/go-retry v0.3.0
 ## explicit; go 1.21
 github.com/sethvargo/go-retry
+# github.com/stoewer/go-strcase v1.3.1
+## explicit; go 1.11
+github.com/stoewer/go-strcase
+# github.com/stretchr/testify v1.11.1
+## explicit; go 1.17
+# go.opentelemetry.io/otel v1.28.0
+## explicit; go 1.21
+go.opentelemetry.io/otel
+go.opentelemetry.io/otel/attribute
+go.opentelemetry.io/otel/baggage
+go.opentelemetry.io/otel/codes
+go.opentelemetry.io/otel/internal
+go.opentelemetry.io/otel/internal/attribute
+go.opentelemetry.io/otel/internal/baggage
+go.opentelemetry.io/otel/internal/global
+go.opentelemetry.io/otel/propagation
+# go.opentelemetry.io/otel/metric v1.28.0
+## explicit; go 1.21
+go.opentelemetry.io/otel/metric
+go.opentelemetry.io/otel/metric/embedded
+# go.opentelemetry.io/otel/trace v1.28.0
+## explicit; go 1.21
+go.opentelemetry.io/otel/trace
+go.opentelemetry.io/otel/trace/embedded
 # go.uber.org/multierr v1.11.0
 ## explicit; go 1.19
 go.uber.org/multierr
@@ -174,13 +240,9 @@ golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/curve25519
 golang.org/x/crypto/pbkdf2
-# golang.org/x/net v0.30.0
-## explicit; go 1.18
-golang.org/x/net/http/httpguts
-golang.org/x/net/http2
-golang.org/x/net/http2/h2c
-golang.org/x/net/http2/hpack
-golang.org/x/net/idna
+# golang.org/x/exp v0.0.0-20250911091902-df9299821621
+## explicit; go 1.24.0
+golang.org/x/exp/slices
 # golang.org/x/oauth2 v0.27.0
 ## explicit; go 1.23.0
 golang.org/x/oauth2
@@ -193,22 +255,29 @@ golang.org/x/oauth2/google/internal/stsexchange
 golang.org/x/oauth2/internal
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
-# golang.org/x/sync v0.13.0
-## explicit; go 1.23.0
+# golang.org/x/sync v0.17.0
+## explicit; go 1.24.0
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
 # golang.org/x/sys v0.32.0
 ## explicit; go 1.23.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.24.0
-## explicit; go 1.23.0
+# golang.org/x/text v0.29.0
+## explicit; go 1.24.0
 golang.org/x/text/cases
+golang.org/x/text/feature/plural
 golang.org/x/text/internal
+golang.org/x/text/internal/catmsg
+golang.org/x/text/internal/format
 golang.org/x/text/internal/language
 golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/number
+golang.org/x/text/internal/stringset
 golang.org/x/text/internal/tag
 golang.org/x/text/language
+golang.org/x/text/message
+golang.org/x/text/message/catalog
 golang.org/x/text/runes
 golang.org/x/text/secure/bidirule
 golang.org/x/text/secure/precis
@@ -216,6 +285,15 @@ golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
+# golang.org/x/time v0.5.0
+## explicit; go 1.18
+golang.org/x/time/rate
+# google.golang.org/genproto/googleapis/api v0.0.0-20250922171735-9219d122eba9
+## explicit; go 1.24.0
+google.golang.org/genproto/googleapis/api/expr/v1alpha1
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250922171735-9219d122eba9
+## explicit; go 1.24.0
+google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/protobuf v1.36.9
 ## explicit; go 1.23
 google.golang.org/protobuf/encoding/protodelim
@@ -226,6 +304,7 @@ google.golang.org/protobuf/internal/descfmt
 google.golang.org/protobuf/internal/descopts
 google.golang.org/protobuf/internal/detrand
 google.golang.org/protobuf/internal/editiondefaults
+google.golang.org/protobuf/internal/editionssupport
 google.golang.org/protobuf/internal/encoding/defval
 google.golang.org/protobuf/internal/encoding/json
 google.golang.org/protobuf/internal/encoding/messageset
@@ -244,10 +323,18 @@ google.golang.org/protobuf/internal/set
 google.golang.org/protobuf/internal/strs
 google.golang.org/protobuf/internal/version
 google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protodesc
 google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/types/descriptorpb
+google.golang.org/protobuf/types/dynamicpb
+google.golang.org/protobuf/types/gofeaturespb
 google.golang.org/protobuf/types/known/anypb
+google.golang.org/protobuf/types/known/durationpb
+google.golang.org/protobuf/types/known/emptypb
+google.golang.org/protobuf/types/known/structpb
 google.golang.org/protobuf/types/known/timestamppb
+google.golang.org/protobuf/types/known/wrapperspb
 # github.com/FACorreiaa/skillsphere-proto => ./gen/github.com/FACorreiaa/skillsphere-proto

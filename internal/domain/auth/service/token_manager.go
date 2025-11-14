@@ -10,8 +10,14 @@ import (
 	"github.com/google/uuid"
 )
 
-// TokenManager handles JWT token generation and validation
-type TokenManager struct {
+// TokenManager defines the behavior required for token operations.
+type TokenManager interface {
+	GenerateTokenPair(userID, email, username, role string) (*TokenPair, error)
+	ValidateAccessToken(tokenString string) (*Claims, error)
+	ValidateRefreshToken(tokenString string) (*Claims, error)
+}
+
+type jwtTokenManager struct {
 	accessTokenSecret  []byte
 	refreshTokenSecret []byte
 	accessTokenTTL     time.Duration
@@ -36,8 +42,8 @@ type Claims struct {
 }
 
 // NewTokenManager creates a new token manager
-func NewTokenManager(accessSecret, refreshSecret []byte, accessTTL, refreshTTL time.Duration) *TokenManager {
-	return &TokenManager{
+func NewTokenManager(accessSecret, refreshSecret []byte, accessTTL, refreshTTL time.Duration) TokenManager {
+	return &jwtTokenManager{
 		accessTokenSecret:  accessSecret,
 		refreshTokenSecret: refreshSecret,
 		accessTokenTTL:     accessTTL,
@@ -46,7 +52,7 @@ func NewTokenManager(accessSecret, refreshSecret []byte, accessTTL, refreshTTL t
 }
 
 // GenerateTokenPair generates both access and refresh tokens
-func (tm *TokenManager) GenerateTokenPair(userID, email, username, role string) (*TokenPair, error) {
+func (tm *jwtTokenManager) GenerateTokenPair(userID, email, username, role string) (*TokenPair, error) {
 	now := time.Now()
 	accessExpiresAt := now.Add(tm.accessTokenTTL)
 	refreshExpiresAt := now.Add(tm.refreshTokenTTL)
@@ -100,17 +106,17 @@ func (tm *TokenManager) GenerateTokenPair(userID, email, username, role string) 
 }
 
 // ValidateAccessToken validates an access token and returns claims
-func (tm *TokenManager) ValidateAccessToken(tokenString string) (*Claims, error) {
+func (tm *jwtTokenManager) ValidateAccessToken(tokenString string) (*Claims, error) {
 	return tm.validateToken(tokenString, tm.accessTokenSecret)
 }
 
 // ValidateRefreshToken validates a refresh token and returns claims
-func (tm *TokenManager) ValidateRefreshToken(tokenString string) (*Claims, error) {
+func (tm *jwtTokenManager) ValidateRefreshToken(tokenString string) (*Claims, error) {
 	return tm.validateToken(tokenString, tm.refreshTokenSecret)
 }
 
 // validateToken is a helper function to validate tokens
-func (tm *TokenManager) validateToken(tokenString string, secret []byte) (*Claims, error) {
+func (tm *jwtTokenManager) validateToken(tokenString string, secret []byte) (*Claims, error) {
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

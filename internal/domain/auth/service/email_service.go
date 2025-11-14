@@ -6,8 +6,14 @@ import (
 	"os"
 )
 
-// EmailService handles sending emails
-type EmailService struct {
+// EmailSender defines the behavior required for sending auth emails.
+type EmailSender interface {
+	SendVerificationEmail(toEmail, toName, token string) error
+	SendPasswordResetEmail(toEmail, toName, token string) error
+	SendWelcomeEmail(toEmail, toName string) error
+}
+
+type smtpEmailService struct {
 	smtpHost     string
 	smtpPort     string
 	smtpUsername string
@@ -18,8 +24,8 @@ type EmailService struct {
 }
 
 // NewEmailService creates a new email service
-func NewEmailService() *EmailService {
-	return &EmailService{
+func NewEmailService() EmailSender {
+	return &smtpEmailService{
 		smtpHost:     os.Getenv("SMTP_HOST"),
 		smtpPort:     os.Getenv("SMTP_PORT"),
 		smtpUsername: os.Getenv("SMTP_USERNAME"),
@@ -31,7 +37,7 @@ func NewEmailService() *EmailService {
 }
 
 // SendVerificationEmail sends an email verification link
-func (s *EmailService) SendVerificationEmail(toEmail, toName, token string) error {
+func (s *smtpEmailService) SendVerificationEmail(toEmail, toName, token string) error {
 	subject := "Verify Your Email - SkillSphere"
 	verificationLink := fmt.Sprintf("%s/verify-email?token=%s", s.frontendURL, token)
 
@@ -63,7 +69,7 @@ func (s *EmailService) SendVerificationEmail(toEmail, toName, token string) erro
 }
 
 // SendPasswordResetEmail sends a password reset link
-func (s *EmailService) SendPasswordResetEmail(toEmail, toName, token string) error {
+func (s *smtpEmailService) SendPasswordResetEmail(toEmail, toName, token string) error {
 	subject := "Reset Your Password - SkillSphere"
 	resetLink := fmt.Sprintf("%s/reset-password?token=%s", s.frontendURL, token)
 
@@ -95,7 +101,7 @@ func (s *EmailService) SendPasswordResetEmail(toEmail, toName, token string) err
 }
 
 // SendWelcomeEmail sends a welcome email after successful registration
-func (s *EmailService) SendWelcomeEmail(toEmail, toName string) error {
+func (s *smtpEmailService) SendWelcomeEmail(toEmail, toName string) error {
 	subject := "Welcome to SkillSphere!"
 
 	body := fmt.Sprintf(`
@@ -130,7 +136,7 @@ func (s *EmailService) SendWelcomeEmail(toEmail, toName string) error {
 }
 
 // sendEmail is a helper function to send emails via SMTP
-func (s *EmailService) sendEmail(to, subject, body string) error {
+func (s *smtpEmailService) sendEmail(to, subject, body string) error {
 	// If SMTP is not configured, log and skip (for development)
 	if s.smtpHost == "" || s.smtpPort == "" {
 		fmt.Printf("Email would be sent to %s with subject: %s\n", to, subject)

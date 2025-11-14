@@ -3,15 +3,13 @@ package handler
 import (
 	"context"
 	"errors"
-	"time"
 
 	"connectrpc.com/connect"
 	authv1 "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1"
 	pb "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect"
-	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/common"
-	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
+	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/presenter"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/service"
 )
 
@@ -48,15 +46,7 @@ func (h *AuthHandler) Register(
 		return nil, h.toConnectError(err)
 	}
 
-	resp := &authv1.RegisterResponse{
-		UserId:                    result.User.ID.String(),
-		AccessToken:               result.Tokens.AccessToken,
-		RefreshToken:              result.Tokens.RefreshToken,
-		ExpiresAt:                 toProtoTimestamp(result.Tokens.ExpiresAt),
-		EmailVerificationRequired: result.EmailVerificationRequired,
-	}
-
-	return connect.NewResponse(resp), nil
+	return connect.NewResponse(presenter.RegisterResponse(result)), nil
 }
 
 // Login authenticates a user.
@@ -74,15 +64,7 @@ func (h *AuthHandler) Login(ctx context.Context, req *connect.Request[authv1.Log
 		return nil, h.toConnectError(err)
 	}
 
-	resp := &authv1.LoginResponse{
-		UserId:       result.User.ID.String(),
-		AccessToken:  result.Tokens.AccessToken,
-		RefreshToken: result.Tokens.RefreshToken,
-		ExpiresAt:    toProtoTimestamp(result.Tokens.ExpiresAt),
-		User:         toUserProfile(result.User),
-	}
-
-	return connect.NewResponse(resp), nil
+	return connect.NewResponse(presenter.LoginResponse(result)), nil
 }
 
 // Logout deletes the refresh token session.
@@ -114,11 +96,7 @@ func (h *AuthHandler) RefreshToken(ctx context.Context, req *connect.Request[aut
 		return nil, h.toConnectError(err)
 	}
 
-	return connect.NewResponse(&authv1.RefreshTokenResponse{
-		AccessToken:  tokens.AccessToken,
-		RefreshToken: tokens.RefreshToken,
-		ExpiresAt:    toProtoTimestamp(tokens.ExpiresAt),
-	}), nil
+	return connect.NewResponse(presenter.RefreshTokenResponse(tokens)), nil
 }
 
 // ValidateToken validates the provided access token.
@@ -139,32 +117,10 @@ func (h *AuthHandler) ValidateToken(ctx context.Context, req *connect.Request[au
 		UserId:  claims.UserID,
 	}
 	if claims.ExpiresAt != nil {
-		resp.ExpiresAt = timestamppb.New(claims.ExpiresAt.Time)
+		resp.ExpiresAt = presenter.Timestamp(claims.ExpiresAt.Time)
 	}
 
 	return connect.NewResponse(resp), nil
-}
-
-func toUserProfile(user *repository.User) *authv1.UserProfile {
-	if user == nil {
-		return nil
-	}
-
-	profile := &authv1.UserProfile{
-		UserId:      user.ID.String(),
-		Email:       user.Email,
-		Username:    user.Username,
-		DisplayName: user.DisplayName,
-	}
-
-	if user.AvatarURL != nil {
-		profile.AvatarUrl = *user.AvatarURL
-	}
-	if user.EmailVerifiedAt != nil {
-		profile.IsVerified = true
-	}
-
-	return profile
 }
 
 func metadataFromRequest[T any](req *connect.Request[T]) service.SessionMetadata {
@@ -172,13 +128,6 @@ func metadataFromRequest[T any](req *connect.Request[T]) service.SessionMetadata
 		UserAgent: req.Header().Get("User-Agent"),
 		ClientIP:  req.Peer().Addr,
 	}
-}
-
-func toProtoTimestamp(t time.Time) *timestamppb.Timestamp {
-	if t.IsZero() {
-		return nil
-	}
-	return timestamppb.New(t)
 }
 
 func (h *AuthHandler) toConnectError(err error) error {

@@ -4,8 +4,11 @@ import (
 	"net/http"
 
 	"connectrpc.com/connect"
+	"connectrpc.com/validate"
 	authv1connect "github.com/FACorreiaa/skillsphere-proto/gen/go/auth/v1/authv1connect"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"go.opentelemetry.io/otel"
+	"golang.org/x/time/rate"
 
 	"github.com/FACorreiaa/skillsphere-api/pkg/interceptors"
 	"github.com/FACorreiaa/skillsphere-api/pkg/observability"
@@ -31,8 +34,27 @@ func SetupRouter(deps *Dependencies) http.Handler {
 		authv1connect.AuthServiceOAuthLoginProcedure,
 	}
 
+	tracer := otel.GetTracerProvider().Tracer("skillsphere/api")
+
+	var rateLimiter connect.Interceptor
+	if deps.Config.Server.RateLimitPerSecond > 0 && deps.Config.Server.RateLimitBurst > 0 {
+		limiter := rate.NewLimiter(
+			rate.Limit(float64(deps.Config.Server.RateLimitPerSecond)),
+			deps.Config.Server.RateLimitBurst,
+		)
+		rateLimiter = interceptors.NewRateLimitInterceptor(limiter)
+	}
+
+	requestIDInterceptor := interceptors.NewRequestIDInterceptor("X-Request-ID")
+	tracingInterceptor := interceptors.NewTracingInterceptor(tracer)
+	validationInterceptor := validate.NewInterceptor()
+
 	// Setup interceptor chain
 	interceptorChain := connect.WithInterceptors(
+		requestIDInterceptor,
+		tracingInterceptor,
+		validationInterceptor,
+		rateLimiter,
 		interceptors.NewRecoveryInterceptor(deps.Logger),
 		interceptors.NewLoggingInterceptor(deps.Logger),
 		interceptors.NewAuthInterceptor(jwtSecret, publicProcedures...),
