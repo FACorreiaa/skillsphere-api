@@ -9,6 +9,7 @@ import (
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/handler"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/service"
+	"github.com/FACorreiaa/skillsphere-api/internal/ontology"
 	"github.com/FACorreiaa/skillsphere-api/pkg/config"
 	"github.com/FACorreiaa/skillsphere-api/pkg/db"
 )
@@ -18,6 +19,8 @@ type Dependencies struct {
 	Config *config.Config
 	DB     *db.DB
 	Logger *slog.Logger
+
+	OntologyEmitter ontology.Emitter
 
 	sqlDB *sql.DB
 
@@ -35,8 +38,9 @@ type Dependencies struct {
 // InitDependencies initializes all application dependencies
 func InitDependencies(cfg *config.Config, logger *slog.Logger) (*Dependencies, error) {
 	deps := &Dependencies{
-		Config: cfg,
-		Logger: logger,
+		Config:          cfg,
+		Logger:          logger,
+		OntologyEmitter: ontology.NopEmitter{},
 	}
 
 	// Initialize database
@@ -48,6 +52,8 @@ func InitDependencies(cfg *config.Config, logger *slog.Logger) (*Dependencies, e
 	if err := deps.initRepositories(); err != nil {
 		return nil, fmt.Errorf("failed to init repositories: %w", err)
 	}
+
+	deps.initOntologyEmitter()
 
 	// Initialize handler
 	if err := deps.initServices(); err != nil {
@@ -105,6 +111,18 @@ func (d *Dependencies) initRepositories() error {
 	return nil
 }
 
+func (d *Dependencies) initOntologyEmitter() {
+	if d.sqlDB == nil {
+		return
+	}
+
+	emitter := ontology.FanoutEmitter{
+		ontology.NewOutboxEmitter(d.sqlDB, d.Logger),
+		ontology.NewJSONEmitter(ontology.NewLogSender(d.Logger)),
+	}
+	d.OntologyEmitter = emitter
+}
+
 // initServices initializes all service layer dependencies
 func (d *Dependencies) initServices() error {
 	jwtSecret := []byte(d.Config.Auth.JWTSecret)
@@ -117,7 +135,14 @@ func (d *Dependencies) initServices() error {
 
 	d.TokenManager = service.NewTokenManager(jwtSecret, jwtSecret, accessTokenTTL, refreshTokenTTL)
 	emailService := service.NewEmailService()
-	d.AuthService = service.NewAuthService(d.AuthRepo, d.TokenManager, emailService, d.Logger, refreshTokenTTL)
+	d.AuthService = service.NewAuthService(
+		d.AuthRepo,
+		d.TokenManager,
+		emailService,
+		d.Logger,
+		d.OntologyEmitter,
+		refreshTokenTTL,
+	)
 
 	d.Logger.Info("services initialized")
 	return nil

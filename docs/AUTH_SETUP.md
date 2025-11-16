@@ -64,7 +64,8 @@ See `examples/auth_server_example.go` for a complete example.
 authRepo := repository.NewAuthRepository(db)
 tokenManager := auth.NewTokenManager(jwtSecret, jwtSecret, 15*time.Minute, 7*24*time.Hour)
 emailService := services.NewEmailService()
-authService := services.NewAuthService(authRepo, tokenManager, emailService)
+ontologyEmitter := ontology.NewJSONEmitter(ontology.NewLogSender(logger))
+authService := services.NewAuthService(authRepo, tokenManager, emailService, logger, ontologyEmitter, 7*24*time.Hour)
 
 // Setup interceptor
 authInterceptor := interceptors.NewAuthInterceptor(jwtSecret)

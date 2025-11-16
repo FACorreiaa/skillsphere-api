@@ -35,6 +35,7 @@ SkillSphere is built with a modern, type-safe RPC architecture optimized for ser
 - **Frontend**: Templ for server-rendered HTML templates, HTMX for asynchronous updates (e.g., dynamic search results without page reloads via Connect RPC calls), and Alpine.js for lightweight client-side interactivity (e.g., modals, toggles). Connect's HTTP/JSON support integrates seamlessly with HTMX for partial page updates.
 - **Real-Time Features**: Gorilla WebSocket for chat and session notifications (Connect RPC supports streaming for real-time updates as an alternative).
 - **AI Integration**: Optional but recommended for advanced matching—use Google Gemini SDK (Go client) to generate skill embeddings for semantic similarity. This enhances discovery by handling synonyms and related skills.
+- **Ontology Pipeline**: Domain services emit JSON-LD envelopes (users, sessions, matches) into `ontology_outbox`, and the `cmd/ontologyworker` process forwards them to Kafka and your triple store for downstream reasoning—it's live but still evolving, so track progress in [docs/ONTOLOGY_PIPELINE.md](docs/ONTOLOGY_PIPELINE.md) plus the Ontology section below.
 - **Deployment/Cloud**: Fly.io for easy, global deployment (scales well with Go's efficiency, low-cost tiers). Alternatives: Hetzner for budget VPS (if self-managed) or Google Cloud Platform (GCP) for seamless Gemini integration and managed Postgres.
 - **Other Tools**: Stripe for payments, Prometheus for metrics, Docker for containerization, and Buf for protobuf workflow.
 
@@ -147,12 +148,40 @@ skillsphere/
 │   ├── matching/          # Matching algorithms
 │   ├── db/                # Database models (GORM)
 │   └── middleware/        # Connect interceptors
+├── ontology/
+│   └── cmd/generate/      # Proto-to-SKOS converter (optional pre-MVP)
 ├── web/
 │   ├── templates/         # Templ files
 │   └── static/            # CSS, JS (Alpine, HTMX)
 ├── go.mod
 └── README.md
 ```
+
+## Ontology (Optional Pre-MVP)
+SkillSphere keeps an ontology generator around for the moment it becomes painful to keep skill names, proficiency ranges, and taxonomy relations consistent across services. You do **not** need it to unblock proto experiments, but documenting it early prevents future thrash once Kotlin clients, AI matching, and external partners consume the same enums.
+
+- **What it does**: `ontology/cmd/generate` walks your proto enums and emits a SKOS/Turtle file (`ontology/generated.ttl`) so downstream systems or notebooks can reason over a shared vocabulary.
+- **When to care**: Flip it on when you notice repeating terminology debates, need explainable AI matches, or begin syncing data with third parties. Until then, rely on the lightweight glossary inside this README.
+- **How to run**:
+  ```bash
+  # Option A: point at the proto repo (recommended while this repo stays proto-free)
+  go run ./ontology/cmd/generate \
+    -module-path ../skillsphere-proto \
+    -out ontology/generated.ttl
+
+  # Option B: reuse a descriptor set built elsewhere
+  buf build ../skillsphere-proto -o /tmp/skillsphere.bin
+  go run ./ontology/cmd/generate \
+    -descriptor /tmp/skillsphere.bin \
+    -out ontology/generated.ttl
+  ```
+  The generator uses the Buf module defined in `buf.yaml`, so `-module-path` can also point to any directory that already has the up-to-date proto sources checked out.
+- **Versioning**: Commit the generator, not the TTL output. Re-run whenever proto enums change so AI embeddings, analytics notebooks, and partner docs stay aligned.
+- **Next Steps when Ontology Graduates Past MVP**:
+  - Wire backend services to emit RDF triples or JSON-LD events inside existing RPC flows so the ontology mirrors production data.
+  - Extend the generator to emit SHACL skeletons or JSON-LD framing docs for client contracts, still driven entirely from Buf descriptors.
+  - Add integration tests (e.g., fixtures + `pyshacl`) so CI fails whenever ontology invariants break.
+  - Publish the TTL/context/shape artifacts via Buf or a lightweight registry so external clients can fetch versioned schemas automatically.
 
 ## Usage
 
@@ -321,6 +350,7 @@ func main() {
 - **V1 (Months 2-3)**: AI integration (Gemini embeddings), payments (PaymentService with Stripe), auth interceptors.
 - **V2 (Months 4-6)**: Mobile app (reuse proto definitions for native clients), certifications via blockchain badges, streaming chat via Connect.
 - **Future**: Microservices split (separate matching service), GraphQL gateway over Connect, analytics dashboard.
+- **Post-MVP Goals**: Harden the core services (user, skill, matching, session, auth orchestration), finalize real DB operations plus tests, and ensure client flows run end-to-end. Only after that revisit ontology consumers (worker rollout, triple-store analytics, advanced matching on graph data) so they enhance rather than block launch.
 
 For questions, open an issue or contact [your.email@example.com].
 

@@ -12,6 +12,7 @@ import (
 
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/common"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
+	"github.com/FACorreiaa/skillsphere-api/internal/ontology"
 )
 
 func TestAuthService_RegisterUser_Success(t *testing.T) {
@@ -584,7 +585,7 @@ func newTestAuthService() (*AuthService, *mockAuthRepo, *mockTokenManager, *mock
 	tokenManager := &mockTokenManager{}
 	emailSender := &mockEmailSender{}
 	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
-	service := NewAuthService(repo, tokenManager, emailSender, logger, time.Hour)
+	service := NewAuthService(repo, tokenManager, emailSender, logger, ontology.NopEmitter{}, time.Hour)
 	return service, repo, tokenManager, emailSender
 }
 

@@ -13,6 +13,7 @@ import (
 
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/common"
 	"github.com/FACorreiaa/skillsphere-api/internal/domain/auth/repository"
+	"github.com/FACorreiaa/skillsphere-api/internal/ontology"
 )
 
 const (
@@ -80,6 +81,7 @@ type AuthService struct {
 	emailService EmailSender
 	sessionTTL   time.Duration
 	logger       *slog.Logger
+	ontology     ontology.Emitter
 }
 
 // NewAuthService constructs a new AuthService.
@@ -88,10 +90,14 @@ func NewAuthService(
 	tokenManager TokenManager,
 	emailService EmailSender,
 	logger *slog.Logger,
+	emitter ontology.Emitter,
 	sessionTTL time.Duration,
 ) *AuthService {
 	if sessionTTL <= 0 {
 		sessionTTL = defaultSessionTTL
+	}
+	if emitter == nil {
+		emitter = ontology.NopEmitter{}
 	}
 
 	return &AuthService{
@@ -100,6 +106,7 @@ func NewAuthService(
 		emailService: emailService,
 		sessionTTL:   sessionTTL,
 		logger:       logger,
+		ontology:     emitter,
 	}
 }
 
@@ -137,6 +144,8 @@ func (s *AuthService) RegisterUser(ctx context.Context, params RegisterParams) (
 	if err := s.sendEmailVerification(ctx, user); err != nil {
 		return nil, err
 	}
+
+	s.emitOntologyEvent(ctx, ontology.NewUserRegisteredEvent(user))
 
 	return &RegisterResult{
 		User:                      user,
@@ -419,4 +428,13 @@ func (s *AuthService) sendEmailVerification(ctx context.Context, user *repositor
 func hashToken(token string) string {
 	sum := sha256.Sum256([]byte(token))
 	return hex.EncodeToString(sum[:])
+}
+
+func (s *AuthService) emitOntologyEvent(ctx context.Context, event ontology.Event) {
+	if s.ontology == nil {
+		return
+	}
+	if err := s.ontology.Emit(ctx, event); err != nil && s.logger != nil {
+		s.logger.WarnContext(ctx, "failed to emit ontology event", "error", err, "event_id", event.ID, "event_type", event.Type)
+	}
 }
