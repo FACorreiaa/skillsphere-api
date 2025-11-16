@@ -7,6 +7,7 @@
 package reviewv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -225,11 +226,11 @@ type Review struct {
 	Feedback         string             `protobuf:"bytes,17,opt,name=feedback,proto3" json:"feedback,omitempty"`
 	Sections         []*FeedbackSection `protobuf:"bytes,18,rep,name=sections,proto3" json:"sections,omitempty"`
 	Attachments      []*v1.Attachment   `protobuf:"bytes,19,rep,name=attachments,proto3" json:"attachments,omitempty"`
-	VideoFeedbackUrl string             `protobuf:"bytes,20,opt,name=video_feedback_url,json=videoFeedbackUrl,proto3" json:"video_feedback_url,omitempty"` // Optional video walkthrough
+	VideoFeedbackUrl string             `protobuf:"bytes,20,opt,name=video_feedback_url,json=videoFeedbackUrl,proto3" json:"video_feedback_url,omitempty"`
 	// Ratings
-	RequesterRating  int32  `protobuf:"varint,21,opt,name=requester_rating,json=requesterRating,proto3" json:"requester_rating,omitempty"` // Requester rates the review
+	RequesterRating  int32  `protobuf:"varint,21,opt,name=requester_rating,json=requesterRating,proto3" json:"requester_rating,omitempty"`
 	RequesterComment string `protobuf:"bytes,22,opt,name=requester_comment,json=requesterComment,proto3" json:"requester_comment,omitempty"`
-	ReviewerRating   int32  `protobuf:"varint,23,opt,name=reviewer_rating,json=reviewerRating,proto3" json:"reviewer_rating,omitempty"` // Reviewer rates the experience
+	ReviewerRating   int32  `protobuf:"varint,23,opt,name=reviewer_rating,json=reviewerRating,proto3" json:"reviewer_rating,omitempty"`
 	ReviewerComment  string `protobuf:"bytes,24,opt,name=reviewer_comment,json=reviewerComment,proto3" json:"reviewer_comment,omitempty"`
 	// Status
 	Status        ReviewStatus `protobuf:"varint,25,opt,name=status,proto3,enum=skillsphere.review.v1.ReviewStatus" json:"status,omitempty"`
@@ -444,12 +445,12 @@ func (x *Review) GetStatus() ReviewStatus {
 
 type FeedbackSection struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"` // e.g., "Code Quality", "Architecture"
+	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
 	Content       string                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
-	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"` // 1-5 stars for this aspect
+	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
 	Strengths     []string               `protobuf:"bytes,4,rep,name=strengths,proto3" json:"strengths,omitempty"`
 	Improvements  []string               `protobuf:"bytes,5,rep,name=improvements,proto3" json:"improvements,omitempty"`
-	Resources     []string               `protobuf:"bytes,6,rep,name=resources,proto3" json:"resources,omitempty"` // Recommended learning resources
+	Resources     []string               `protobuf:"bytes,6,rep,name=resources,proto3" json:"resources,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -529,10 +530,10 @@ func (x *FeedbackSection) GetResources() []string {
 type Reviewer struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	User                *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Expertise           []string               `protobuf:"bytes,2,rep,name=expertise,proto3" json:"expertise,omitempty"` // Skill IDs
+	Expertise           []string               `protobuf:"bytes,2,rep,name=expertise,proto3" json:"expertise,omitempty"`
 	AverageReviewRating float64                `protobuf:"fixed64,3,opt,name=average_review_rating,json=averageReviewRating,proto3" json:"average_review_rating,omitempty"`
 	TotalReviews        int32                  `protobuf:"varint,4,opt,name=total_reviews,json=totalReviews,proto3" json:"total_reviews,omitempty"`
-	ResponseTimeHours   int32                  `protobuf:"varint,5,opt,name=response_time_hours,json=responseTimeHours,proto3" json:"response_time_hours,omitempty"` // Average time to accept
+	ResponseTimeHours   int32                  `protobuf:"varint,5,opt,name=response_time_hours,json=responseTimeHours,proto3" json:"response_time_hours,omitempty"`
 	HourlyRate          *v1.Money              `protobuf:"bytes,6,opt,name=hourly_rate,json=hourlyRate,proto3" json:"hourly_rate,omitempty"`
 	ReviewTypes         []ReviewType           `protobuf:"varint,7,rep,packed,name=review_types,json=reviewTypes,proto3,enum=skillsphere.review.v1.ReviewType" json:"review_types,omitempty"`
 	IsAvailable         bool                   `protobuf:"varint,8,opt,name=is_available,json=isAvailable,proto3" json:"is_available,omitempty"`
@@ -629,7 +630,7 @@ func (x *Reviewer) GetIsAvailable() bool {
 type RequestReviewRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	RequesterId       string                 `protobuf:"bytes,1,opt,name=requester_id,json=requesterId,proto3" json:"requester_id,omitempty"`
-	ReviewerId        string                 `protobuf:"bytes,2,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"` // Specific reviewer or empty for matching
+	ReviewerId        string                 `protobuf:"bytes,2,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"`
 	SkillId           string                 `protobuf:"bytes,3,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
 	Type              ReviewType             `protobuf:"varint,4,opt,name=type,proto3,enum=skillsphere.review.v1.ReviewType" json:"type,omitempty"`
 	Depth             ReviewDepth            `protobuf:"varint,5,opt,name=depth,proto3,enum=skillsphere.review.v1.ReviewDepth" json:"depth,omitempty"`
@@ -1838,142 +1839,150 @@ var File_review_v1_review_proto protoreflect.FileDescriptor
 
 const file_review_v1_review_proto_rawDesc = "" +
 	"\n" +
-	"\x16review/v1/review.proto\x12\x15skillsphere.review.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x9b\t\n" +
-	"\x06Review\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12!\n" +
-	"\frequester_id\x18\x02 \x01(\tR\vrequesterId\x12\x1f\n" +
-	"\vreviewer_id\x18\x03 \x01(\tR\n" +
-	"reviewerId\x12\x19\n" +
-	"\bskill_id\x18\x04 \x01(\tR\askillId\x125\n" +
-	"\x04type\x18\x05 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeR\x04type\x128\n" +
-	"\x05depth\x18\x06 \x01(\x0e2\".skillsphere.review.v1.ReviewDepthR\x05depth\x12\x14\n" +
-	"\x05title\x18\a \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\b \x01(\tR\vdescription\x12;\n" +
-	"\acontent\x18\t \x03(\v2!.skillsphere.common.v1.AttachmentR\acontent\x12-\n" +
-	"\x12specific_questions\x18\n" +
-	" \x03(\tR\x11specificQuestions\x122\n" +
-	"\x05price\x18\v \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x05price\x12\x1d\n" +
+	"\x16review/v1/review.proto\x12\x15skillsphere.review.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xf6\n" +
 	"\n" +
-	"payment_id\x18\f \x01(\tR\tpaymentId\x12=\n" +
+	"\x06Review\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12,\n" +
+	"\frequester_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vrequesterId\x12*\n" +
+	"\vreviewer_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reviewerId\x12$\n" +
+	"\bskill_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12?\n" +
+	"\x04type\x18\x05 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12B\n" +
+	"\x05depth\x18\x06 \x01(\x0e2\".skillsphere.review.v1.ReviewDepthB\b\xbaH\x05\x82\x01\x02\x10\x01R\x05depth\x12 \n" +
+	"\x05title\x18\a \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12E\n" +
+	"\acontent\x18\t \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\x14R\acontent\x12@\n" +
+	"\x12specific_questions\x18\n" +
+	" \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x11specificQuestions\x122\n" +
+	"\x05price\x18\v \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x05price\x12&\n" +
+	"\n" +
+	"payment_id\x18\f \x01(\tB\a\xbaH\x04r\x02\x182R\tpaymentId\x12=\n" +
 	"\frequested_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vrequestedAt\x12;\n" +
 	"\vaccepted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"acceptedAt\x126\n" +
 	"\bdeadline\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12=\n" +
-	"\fcompleted_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x12\x1a\n" +
-	"\bfeedback\x18\x11 \x01(\tR\bfeedback\x12B\n" +
-	"\bsections\x18\x12 \x03(\v2&.skillsphere.review.v1.FeedbackSectionR\bsections\x12C\n" +
-	"\vattachments\x18\x13 \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x12,\n" +
-	"\x12video_feedback_url\x18\x14 \x01(\tR\x10videoFeedbackUrl\x12)\n" +
-	"\x10requester_rating\x18\x15 \x01(\x05R\x0frequesterRating\x12+\n" +
-	"\x11requester_comment\x18\x16 \x01(\tR\x10requesterComment\x12'\n" +
-	"\x0freviewer_rating\x18\x17 \x01(\x05R\x0ereviewerRating\x12)\n" +
-	"\x10reviewer_comment\x18\x18 \x01(\tR\x0freviewerComment\x12;\n" +
-	"\x06status\x18\x19 \x01(\x0e2#.skillsphere.review.v1.ReviewStatusR\x06status\"\xb9\x01\n" +
-	"\x0fFeedbackSection\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\x12\x18\n" +
-	"\acontent\x18\x02 \x01(\tR\acontent\x12\x16\n" +
-	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x1c\n" +
-	"\tstrengths\x18\x04 \x03(\tR\tstrengths\x12\"\n" +
-	"\fimprovements\x18\x05 \x03(\tR\fimprovements\x12\x1c\n" +
-	"\tresources\x18\x06 \x03(\tR\tresources\"\x8a\x03\n" +
+	"\fcompleted_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x12$\n" +
+	"\bfeedback\x18\x11 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\bfeedback\x12L\n" +
+	"\bsections\x18\x12 \x03(\v2&.skillsphere.review.v1.FeedbackSectionB\b\xbaH\x05\x92\x01\x02\x102R\bsections\x12M\n" +
+	"\vattachments\x18\x13 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x129\n" +
+	"\x12video_feedback_url\x18\x14 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x10videoFeedbackUrl\x124\n" +
+	"\x10requester_rating\x18\x15 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x0frequesterRating\x125\n" +
+	"\x11requester_comment\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x10requesterComment\x122\n" +
+	"\x0freviewer_rating\x18\x17 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x0ereviewerRating\x123\n" +
+	"\x10reviewer_comment\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x0freviewerComment\x12E\n" +
+	"\x06status\x18\x19 \x01(\x0e2#.skillsphere.review.v1.ReviewStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"\x92\x02\n" +
+	"\x0fFeedbackSection\x12\x1f\n" +
+	"\x05title\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x05title\x12\"\n" +
+	"\acontent\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\acontent\x12!\n" +
+	"\x06rating\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x06rating\x12/\n" +
+	"\tstrengths\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\tstrengths\x125\n" +
+	"\fimprovements\x18\x05 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\fimprovements\x12/\n" +
+	"\tresources\x18\x06 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\tresources\"\xd4\x03\n" +
 	"\bReviewer\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12\x1c\n" +
-	"\texpertise\x18\x02 \x03(\tR\texpertise\x122\n" +
-	"\x15average_review_rating\x18\x03 \x01(\x01R\x13averageReviewRating\x12#\n" +
-	"\rtotal_reviews\x18\x04 \x01(\x05R\ftotalReviews\x12.\n" +
-	"\x13response_time_hours\x18\x05 \x01(\x05R\x11responseTimeHours\x12=\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12.\n" +
+	"\texpertise\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\texpertise\x12K\n" +
+	"\x15average_review_rating\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\x13averageReviewRating\x12,\n" +
+	"\rtotal_reviews\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ftotalReviews\x12:\n" +
+	"\x13response_time_hours\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xa8\x01(\x00R\x11responseTimeHours\x12=\n" +
 	"\vhourly_rate\x18\x06 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\n" +
-	"hourlyRate\x12D\n" +
-	"\freview_types\x18\a \x03(\x0e2!.skillsphere.review.v1.ReviewTypeR\vreviewTypes\x12!\n" +
-	"\fis_available\x18\b \x01(\bR\visAvailable\"\xee\x03\n" +
-	"\x14RequestReviewRequest\x12!\n" +
-	"\frequester_id\x18\x01 \x01(\tR\vrequesterId\x12\x1f\n" +
-	"\vreviewer_id\x18\x02 \x01(\tR\n" +
-	"reviewerId\x12\x19\n" +
-	"\bskill_id\x18\x03 \x01(\tR\askillId\x125\n" +
-	"\x04type\x18\x04 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeR\x04type\x128\n" +
-	"\x05depth\x18\x05 \x01(\x0e2\".skillsphere.review.v1.ReviewDepthR\x05depth\x12\x14\n" +
-	"\x05title\x18\x06 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\a \x01(\tR\vdescription\x12;\n" +
-	"\acontent\x18\b \x03(\v2!.skillsphere.common.v1.AttachmentR\acontent\x12-\n" +
-	"\x12specific_questions\x18\t \x03(\tR\x11specificQuestions\x126\n" +
+	"hourlyRate\x12N\n" +
+	"\freview_types\x18\a \x03(\x0e2!.skillsphere.review.v1.ReviewTypeB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vreviewTypes\x12!\n" +
+	"\fis_available\x18\b \x01(\bR\visAvailable\"\xdf\x04\n" +
+	"\x14RequestReviewRequest\x12,\n" +
+	"\frequester_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vrequesterId\x12(\n" +
+	"\vreviewer_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\n" +
+	"reviewerId\x12$\n" +
+	"\bskill_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12?\n" +
+	"\x04type\x18\x04 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12B\n" +
+	"\x05depth\x18\x05 \x01(\x0e2\".skillsphere.review.v1.ReviewDepthB\b\xbaH\x05\x82\x01\x02\x10\x01R\x05depth\x12 \n" +
+	"\x05title\x18\x06 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12E\n" +
+	"\acontent\x18\b \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\x14R\acontent\x12@\n" +
+	"\x12specific_questions\x18\t \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x11specificQuestions\x126\n" +
 	"\bdeadline\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12*\n" +
-	"\x11payment_method_id\x18\v \x01(\tR\x0fpaymentMethodId\"\xb9\x01\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x125\n" +
+	"\x11payment_method_id\x18\v \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\"\xc2\x01\n" +
 	"\x15RequestReviewResponse\x125\n" +
 	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\x12=\n" +
 	"\vtotal_price\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\n" +
-	"totalPrice\x12*\n" +
-	"\x11escrow_payment_id\x18\x03 \x01(\tR\x0fescrowPaymentId\"/\n" +
-	"\x10GetReviewRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\"\xbe\x01\n" +
+	"totalPrice\x123\n" +
+	"\x11escrow_payment_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x0fescrowPaymentId\":\n" +
+	"\x10GetReviewRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\"\xbe\x01\n" +
 	"\x11GetReviewResponse\x125\n" +
 	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\x129\n" +
 	"\trequester\x18\x02 \x01(\v2\x1b.skillsphere.common.v1.UserR\trequester\x127\n" +
-	"\breviewer\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\breviewer\"\xa6\x02\n" +
-	"\x13SubmitReviewRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12\x1f\n" +
-	"\vreviewer_id\x18\x02 \x01(\tR\n" +
-	"reviewerId\x12\x1a\n" +
-	"\bfeedback\x18\x03 \x01(\tR\bfeedback\x12B\n" +
-	"\bsections\x18\x04 \x03(\v2&.skillsphere.review.v1.FeedbackSectionR\bsections\x12C\n" +
-	"\vattachments\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x12,\n" +
-	"\x12video_feedback_url\x18\x06 \x01(\tR\x10videoFeedbackUrl\"x\n" +
+	"\breviewer\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\breviewer\"\xe7\x02\n" +
+	"\x13SubmitReviewRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12*\n" +
+	"\vreviewer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reviewerId\x12$\n" +
+	"\bfeedback\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\bfeedback\x12L\n" +
+	"\bsections\x18\x04 \x03(\v2&.skillsphere.review.v1.FeedbackSectionB\b\xbaH\x05\x92\x01\x02\x102R\bsections\x12M\n" +
+	"\vattachments\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x129\n" +
+	"\x12video_feedback_url\x18\x06 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x10videoFeedbackUrl\"x\n" +
 	"\x14SubmitReviewResponse\x125\n" +
 	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\x12)\n" +
-	"\x10payment_released\x18\x02 \x01(\bR\x0fpaymentReleased\"\xe7\x01\n" +
-	"\x14ListReviewersRequest\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\x125\n" +
-	"\x04type\x18\x02 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeR\x04type\x129\n" +
-	"\tmax_price\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\bmaxPrice\x12\x1d\n" +
+	"\x10payment_released\x18\x02 \x01(\bR\x0fpaymentReleased\"\x87\x02\n" +
+	"\x14ListReviewersRequest\x12$\n" +
+	"\bskill_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12?\n" +
+	"\x04type\x18\x02 \x01(\x0e2!.skillsphere.review.v1.ReviewTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x129\n" +
+	"\tmax_price\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\bmaxPrice\x12(\n" +
 	"\n" +
-	"min_rating\x18\x04 \x01(\x05R\tminRating\x12#\n" +
+	"min_rating\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\tminRating\x12#\n" +
 	"\ravailable_now\x18\x05 \x01(\bR\favailableNow\"V\n" +
 	"\x15ListReviewersResponse\x12=\n" +
-	"\treviewers\x18\x01 \x03(\v2\x1f.skillsphere.review.v1.ReviewerR\treviewers\"\xb1\x01\n" +
-	"\x15GetUserReviewsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\treviewers\x18\x01 \x03(\v2\x1f.skillsphere.review.v1.ReviewerR\treviewers\"\xc6\x01\n" +
+	"\x15GetUserReviewsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12!\n" +
 	"\fas_requester\x18\x02 \x01(\bR\vasRequester\x12\x1f\n" +
 	"\vas_reviewer\x18\x03 \x01(\bR\n" +
-	"asReviewer\x12;\n" +
-	"\x06status\x18\x04 \x01(\x0e2#.skillsphere.review.v1.ReviewStatusR\x06status\"\xae\x01\n" +
+	"asReviewer\x12E\n" +
+	"\x06status\x18\x04 \x01(\x0e2#.skillsphere.review.v1.ReviewStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"\xae\x01\n" +
 	"\x16GetUserReviewsResponse\x12J\n" +
 	"\x11requested_reviews\x18\x01 \x03(\v2\x1d.skillsphere.review.v1.ReviewR\x10requestedReviews\x12H\n" +
-	"\x10provided_reviews\x18\x02 \x03(\v2\x1d.skillsphere.review.v1.ReviewR\x0fprovidedReviews\";\n" +
-	"\x18GetPendingReviewsRequest\x12\x1f\n" +
-	"\vreviewer_id\x18\x01 \x01(\tR\n" +
+	"\x10provided_reviews\x18\x02 \x03(\v2\x1d.skillsphere.review.v1.ReviewR\x0fprovidedReviews\"F\n" +
+	"\x18GetPendingReviewsRequest\x12*\n" +
+	"\vreviewer_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
 	"reviewerId\"\x84\x01\n" +
 	"\x19GetPendingReviewsResponse\x12F\n" +
 	"\x0fpending_reviews\x18\x01 \x03(\v2\x1d.skillsphere.review.v1.ReviewR\x0ependingReviews\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xa9\x01\n" +
-	"\x1aAcceptReviewRequestRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12\x1f\n" +
-	"\vreviewer_id\x18\x02 \x01(\tR\n" +
+	"totalCount\"\xbf\x01\n" +
+	"\x1aAcceptReviewRequestRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12*\n" +
+	"\vreviewer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
 	"reviewerId\x12M\n" +
 	"\x14estimated_completion\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x13estimatedCompletion\"T\n" +
 	"\x1bAcceptReviewRequestResponse\x125\n" +
-	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\"s\n" +
-	"\x1bDeclineReviewRequestRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12\x1f\n" +
-	"\vreviewer_id\x18\x02 \x01(\tR\n" +
-	"reviewerId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"]\n" +
+	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\"\x93\x01\n" +
+	"\x1bDeclineReviewRequestRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12*\n" +
+	"\vreviewer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reviewerId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"]\n" +
 	"\x1cDeclineReviewRequestResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"{\n" +
-	"\x11RateReviewRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x18\n" +
-	"\acomment\x18\x04 \x01(\tR\acomment\"K\n" +
+	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"\xa6\x01\n" +
+	"\x11RateReviewRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12!\n" +
+	"\x06rating\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x06rating\x12\"\n" +
+	"\acomment\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acomment\"K\n" +
 	"\x12RateReviewResponse\x125\n" +
-	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\"\xa6\x01\n" +
-	"\x16RequestRevisionRequest\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\tR\breviewId\x12!\n" +
-	"\frequester_id\x18\x02 \x01(\tR\vrequesterId\x12%\n" +
-	"\x0erevision_notes\x18\x03 \x01(\tR\rrevisionNotes\x12%\n" +
-	"\x0especific_areas\x18\x04 \x03(\tR\rspecificAreas\"\x8f\x01\n" +
+	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\"\xd9\x01\n" +
+	"\x16RequestRevisionRequest\x12&\n" +
+	"\treview_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breviewId\x12,\n" +
+	"\frequester_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vrequesterId\x12/\n" +
+	"\x0erevision_notes\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\rrevisionNotes\x128\n" +
+	"\x0especific_areas\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\rspecificAreas\"\x8f\x01\n" +
 	"\x17RequestRevisionResponse\x125\n" +
 	"\x06review\x18\x01 \x01(\v2\x1d.skillsphere.review.v1.ReviewR\x06review\x12=\n" +
 	"\fnew_deadline\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vnewDeadline*\xff\x01\n" +

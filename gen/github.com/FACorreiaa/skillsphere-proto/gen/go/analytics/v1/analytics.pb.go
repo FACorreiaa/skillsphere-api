@@ -7,6 +7,7 @@
 package analyticsv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -248,7 +249,7 @@ type PlatformStats struct {
 	AverageSessionRating float64                `protobuf:"fixed64,7,opt,name=average_session_rating,json=averageSessionRating,proto3" json:"average_session_rating,omitempty"`
 	TotalRevenue         *v1.Money              `protobuf:"bytes,8,opt,name=total_revenue,json=totalRevenue,proto3" json:"total_revenue,omitempty"`
 	PremiumSubscribers   int32                  `protobuf:"varint,9,opt,name=premium_subscribers,json=premiumSubscribers,proto3" json:"premium_subscribers,omitempty"`
-	ConversionRate       float64                `protobuf:"fixed64,10,opt,name=conversion_rate,json=conversionRate,proto3" json:"conversion_rate,omitempty"` // Free to premium
+	ConversionRate       float64                `protobuf:"fixed64,10,opt,name=conversion_rate,json=conversionRate,proto3" json:"conversion_rate,omitempty"`
 	TotalCertifications  int32                  `protobuf:"varint,11,opt,name=total_certifications,json=totalCertifications,proto3" json:"total_certifications,omitempty"`
 	TotalWorkshops       int32                  `protobuf:"varint,12,opt,name=total_workshops,json=totalWorkshops,proto3" json:"total_workshops,omitempty"`
 	TotalGigs            int32                  `protobuf:"varint,13,opt,name=total_gigs,json=totalGigs,proto3" json:"total_gigs,omitempty"`
@@ -390,7 +391,7 @@ type GetSkillTrendsRequest struct {
 	StartDate     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
 	EndDate       *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
 	Granularity   TimeGranularity        `protobuf:"varint,3,opt,name=granularity,proto3,enum=skillsphere.analytics.v1.TimeGranularity" json:"granularity,omitempty"`
-	TopN          int32                  `protobuf:"varint,4,opt,name=top_n,json=topN,proto3" json:"top_n,omitempty"` // Top N skills
+	TopN          int32                  `protobuf:"varint,4,opt,name=top_n,json=topN,proto3" json:"top_n,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -502,7 +503,7 @@ type SkillTrend struct {
 	SkillId       string                 `protobuf:"bytes,1,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
 	SkillName     string                 `protobuf:"bytes,2,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
 	DataPoints    []*DataPoint           `protobuf:"bytes,3,rep,name=data_points,json=dataPoints,proto3" json:"data_points,omitempty"`
-	GrowthRate    float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"` // Percentage
+	GrowthRate    float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"`
 	TotalSessions int32                  `protobuf:"varint,5,opt,name=total_sessions,json=totalSessions,proto3" json:"total_sessions,omitempty"`
 	TotalUsers    int32                  `protobuf:"varint,6,opt,name=total_users,json=totalUsers,proto3" json:"total_users,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -645,7 +646,7 @@ type GetUserEngagementRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StartDate     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
 	EndDate       *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Optional for specific user
+	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -755,7 +756,7 @@ type EngagementMetrics struct {
 	TotalMessagesSent             int32                  `protobuf:"varint,6,opt,name=total_messages_sent,json=totalMessagesSent,proto3" json:"total_messages_sent,omitempty"`
 	TotalSearches                 int32                  `protobuf:"varint,7,opt,name=total_searches,json=totalSearches,proto3" json:"total_searches,omitempty"`
 	TopFeatures                   []*TopFeature          `protobuf:"bytes,8,rep,name=top_features,json=topFeatures,proto3" json:"top_features,omitempty"`
-	Stickiness                    float64                `protobuf:"fixed64,9,opt,name=stickiness,proto3" json:"stickiness,omitempty"` // DAU/MAU ratio
+	Stickiness                    float64                `protobuf:"fixed64,9,opt,name=stickiness,proto3" json:"stickiness,omitempty"`
 	unknownFields                 protoimpl.UnknownFields
 	sizeCache                     protoimpl.SizeCache
 }
@@ -1339,7 +1340,7 @@ func (x *GetSessionAnalyticsResponse) GetPeakHours() []*TimeSlotPopularity {
 
 type TimeSlotPopularity struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Hour          int32                  `protobuf:"varint,1,opt,name=hour,proto3" json:"hour,omitempty"` // 0-23
+	Hour          int32                  `protobuf:"varint,1,opt,name=hour,proto3" json:"hour,omitempty"`
 	SessionCount  int32                  `protobuf:"varint,2,opt,name=session_count,json=sessionCount,proto3" json:"session_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1527,7 +1528,7 @@ func (x *GetUserGrowthResponse) GetChurnRate() float64 {
 
 type GetGeographicDistributionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Metric        string                 `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"` // "users", "sessions", "revenue"
+	Metric        string                 `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1700,8 +1701,8 @@ func (x *GeographicData) GetPercentage() float64 {
 type GetRetentionMetricsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CohortStart   *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=cohort_start,json=cohortStart,proto3" json:"cohort_start,omitempty"`
-	Periods       int32                  `protobuf:"varint,2,opt,name=periods,proto3" json:"periods,omitempty"`                        // Number of periods to track
-	PeriodType    string                 `protobuf:"bytes,3,opt,name=period_type,json=periodType,proto3" json:"period_type,omitempty"` // "day", "week", "month"
+	Periods       int32                  `protobuf:"varint,2,opt,name=periods,proto3" json:"periods,omitempty"`
+	PeriodType    string                 `protobuf:"bytes,3,opt,name=period_type,json=periodType,proto3" json:"period_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1813,7 +1814,7 @@ type RetentionCohort struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	CohortDate        *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=cohort_date,json=cohortDate,proto3" json:"cohort_date,omitempty"`
 	InitialUsers      int32                  `protobuf:"varint,2,opt,name=initial_users,json=initialUsers,proto3" json:"initial_users,omitempty"`
-	RetentionByPeriod []float64              `protobuf:"fixed64,3,rep,packed,name=retention_by_period,json=retentionByPeriod,proto3" json:"retention_by_period,omitempty"` // Percentage retained each period
+	RetentionByPeriod []float64              `protobuf:"fixed64,3,rep,packed,name=retention_by_period,json=retentionByPeriod,proto3" json:"retention_by_period,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1873,7 +1874,7 @@ type GetConversionFunnelRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StartDate     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
 	EndDate       *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	FunnelName    string                 `protobuf:"bytes,3,opt,name=funnel_name,json=funnelName,proto3" json:"funnel_name,omitempty"` // e.g., "signup", "subscription"
+	FunnelName    string                 `protobuf:"bytes,3,opt,name=funnel_name,json=funnelName,proto3" json:"funnel_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1985,7 +1986,7 @@ type FunnelStage struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	UserCount      int32                  `protobuf:"varint,2,opt,name=user_count,json=userCount,proto3" json:"user_count,omitempty"`
-	ConversionRate float64                `protobuf:"fixed64,3,opt,name=conversion_rate,json=conversionRate,proto3" json:"conversion_rate,omitempty"` // To next stage
+	ConversionRate float64                `protobuf:"fixed64,3,opt,name=conversion_rate,json=conversionRate,proto3" json:"conversion_rate,omitempty"`
 	DropOffRate    float64                `protobuf:"fixed64,4,opt,name=drop_off_rate,json=dropOffRate,proto3" json:"drop_off_rate,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -2055,7 +2056,7 @@ type TrackEventRequest struct {
 	EventName     string                 `protobuf:"bytes,2,opt,name=event_name,json=eventName,proto3" json:"event_name,omitempty"`
 	Properties    map[string]string      `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	SessionId     string                 `protobuf:"bytes,5,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"` // Optional session context
+	SessionId     string                 `protobuf:"bytes,5,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2369,7 +2370,7 @@ var File_analytics_v1_analytics_proto protoreflect.FileDescriptor
 
 const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\n" +
-	"\x1canalytics/v1/analytics.proto\x12\x18skillsphere.analytics.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x8b\x01\n" +
+	"\x1canalytics/v1/analytics.proto\x12\x18skillsphere.analytics.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\x8b\x01\n" +
 	"\x17GetPlatformStatsRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
@@ -2377,88 +2378,88 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x18GetPlatformStatsResponse\x12=\n" +
 	"\x05stats\x18\x01 \x01(\v2'.skillsphere.analytics.v1.PlatformStatsR\x05stats\x12;\n" +
 	"\vcomputed_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"computedAt\"\xe4\x04\n" +
-	"\rPlatformStats\x12\x1f\n" +
-	"\vtotal_users\x18\x01 \x01(\x05R\n" +
-	"totalUsers\x12!\n" +
-	"\factive_users\x18\x02 \x01(\x05R\vactiveUsers\x12\x1b\n" +
-	"\tnew_users\x18\x03 \x01(\x05R\bnewUsers\x12%\n" +
-	"\x0etotal_sessions\x18\x04 \x01(\x05R\rtotalSessions\x12-\n" +
-	"\x12completed_sessions\x18\x05 \x01(\x05R\x11completedSessions\x12!\n" +
-	"\ftotal_skills\x18\x06 \x01(\x05R\vtotalSkills\x124\n" +
-	"\x16average_session_rating\x18\a \x01(\x01R\x14averageSessionRating\x12A\n" +
-	"\rtotal_revenue\x18\b \x01(\v2\x1c.skillsphere.common.v1.MoneyR\ftotalRevenue\x12/\n" +
-	"\x13premium_subscribers\x18\t \x01(\x05R\x12premiumSubscribers\x12'\n" +
+	"computedAt\"\x89\x06\n" +
+	"\rPlatformStats\x12(\n" +
+	"\vtotal_users\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalUsers\x12*\n" +
+	"\factive_users\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vactiveUsers\x12$\n" +
+	"\tnew_users\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\bnewUsers\x12.\n" +
+	"\x0etotal_sessions\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x126\n" +
+	"\x12completed_sessions\x18\x05 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11completedSessions\x12*\n" +
+	"\ftotal_skills\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vtotalSkills\x12M\n" +
+	"\x16average_session_rating\x18\a \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\x14averageSessionRating\x12A\n" +
+	"\rtotal_revenue\x18\b \x01(\v2\x1c.skillsphere.common.v1.MoneyR\ftotalRevenue\x128\n" +
+	"\x13premium_subscribers\x18\t \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12premiumSubscribers\x12@\n" +
 	"\x0fconversion_rate\x18\n" +
-	" \x01(\x01R\x0econversionRate\x121\n" +
-	"\x14total_certifications\x18\v \x01(\x05R\x13totalCertifications\x12'\n" +
-	"\x0ftotal_workshops\x18\f \x01(\x05R\x0etotalWorkshops\x12\x1d\n" +
+	" \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x0econversionRate\x12:\n" +
+	"\x14total_certifications\x18\v \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x13totalCertifications\x120\n" +
+	"\x0ftotal_workshops\x18\f \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0etotalWorkshops\x12&\n" +
 	"\n" +
-	"total_gigs\x18\r \x01(\x05R\ttotalGigs\x12+\n" +
-	"\x11user_satisfaction\x18\x0e \x01(\x01R\x10userSatisfaction\"\xeb\x01\n" +
+	"total_gigs\x18\r \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ttotalGigs\x12D\n" +
+	"\x11user_satisfaction\x18\x0e \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x10userSatisfaction\"\x80\x02\n" +
 	"\x15GetSkillTrendsRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12K\n" +
-	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityR\vgranularity\x12\x13\n" +
-	"\x05top_n\x18\x04 \x01(\x05R\x04topN\"V\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12U\n" +
+	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityB\b\xbaH\x05\x82\x01\x02\x10\x01R\vgranularity\x12\x1e\n" +
+	"\x05top_n\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x04topN\"V\n" +
 	"\x16GetSkillTrendsResponse\x12<\n" +
-	"\x06trends\x18\x01 \x03(\v2$.skillsphere.analytics.v1.SkillTrendR\x06trends\"\xf5\x01\n" +
+	"\x06trends\x18\x01 \x03(\v2$.skillsphere.analytics.v1.SkillTrendR\x06trends\"\xc1\x02\n" +
 	"\n" +
-	"SkillTrend\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\x12\x1d\n" +
+	"SkillTrend\x12$\n" +
+	"\bskill_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12(\n" +
 	"\n" +
-	"skill_name\x18\x02 \x01(\tR\tskillName\x12D\n" +
-	"\vdata_points\x18\x03 \x03(\v2#.skillsphere.analytics.v1.DataPointR\n" +
-	"dataPoints\x12\x1f\n" +
-	"\vgrowth_rate\x18\x04 \x01(\x01R\n" +
-	"growthRate\x12%\n" +
-	"\x0etotal_sessions\x18\x05 \x01(\x05R\rtotalSessions\x12\x1f\n" +
-	"\vtotal_users\x18\x06 \x01(\x05R\n" +
-	"totalUsers\"\xa2\x01\n" +
+	"skill_name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12O\n" +
+	"\vdata_points\x18\x03 \x03(\v2#.skillsphere.analytics.v1.DataPointB\t\xbaH\x06\x92\x01\x03\x10\xf4\x03R\n" +
+	"dataPoints\x128\n" +
+	"\vgrowth_rate\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00Y\xc0R\n" +
+	"growthRate\x12.\n" +
+	"\x0etotal_sessions\x18\x05 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x12(\n" +
+	"\vtotal_users\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalUsers\"\xac\x01\n" +
 	"\tDataPoint\x128\n" +
 	"\ttimestamp\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value\x12E\n" +
-	"\vmetric_type\x18\x03 \x01(\x0e2$.skillsphere.analytics.v1.MetricTypeR\n" +
-	"metricType\"\xa5\x01\n" +
+	"\x05value\x18\x02 \x01(\x01R\x05value\x12O\n" +
+	"\vmetric_type\x18\x03 \x01(\x0e2$.skillsphere.analytics.v1.MetricTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"metricType\"\xae\x01\n" +
 	"\x18GetUserEngagementRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\"b\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12 \n" +
+	"\auser_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x06userId\"b\n" +
 	"\x19GetUserEngagementResponse\x12E\n" +
-	"\ametrics\x18\x01 \x01(\v2+.skillsphere.analytics.v1.EngagementMetricsR\ametrics\"\xd8\x03\n" +
-	"\x11EngagementMetrics\x12,\n" +
-	"\x12daily_active_users\x18\x01 \x01(\x05R\x10dailyActiveUsers\x12.\n" +
-	"\x13weekly_active_users\x18\x02 \x01(\x05R\x11weeklyActiveUsers\x120\n" +
-	"\x14monthly_active_users\x18\x03 \x01(\x05R\x12monthlyActiveUsers\x12G\n" +
-	" average_session_duration_minutes\x18\x04 \x01(\x01R\x1daverageSessionDurationMinutes\x12*\n" +
-	"\x11sessions_per_user\x18\x05 \x01(\x01R\x0fsessionsPerUser\x12.\n" +
-	"\x13total_messages_sent\x18\x06 \x01(\x05R\x11totalMessagesSent\x12%\n" +
-	"\x0etotal_searches\x18\a \x01(\x05R\rtotalSearches\x12G\n" +
-	"\ftop_features\x18\b \x03(\v2$.skillsphere.analytics.v1.TopFeatureR\vtopFeatures\x12\x1e\n" +
+	"\ametrics\x18\x01 \x01(\v2+.skillsphere.analytics.v1.EngagementMetricsR\ametrics\"\xda\x04\n" +
+	"\x11EngagementMetrics\x125\n" +
+	"\x12daily_active_users\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x10dailyActiveUsers\x127\n" +
+	"\x13weekly_active_users\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11weeklyActiveUsers\x129\n" +
+	"\x14monthly_active_users\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12monthlyActiveUsers\x12`\n" +
+	" average_session_duration_minutes\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80\x96@)\x00\x00\x00\x00\x00\x00\x00\x00R\x1daverageSessionDurationMinutes\x12C\n" +
+	"\x11sessions_per_user\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x0fsessionsPerUser\x127\n" +
+	"\x13total_messages_sent\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11totalMessagesSent\x12.\n" +
+	"\x0etotal_searches\x18\a \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSearches\x12Q\n" +
+	"\ftop_features\x18\b \x03(\v2$.skillsphere.analytics.v1.TopFeatureB\b\xbaH\x05\x92\x01\x02\x10\x14R\vtopFeatures\x127\n" +
 	"\n" +
-	"stickiness\x18\t \x01(\x01R\n" +
-	"stickiness\"p\n" +
+	"stickiness\x18\t \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"stickiness\"\x9d\x01\n" +
 	"\n" +
-	"TopFeature\x12!\n" +
-	"\ffeature_name\x18\x01 \x01(\tR\vfeatureName\x12\x1f\n" +
-	"\vusage_count\x18\x02 \x01(\x05R\n" +
-	"usageCount\x12\x1e\n" +
+	"TopFeature\x12,\n" +
+	"\ffeature_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\vfeatureName\x12(\n" +
+	"\vusage_count\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"usageCount\x127\n" +
 	"\n" +
-	"percentage\x18\x03 \x01(\x01R\n" +
-	"percentage\"\xdb\x01\n" +
+	"percentage\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"percentage\"\xe5\x01\n" +
 	"\x1aGetRevenueAnalyticsRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12K\n" +
-	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityR\vgranularity\"\x90\x03\n" +
-	"\x1bGetRevenueAnalyticsResponse\x12V\n" +
-	"\x11revenue_over_time\x18\x01 \x03(\v2*.skillsphere.analytics.v1.RevenueDataPointR\x0frevenueOverTime\x12H\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12U\n" +
+	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityB\b\xbaH\x05\x82\x01\x02\x10\x01R\vgranularity\"\xb4\x03\n" +
+	"\x1bGetRevenueAnalyticsResponse\x12a\n" +
+	"\x11revenue_over_time\x18\x01 \x03(\v2*.skillsphere.analytics.v1.RevenueDataPointB\t\xbaH\x06\x92\x01\x03\x10\xf4\x03R\x0frevenueOverTime\x12H\n" +
 	"\tbreakdown\x18\x02 \x01(\v2*.skillsphere.analytics.v1.RevenueBreakdownR\tbreakdown\x12A\n" +
 	"\rtotal_revenue\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\ftotalRevenue\x12U\n" +
-	"\x18average_revenue_per_user\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x15averageRevenuePerUser\x125\n" +
-	"\x17month_over_month_growth\x18\x05 \x01(\x01R\x14monthOverMonthGrowth\"\x82\x01\n" +
+	"\x18average_revenue_per_user\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x15averageRevenuePerUser\x12N\n" +
+	"\x17month_over_month_growth\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00Y\xc0R\x14monthOverMonthGrowth\"\x82\x01\n" +
 	"\x10RevenueDataPoint\x128\n" +
 	"\ttimestamp\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x124\n" +
 	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\"\xc2\x02\n" +
@@ -2471,110 +2472,114 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x1aGetSessionAnalyticsRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xd7\x03\n" +
-	"\x1bGetSessionAnalyticsResponse\x12%\n" +
-	"\x0etotal_sessions\x18\x01 \x01(\x05R\rtotalSessions\x12-\n" +
-	"\x12completed_sessions\x18\x02 \x01(\x05R\x11completedSessions\x12-\n" +
-	"\x12cancelled_sessions\x18\x03 \x01(\x05R\x11cancelledSessions\x12(\n" +
-	"\x10no_show_sessions\x18\x04 \x01(\x05R\x0enoShowSessions\x12'\n" +
-	"\x0fcompletion_rate\x18\x05 \x01(\x01R\x0ecompletionRate\x12%\n" +
-	"\x0eaverage_rating\x18\x06 \x01(\x01R\raverageRating\x128\n" +
-	"\x18average_duration_minutes\x18\a \x01(\x01R\x16averageDurationMinutes\x122\n" +
-	"\x15most_exchanged_skills\x18\b \x03(\tR\x13mostExchangedSkills\x12K\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xe2\x04\n" +
+	"\x1bGetSessionAnalyticsResponse\x12.\n" +
+	"\x0etotal_sessions\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x126\n" +
+	"\x12completed_sessions\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11completedSessions\x126\n" +
+	"\x12cancelled_sessions\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11cancelledSessions\x121\n" +
+	"\x10no_show_sessions\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0enoShowSessions\x12@\n" +
+	"\x0fcompletion_rate\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x0ecompletionRate\x12>\n" +
+	"\x0eaverage_rating\x18\x06 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\raverageRating\x12Q\n" +
+	"\x18average_duration_minutes\x18\a \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80\x96@)\x00\x00\x00\x00\x00\x00\x00\x00R\x16averageDurationMinutes\x12D\n" +
+	"\x15most_exchanged_skills\x18\b \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x18dR\x13mostExchangedSkills\x12U\n" +
 	"\n" +
-	"peak_hours\x18\t \x03(\v2,.skillsphere.analytics.v1.TimeSlotPopularityR\tpeakHours\"M\n" +
-	"\x12TimeSlotPopularity\x12\x12\n" +
-	"\x04hour\x18\x01 \x01(\x05R\x04hour\x12#\n" +
-	"\rsession_count\x18\x02 \x01(\x05R\fsessionCount\"\xd5\x01\n" +
+	"peak_hours\x18\t \x03(\v2,.skillsphere.analytics.v1.TimeSlotPopularityB\b\xbaH\x05\x92\x01\x02\x10\x18R\tpeakHours\"a\n" +
+	"\x12TimeSlotPopularity\x12\x1d\n" +
+	"\x04hour\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x17(\x00R\x04hour\x12,\n" +
+	"\rsession_count\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fsessionCount\"\xdf\x01\n" +
 	"\x14GetUserGrowthRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12K\n" +
-	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityR\vgranularity\"\xe7\x01\n" +
-	"\x15GetUserGrowthResponse\x12D\n" +
-	"\vgrowth_data\x18\x01 \x03(\v2#.skillsphere.analytics.v1.DataPointR\n" +
-	"growthData\x12#\n" +
-	"\rtotal_signups\x18\x02 \x01(\x05R\ftotalSignups\x12\x1f\n" +
-	"\vgrowth_rate\x18\x03 \x01(\x01R\n" +
-	"growthRate\x12#\n" +
-	"\rchurned_users\x18\x04 \x01(\x05R\fchurnedUsers\x12\x1d\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12U\n" +
+	"\vgranularity\x18\x03 \x01(\x0e2).skillsphere.analytics.v1.TimeGranularityB\b\xbaH\x05\x82\x01\x02\x10\x01R\vgranularity\"\xb6\x02\n" +
+	"\x15GetUserGrowthResponse\x12O\n" +
+	"\vgrowth_data\x18\x01 \x03(\v2#.skillsphere.analytics.v1.DataPointB\t\xbaH\x06\x92\x01\x03\x10\xf4\x03R\n" +
+	"growthData\x12,\n" +
+	"\rtotal_signups\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ftotalSignups\x128\n" +
+	"\vgrowth_rate\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00Y\xc0R\n" +
+	"growthRate\x12,\n" +
+	"\rchurned_users\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fchurnedUsers\x126\n" +
 	"\n" +
-	"churn_rate\x18\x05 \x01(\x01R\tchurnRate\":\n" +
-	" GetGeographicDistributionRequest\x12\x16\n" +
-	"\x06metric\x18\x01 \x01(\tR\x06metric\"a\n" +
-	"!GetGeographicDistributionResponse\x12<\n" +
-	"\x04data\x18\x01 \x03(\v2(.skillsphere.analytics.v1.GeographicDataR\x04data\"\xe9\x01\n" +
-	"\x0eGeographicData\x12\x18\n" +
-	"\acountry\x18\x01 \x01(\tR\acountry\x12!\n" +
-	"\fcountry_code\x18\x02 \x01(\tR\vcountryCode\x12\x1d\n" +
+	"churn_rate\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\tchurnRate\"E\n" +
+	" GetGeographicDistributionRequest\x12!\n" +
+	"\x06metric\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x06metric\"l\n" +
+	"!GetGeographicDistributionResponse\x12G\n" +
+	"\x04data\x18\x01 \x03(\v2(.skillsphere.analytics.v1.GeographicDataB\t\xbaH\x06\x92\x01\x03\x10\xac\x02R\x04data\"\xb0\x02\n" +
+	"\x0eGeographicData\x12!\n" +
+	"\acountry\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18dR\acountry\x124\n" +
+	"\fcountry_code\x18\x02 \x01(\tB\x11\xbaH\x0er\f2\n" +
+	"^[A-Z]{2}$R\vcountryCode\x12&\n" +
 	"\n" +
-	"user_count\x18\x03 \x01(\x05R\tuserCount\x12#\n" +
-	"\rsession_count\x18\x04 \x01(\x05R\fsessionCount\x126\n" +
-	"\arevenue\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\arevenue\x12\x1e\n" +
+	"user_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tuserCount\x12,\n" +
+	"\rsession_count\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fsessionCount\x126\n" +
+	"\arevenue\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\arevenue\x127\n" +
 	"\n" +
-	"percentage\x18\x06 \x01(\x01R\n" +
-	"percentage\"\x96\x01\n" +
+	"percentage\x18\x06 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"percentage\"\xac\x01\n" +
 	"\x1aGetRetentionMetricsRequest\x12=\n" +
-	"\fcohort_start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcohortStart\x12\x18\n" +
-	"\aperiods\x18\x02 \x01(\x05R\aperiods\x12\x1f\n" +
-	"\vperiod_type\x18\x03 \x01(\tR\n" +
-	"periodType\"\x98\x01\n" +
-	"\x1bGetRetentionMetricsResponse\x12C\n" +
-	"\acohorts\x18\x01 \x03(\v2).skillsphere.analytics.v1.RetentionCohortR\acohorts\x124\n" +
-	"\x16overall_retention_rate\x18\x02 \x01(\x01R\x14overallRetentionRate\"\xa3\x01\n" +
+	"\fcohort_start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcohortStart\x12#\n" +
+	"\aperiods\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x184(\x01R\aperiods\x12*\n" +
+	"\vperiod_type\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x03\x18\n" +
+	"R\n" +
+	"periodType\"\xbb\x01\n" +
+	"\x1bGetRetentionMetricsResponse\x12M\n" +
+	"\acohorts\x18\x01 \x03(\v2).skillsphere.analytics.v1.RetentionCohortB\b\xbaH\x05\x92\x01\x02\x104R\acohorts\x12M\n" +
+	"\x16overall_retention_rate\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x14overallRetentionRate\"\xb6\x01\n" +
 	"\x0fRetentionCohort\x12;\n" +
 	"\vcohort_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"cohortDate\x12#\n" +
-	"\rinitial_users\x18\x02 \x01(\x05R\finitialUsers\x12.\n" +
-	"\x13retention_by_period\x18\x03 \x03(\x01R\x11retentionByPeriod\"\xaf\x01\n" +
+	"cohortDate\x12,\n" +
+	"\rinitial_users\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\finitialUsers\x128\n" +
+	"\x13retention_by_period\x18\x03 \x03(\x01B\b\xbaH\x05\x92\x01\x02\x104R\x11retentionByPeriod\"\xba\x01\n" +
 	"\x1aGetConversionFunnelRequest\x129\n" +
 	"\n" +
 	"start_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x1f\n" +
-	"\vfunnel_name\x18\x03 \x01(\tR\n" +
-	"funnelName\"\x94\x01\n" +
-	"\x1bGetConversionFunnelResponse\x12=\n" +
-	"\x06stages\x18\x01 \x03(\v2%.skillsphere.analytics.v1.FunnelStageR\x06stages\x126\n" +
-	"\x17overall_conversion_rate\x18\x02 \x01(\x01R\x15overallConversionRate\"\x8d\x01\n" +
-	"\vFunnelStage\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
+	"\bend_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12*\n" +
+	"\vfunnel_name\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"funnelName\"\xb7\x01\n" +
+	"\x1bGetConversionFunnelResponse\x12G\n" +
+	"\x06stages\x18\x01 \x03(\v2%.skillsphere.analytics.v1.FunnelStageB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\x06stages\x12O\n" +
+	"\x17overall_conversion_rate\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x15overallConversionRate\"\xd3\x01\n" +
+	"\vFunnelStage\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x04name\x12&\n" +
 	"\n" +
-	"user_count\x18\x02 \x01(\x05R\tuserCount\x12'\n" +
-	"\x0fconversion_rate\x18\x03 \x01(\x01R\x0econversionRate\x12\"\n" +
-	"\rdrop_off_rate\x18\x04 \x01(\x01R\vdropOffRate\"\xc0\x02\n" +
-	"\x11TrackEventRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"user_count\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tuserCount\x12@\n" +
+	"\x0fconversion_rate\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x0econversionRate\x12;\n" +
+	"\rdrop_off_rate\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\vdropOffRate\"\xf8\x02\n" +
+	"\x11TrackEventRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12(\n" +
 	"\n" +
-	"event_name\x18\x02 \x01(\tR\teventName\x12[\n" +
+	"event_name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\teventName\x12t\n" +
 	"\n" +
-	"properties\x18\x03 \x03(\v2;.skillsphere.analytics.v1.TrackEventRequest.PropertiesEntryR\n" +
+	"properties\x18\x03 \x03(\v2;.skillsphere.analytics.v1.TrackEventRequest.PropertiesEntryB\x17\xbaH\x14\x9a\x01\x11\x102\"\x06r\x04\x10\x01\x182*\x05r\x03\x18\xc8\x01R\n" +
 	"properties\x128\n" +
-	"\ttimestamp\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12\x1d\n" +
+	"\ttimestamp\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12&\n" +
 	"\n" +
-	"session_id\x18\x05 \x01(\tR\tsessionId\x1a=\n" +
+	"session_id\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x182R\tsessionId\x1a=\n" +
 	"\x0fPropertiesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"I\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"T\n" +
 	"\x12TrackEventResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x19\n" +
-	"\bevent_id\x18\x02 \x01(\tR\aeventId\"\xa2\x01\n" +
-	"\x15GetUserJourneyRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x129\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12$\n" +
+	"\bevent_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aeventId\"\xad\x01\n" +
+	"\x15GetUserJourneyRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x129\n" +
 	"\n" +
 	"start_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xa5\x01\n" +
-	"\x16GetUserJourneyResponse\x12;\n" +
-	"\x06events\x18\x01 \x03(\v2#.skillsphere.analytics.v1.UserEventR\x06events\x12'\n" +
-	"\x0fjourney_summary\x18\x02 \x01(\tR\x0ejourneySummary\x12%\n" +
-	"\x0ekey_milestones\x18\x03 \x03(\tR\rkeyMilestones\"\x8c\x02\n" +
-	"\tUserEvent\x12\x1d\n" +
+	"\bend_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xcd\x01\n" +
+	"\x16GetUserJourneyResponse\x12F\n" +
+	"\x06events\x18\x01 \x03(\v2#.skillsphere.analytics.v1.UserEventB\t\xbaH\x06\x92\x01\x03\x10\xf4\x03R\x06events\x121\n" +
+	"\x0fjourney_summary\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xa0\x1fR\x0ejourneySummary\x128\n" +
+	"\x0ekey_milestones\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x102\"\ar\x05\x10\x01\x18\xc8\x01R\rkeyMilestones\"\xba\x02\n" +
+	"\tUserEvent\x12(\n" +
 	"\n" +
-	"event_name\x18\x01 \x01(\tR\teventName\x128\n" +
-	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12S\n" +
+	"event_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\teventName\x128\n" +
+	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12l\n" +
 	"\n" +
-	"properties\x18\x03 \x03(\v23.skillsphere.analytics.v1.UserEvent.PropertiesEntryR\n" +
-	"properties\x12\x12\n" +
-	"\x04page\x18\x04 \x01(\tR\x04page\x1a=\n" +
+	"properties\x18\x03 \x03(\v23.skillsphere.analytics.v1.UserEvent.PropertiesEntryB\x17\xbaH\x14\x9a\x01\x11\x10\x14\"\x06r\x04\x10\x01\x182*\x05r\x03\x18\xc8\x01R\n" +
+	"properties\x12\x1c\n" +
+	"\x04page\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x04page\x1a=\n" +
 	"\x0fPropertiesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\xa7\x01\n" +

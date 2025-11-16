@@ -7,6 +7,7 @@
 package userv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -28,7 +29,7 @@ type CreateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
-	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"` // Will be hashed on server
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
 	DisplayName   string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	Bio           string                 `protobuf:"bytes,5,opt,name=bio,proto3" json:"bio,omitempty"`
 	Location      *v1.Location           `protobuf:"bytes,6,opt,name=location,proto3" json:"location,omitempty"`
@@ -111,7 +112,7 @@ func (x *CreateUserRequest) GetLocation() *v1.Location {
 type CreateUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"` // JWT for immediate login
+	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -250,7 +251,7 @@ func (x *GetUserResponse) GetUser() *v1.User {
 
 type BatchGetUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserIds       []string               `protobuf:"bytes,1,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"` // Max 100
+	UserIds       []string               `protobuf:"bytes,1,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -295,7 +296,7 @@ func (x *BatchGetUsersRequest) GetUserIds() []string {
 type BatchGetUsersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Users         []*v1.User             `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
-	NotFoundIds   []string               `protobuf:"bytes,2,rep,name=not_found_ids,json=notFoundIds,proto3" json:"not_found_ids,omitempty"` // IDs that don't exist
+	NotFoundIds   []string               `protobuf:"bytes,2,rep,name=not_found_ids,json=notFoundIds,proto3" json:"not_found_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -347,7 +348,7 @@ func (x *BatchGetUsersResponse) GetNotFoundIds() []string {
 type UpdateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"` // e.g., "bio,avatar_url,location"
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -443,7 +444,7 @@ func (x *UpdateUserResponse) GetUser() *v1.User {
 type DeleteUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"` // Optional reason for deletion
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -546,11 +547,11 @@ func (x *DeleteUserResponse) GetMessage() string {
 
 type ListUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`   // Default 20, max 100
-	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"` // Opaque cursor for pagination
+	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	Filters       *v1.SearchFilters      `protobuf:"bytes,3,opt,name=filters,proto3" json:"filters,omitempty"`
-	SortBy        string                 `protobuf:"bytes,4,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"` // e.g., "created_at", "rating", "sessions"
-	Ascending     bool                   `protobuf:"varint,5,opt,name=ascending,proto3" json:"ascending,omitempty"`        // Default false (descending)
+	SortBy        string                 `protobuf:"bytes,4,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`
+	Ascending     bool                   `protobuf:"varint,5,opt,name=ascending,proto3" json:"ascending,omitempty"` // Default false (descending)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -734,7 +735,7 @@ type GetUserStatsResponse struct {
 	TotalReviews       int32                  `protobuf:"varint,6,opt,name=total_reviews,json=totalReviews,proto3" json:"total_reviews,omitempty"`
 	SkillsOfferedCount int32                  `protobuf:"varint,7,opt,name=skills_offered_count,json=skillsOfferedCount,proto3" json:"skills_offered_count,omitempty"`
 	SkillsWantedCount  int32                  `protobuf:"varint,8,opt,name=skills_wanted_count,json=skillsWantedCount,proto3" json:"skills_wanted_count,omitempty"`
-	ActiveDays         int32                  `protobuf:"varint,9,opt,name=active_days,json=activeDays,proto3" json:"active_days,omitempty"` // Days since last activity
+	ActiveDays         int32                  `protobuf:"varint,9,opt,name=active_days,json=activeDays,proto3" json:"active_days,omitempty"`
 	MemberSince        *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=member_since,json=memberSince,proto3" json:"member_since,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -1359,7 +1360,7 @@ func (x *GetUserRatingsResponse) GetAverageScore() float64 {
 type VerifyUserRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	UserId             string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	VerificationMethod string                 `protobuf:"bytes,2,opt,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"` // e.g., "email", "phone", "document"
+	VerificationMethod string                 `protobuf:"bytes,2,opt,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
 	VerificationToken  string                 `protobuf:"bytes,3,opt,name=verification_token,json=verificationToken,proto3" json:"verification_token,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -1419,7 +1420,7 @@ func (x *VerifyUserRequest) GetVerificationToken() string {
 type VerifyUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Verified      bool                   `protobuf:"varint,1,opt,name=verified,proto3" json:"verified,omitempty"`
-	BadgeUrl      string                 `protobuf:"bytes,2,opt,name=badge_url,json=badgeUrl,proto3" json:"badge_url,omitempty"` // URL to verification badge image
+	BadgeUrl      string                 `protobuf:"bytes,2,opt,name=badge_url,json=badgeUrl,proto3" json:"badge_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1472,109 +1473,115 @@ var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\x13skillsphere.user.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x16common/v1/common.proto\"\xd3\x01\n" +
-	"\x11CreateUserRequest\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\x12!\n" +
-	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12\x10\n" +
-	"\x03bio\x18\x05 \x01(\tR\x03bio\x12;\n" +
-	"\blocation\x18\x06 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\"h\n" +
+	"\x12user/v1/user.proto\x12\x13skillsphere.user.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\x8b\x02\n" +
+	"\x11CreateUserRequest\x12 \n" +
+	"\x05email\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x18\xfe\x01`\x01R\x05email\x12%\n" +
+	"\busername\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x03\x18\x1eR\busername\x12&\n" +
+	"\bpassword\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\b\x18\x80\x01R\bpassword\x12,\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\vdisplayName\x12\x1a\n" +
+	"\x03bio\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x03bio\x12;\n" +
+	"\blocation\x18\x06 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\"t\n" +
 	"\x12CreateUserResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12!\n" +
-	"\faccess_token\x18\x02 \x01(\tR\vaccessToken\")\n" +
-	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"B\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12-\n" +
+	"\faccess_token\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x80\x10R\vaccessToken\"4\n" +
+	"\x0eGetUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"B\n" +
 	"\x0fGetUserResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"1\n" +
-	"\x14BatchGetUsersRequest\x12\x19\n" +
-	"\buser_ids\x18\x01 \x03(\tR\auserIds\"n\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"E\n" +
+	"\x14BatchGetUsersRequest\x12-\n" +
+	"\buser_ids\x18\x01 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10d\"\x06r\x04\x10\x01\x182R\auserIds\"\x80\x01\n" +
 	"\x15BatchGetUsersResponse\x121\n" +
-	"\x05users\x18\x01 \x03(\v2\x1b.skillsphere.common.v1.UserR\x05users\x12\"\n" +
-	"\rnot_found_ids\x18\x02 \x03(\tR\vnotFoundIds\"\x81\x01\n" +
-	"\x11UpdateUserRequest\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12;\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.skillsphere.common.v1.UserR\x05users\x124\n" +
+	"\rnot_found_ids\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10d\"\x06r\x04\x10\x01\x182R\vnotFoundIds\"\x91\x01\n" +
+	"\x11UpdateUserRequest\x127\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user\x12C\n" +
+	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"updateMask\"E\n" +
 	"\x12UpdateUserResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"D\n" +
-	"\x11DeleteUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason\"H\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"Y\n" +
+	"\x11DeleteUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x06reason\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"R\n" +
 	"\x12DeleteUserResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xc5\x01\n" +
-	"\x10ListUsersRequest\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\"\n" +
+	"\amessage\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\amessage\"\xe3\x01\n" +
+	"\x10ListUsersRequest\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12>\n" +
-	"\afilters\x18\x03 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12\x17\n" +
-	"\asort_by\x18\x04 \x01(\tR\x06sortBy\x12\x1c\n" +
-	"\tascending\x18\x05 \x01(\bR\tascending\"\x8f\x01\n" +
+	"page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12>\n" +
+	"\afilters\x18\x03 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12 \n" +
+	"\asort_by\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\x06sortBy\x12\x1c\n" +
+	"\tascending\x18\x05 \x01(\bR\tascending\"\xa2\x01\n" +
 	"\x11ListUsersResponse\x121\n" +
-	"\x05users\x18\x01 \x03(\v2\x1b.skillsphere.common.v1.UserR\x05users\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\".\n" +
-	"\x13GetUserStatsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xcd\x03\n" +
-	"\x14GetUserStatsResponse\x12%\n" +
-	"\x0etotal_sessions\x18\x01 \x01(\x05R\rtotalSessions\x12-\n" +
-	"\x12completed_sessions\x18\x02 \x01(\x05R\x11completedSessions\x12-\n" +
-	"\x12cancelled_sessions\x18\x03 \x01(\x05R\x11cancelledSessions\x12\"\n" +
-	"\rno_show_count\x18\x04 \x01(\x05R\vnoShowCount\x12%\n" +
-	"\x0eaverage_rating\x18\x05 \x01(\x01R\raverageRating\x12#\n" +
-	"\rtotal_reviews\x18\x06 \x01(\x05R\ftotalReviews\x120\n" +
-	"\x14skills_offered_count\x18\a \x01(\x05R\x12skillsOfferedCount\x12.\n" +
-	"\x13skills_wanted_count\x18\b \x01(\x05R\x11skillsWantedCount\x12\x1f\n" +
-	"\vactive_days\x18\t \x01(\x05R\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.skillsphere.common.v1.UserR\x05users\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"9\n" +
+	"\x13GetUserStatsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"\xae\x04\n" +
+	"\x14GetUserStatsResponse\x12.\n" +
+	"\x0etotal_sessions\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x126\n" +
+	"\x12completed_sessions\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11completedSessions\x126\n" +
+	"\x12cancelled_sessions\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11cancelledSessions\x12+\n" +
+	"\rno_show_count\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vnoShowCount\x12>\n" +
+	"\x0eaverage_rating\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\raverageRating\x12,\n" +
+	"\rtotal_reviews\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ftotalReviews\x129\n" +
+	"\x14skills_offered_count\x18\a \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12skillsOfferedCount\x127\n" +
+	"\x13skills_wanted_count\x18\b \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11skillsWantedCount\x12(\n" +
+	"\vactive_days\x18\t \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
 	"activeDays\x12=\n" +
 	"\fmember_since\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\vmemberSince\"}\n" +
-	"\x19UpdateAvailabilityRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12G\n" +
-	"\favailability\x18\x02 \x01(\v2#.skillsphere.common.v1.AvailabilityR\favailability\"e\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vmemberSince\"\x90\x01\n" +
+	"\x19UpdateAvailabilityRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12O\n" +
+	"\favailability\x18\x02 \x01(\v2#.skillsphere.common.v1.AvailabilityB\x06\xbaH\x03\xc8\x01\x01R\favailability\"e\n" +
 	"\x1aUpdateAvailabilityResponse\x12G\n" +
-	"\favailability\x18\x01 \x01(\v2#.skillsphere.common.v1.AvailabilityR\favailability\"\x91\x01\n" +
-	"$UpdateNotificationPreferencesRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12P\n" +
-	"\vpreferences\x18\x02 \x01(\v2..skillsphere.common.v1.NotificationPreferencesR\vpreferences\"y\n" +
+	"\favailability\x18\x01 \x01(\v2#.skillsphere.common.v1.AvailabilityR\favailability\"\xa4\x01\n" +
+	"$UpdateNotificationPreferencesRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12X\n" +
+	"\vpreferences\x18\x02 \x01(\v2..skillsphere.common.v1.NotificationPreferencesB\x06\xbaH\x03\xc8\x01\x01R\vpreferences\"y\n" +
 	"%UpdateNotificationPreferencesResponse\x12P\n" +
-	"\vpreferences\x18\x01 \x01(\v2..skillsphere.common.v1.NotificationPreferencesR\vpreferences\"\xb8\x01\n" +
-	"\x16GetUserSessionsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\vpreferences\x18\x01 \x01(\v2..skillsphere.common.v1.NotificationPreferencesR\vpreferences\"\xe2\x01\n" +
+	"\x16GetUserSessionsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12I\n" +
-	"\rstatus_filter\x18\x04 \x01(\x0e2$.skillsphere.common.v1.SessionStatusR\fstatusFilter\"{\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12S\n" +
+	"\rstatus_filter\x18\x04 \x01(\x0e2$.skillsphere.common.v1.SessionStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fstatusFilter\"\x85\x01\n" +
 	"\x17GetUserSessionsResponse\x128\n" +
-	"\bsessions\x18\x01 \x03(\v2\x1c.skillsphere.user.v1.SessionR\bsessions\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xff\x01\n" +
-	"\aSession\x12\x1d\n" +
+	"\bsessions\x18\x01 \x03(\v2\x1c.skillsphere.user.v1.SessionR\bsessions\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"\xbc\x02\n" +
+	"\aSession\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x1d\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12(\n" +
 	"\n" +
-	"partner_id\x18\x02 \x01(\tR\tpartnerId\x12!\n" +
-	"\fpartner_name\x18\x03 \x01(\tR\vpartnerName\x12\x16\n" +
-	"\x06skills\x18\x04 \x03(\tR\x06skills\x12<\n" +
-	"\x06status\x18\x05 \x01(\x0e2$.skillsphere.common.v1.SessionStatusR\x06status\x12=\n" +
-	"\fscheduled_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\"l\n" +
-	"\x15GetUserRatingsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"partner_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tpartnerId\x12,\n" +
+	"\fpartner_name\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\vpartnerName\x12(\n" +
+	"\x06skills\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\x06skills\x12F\n" +
+	"\x06status\x18\x05 \x01(\x0e2$.skillsphere.common.v1.SessionStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12=\n" +
+	"\fscheduled_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vscheduledAt\"\x8c\x01\n" +
+	"\x15GetUserRatingsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\"\x9e\x01\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"\xc1\x01\n" +
 	"\x16GetUserRatingsResponse\x127\n" +
-	"\aratings\x18\x01 \x03(\v2\x1d.skillsphere.common.v1.RatingR\aratings\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12#\n" +
-	"\raverage_score\x18\x03 \x01(\x01R\faverageScore\"\x8c\x01\n" +
-	"\x11VerifyUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12/\n" +
-	"\x13verification_method\x18\x02 \x01(\tR\x12verificationMethod\x12-\n" +
-	"\x12verification_token\x18\x03 \x01(\tR\x11verificationToken\"M\n" +
+	"\aratings\x18\x01 \x03(\v2\x1d.skillsphere.common.v1.RatingR\aratings\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12<\n" +
+	"\raverage_score\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\faverageScore\"\xae\x01\n" +
+	"\x11VerifyUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12:\n" +
+	"\x13verification_method\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x02\x18 R\x12verificationMethod\x129\n" +
+	"\x12verification_token\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x80\x04R\x11verificationToken\"Z\n" +
 	"\x12VerifyUserResponse\x12\x1a\n" +
-	"\bverified\x18\x01 \x01(\bR\bverified\x12\x1b\n" +
-	"\tbadge_url\x18\x02 \x01(\tR\bbadgeUrl2\xf1\t\n" +
+	"\bverified\x18\x01 \x01(\bR\bverified\x12(\n" +
+	"\tbadge_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\bbadgeUrl2\xf1\t\n" +
 	"\vUserService\x12]\n" +
 	"\n" +
 	"CreateUser\x12&.skillsphere.user.v1.CreateUserRequest\x1a'.skillsphere.user.v1.CreateUserResponse\x12T\n" +

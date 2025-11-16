@@ -7,6 +7,7 @@
 package aiv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -129,7 +130,7 @@ func (DifficultyLevel) EnumDescriptor() ([]byte, []int) {
 type GenerateSkillEmbeddingRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SkillNames    []string               `protobuf:"bytes,1,rep,name=skill_names,json=skillNames,proto3" json:"skill_names,omitempty"`
-	Context       string                 `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"` // Optional context for better embeddings
+	Context       string                 `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -225,7 +226,7 @@ func (x *GenerateSkillEmbeddingResponse) GetEmbeddings() []*SkillEmbedding {
 type SkillEmbedding struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SkillName     string                 `protobuf:"bytes,1,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
-	Vector        []float32              `protobuf:"fixed32,2,rep,packed,name=vector,proto3" json:"vector,omitempty"` // 768D vector from Gemini
+	Vector        []float32              `protobuf:"fixed32,2,rep,packed,name=vector,proto3" json:"vector,omitempty"`
 	ModelVersion  string                 `protobuf:"bytes,3,opt,name=model_version,json=modelVersion,proto3" json:"model_version,omitempty"`
 	GeneratedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=generated_at,json=generatedAt,proto3" json:"generated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -294,9 +295,9 @@ type GetSkillRoadmapRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	TargetSkill   string                 `protobuf:"bytes,2,opt,name=target_skill,json=targetSkill,proto3" json:"target_skill,omitempty"`
-	CurrentSkills []string               `protobuf:"bytes,3,rep,name=current_skills,json=currentSkills,proto3" json:"current_skills,omitempty"` // User's existing skills
+	CurrentSkills []string               `protobuf:"bytes,3,rep,name=current_skills,json=currentSkills,proto3" json:"current_skills,omitempty"`
 	TargetLevel   DifficultyLevel        `protobuf:"varint,4,opt,name=target_level,json=targetLevel,proto3,enum=skillsphere.ai.v1.DifficultyLevel" json:"target_level,omitempty"`
-	TimelineWeeks int32                  `protobuf:"varint,5,opt,name=timeline_weeks,json=timelineWeeks,proto3" json:"timeline_weeks,omitempty"` // Desired timeline
+	TimelineWeeks int32                  `protobuf:"varint,5,opt,name=timeline_weeks,json=timelineWeeks,proto3" json:"timeline_weeks,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -530,7 +531,7 @@ type LearningResource struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Title           string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
 	Url             string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	Type            string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"` // "video", "article", "course", "book"
+	Type            string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
 	DurationMinutes int32                  `protobuf:"varint,4,opt,name=duration_minutes,json=durationMinutes,proto3" json:"duration_minutes,omitempty"`
 	IsFree          bool                   `protobuf:"varint,5,opt,name=is_free,json=isFree,proto3" json:"is_free,omitempty"`
 	unknownFields   protoimpl.UnknownFields
@@ -606,7 +607,7 @@ type GetMentorAdviceRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	UserId            string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	SkillName         string                 `protobuf:"bytes,2,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
-	Context           string                 `protobuf:"bytes,3,opt,name=context,proto3" json:"context,omitempty"` // e.g., "preparing for session on React hooks"
+	Context           string                 `protobuf:"bytes,3,opt,name=context,proto3" json:"context,omitempty"`
 	SpecificQuestions []string               `protobuf:"bytes,4,rep,name=specific_questions,json=specificQuestions,proto3" json:"specific_questions,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
@@ -674,8 +675,8 @@ type GetMentorAdviceResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Advice        string                 `protobuf:"bytes,1,opt,name=advice,proto3" json:"advice,omitempty"`
 	KeyPoints     []string               `protobuf:"bytes,2,rep,name=key_points,json=keyPoints,proto3" json:"key_points,omitempty"`
-	DoList        []string               `protobuf:"bytes,3,rep,name=do_list,json=doList,proto3" json:"do_list,omitempty"`       // What to do
-	DontList      []string               `protobuf:"bytes,4,rep,name=dont_list,json=dontList,proto3" json:"dont_list,omitempty"` // What to avoid
+	DoList        []string               `protobuf:"bytes,3,rep,name=do_list,json=doList,proto3" json:"do_list,omitempty"`
+	DontList      []string               `protobuf:"bytes,4,rep,name=dont_list,json=dontList,proto3" json:"dont_list,omitempty"`
 	Resources     []*LearningResource    `protobuf:"bytes,5,rep,name=resources,proto3" json:"resources,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -829,7 +830,7 @@ type GenerateSessionPrepResponse struct {
 	LearningGoals     []string               `protobuf:"bytes,3,rep,name=learning_goals,json=learningGoals,proto3" json:"learning_goals,omitempty"`
 	DiscussionTopics  []string               `protobuf:"bytes,4,rep,name=discussion_topics,json=discussionTopics,proto3" json:"discussion_topics,omitempty"`
 	PracticeExercises []string               `protobuf:"bytes,5,rep,name=practice_exercises,json=practiceExercises,proto3" json:"practice_exercises,omitempty"`
-	Icebreaker        string                 `protobuf:"bytes,6,opt,name=icebreaker,proto3" json:"icebreaker,omitempty"` // Conversation starter
+	Icebreaker        string                 `protobuf:"bytes,6,opt,name=icebreaker,proto3" json:"icebreaker,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -910,7 +911,7 @@ type AnalyzeSkillGapRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId_1      string                 `protobuf:"bytes,1,opt,name=user_id_1,json=userId1,proto3" json:"user_id_1,omitempty"`
 	UserId_2      string                 `protobuf:"bytes,2,opt,name=user_id_2,json=userId2,proto3" json:"user_id_2,omitempty"`
-	FocusSkills   []string               `protobuf:"bytes,3,rep,name=focus_skills,json=focusSkills,proto3" json:"focus_skills,omitempty"` // Optional filter
+	FocusSkills   []string               `protobuf:"bytes,3,rep,name=focus_skills,json=focusSkills,proto3" json:"focus_skills,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1031,7 +1032,7 @@ type SkillGap struct {
 	SkillName        string                 `protobuf:"bytes,1,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
 	User1Proficiency int32                  `protobuf:"varint,2,opt,name=user1_proficiency,json=user1Proficiency,proto3" json:"user1_proficiency,omitempty"`
 	User2Proficiency int32                  `protobuf:"varint,3,opt,name=user2_proficiency,json=user2Proficiency,proto3" json:"user2_proficiency,omitempty"`
-	GapSize          int32                  `protobuf:"varint,4,opt,name=gap_size,json=gapSize,proto3" json:"gap_size,omitempty"`                         // Absolute difference
+	GapSize          int32                  `protobuf:"varint,4,opt,name=gap_size,json=gapSize,proto3" json:"gap_size,omitempty"`
 	IsComplementary  bool                   `protobuf:"varint,5,opt,name=is_complementary,json=isComplementary,proto3" json:"is_complementary,omitempty"` // One teaches, other learns
 	Explanation      string                 `protobuf:"bytes,6,opt,name=explanation,proto3" json:"explanation,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -1114,7 +1115,7 @@ type GenerateLearningResourcesRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	SkillName        string                 `protobuf:"bytes,1,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
 	Level            DifficultyLevel        `protobuf:"varint,2,opt,name=level,proto3,enum=skillsphere.ai.v1.DifficultyLevel" json:"level,omitempty"`
-	PreferredFormats []string               `protobuf:"bytes,3,rep,name=preferred_formats,json=preferredFormats,proto3" json:"preferred_formats,omitempty"` // "video", "article", "interactive"
+	PreferredFormats []string               `protobuf:"bytes,3,rep,name=preferred_formats,json=preferredFormats,proto3" json:"preferred_formats,omitempty"`
 	FreeOnly         bool                   `protobuf:"varint,4,opt,name=free_only,json=freeOnly,proto3" json:"free_only,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -1181,7 +1182,7 @@ func (x *GenerateLearningResourcesRequest) GetFreeOnly() bool {
 type GenerateLearningResourcesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Resources     []*LearningResource    `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty"`
-	LearningPath  string                 `protobuf:"bytes,2,opt,name=learning_path,json=learningPath,proto3" json:"learning_path,omitempty"` // Suggested order
+	LearningPath  string                 `protobuf:"bytes,2,opt,name=learning_path,json=learningPath,proto3" json:"learning_path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1233,9 +1234,9 @@ func (x *GenerateLearningResourcesResponse) GetLearningPath() string {
 type ChatWithMentorRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	SessionId     string                 `protobuf:"bytes,2,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"` // Optional for context
+	SessionId     string                 `protobuf:"bytes,2,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
-	History       []*ChatMessage         `protobuf:"bytes,4,rep,name=history,proto3" json:"history,omitempty"` // Conversation history
+	History       []*ChatMessage         `protobuf:"bytes,4,rep,name=history,proto3" json:"history,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1352,7 +1353,7 @@ func (x *ChatWithMentorResponse) GetFollowUpSuggestions() []string {
 
 type ChatMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Role          string                 `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"` // "user" or "assistant"
+	Role          string                 `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
 	Content       string                 `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1472,7 +1473,7 @@ func (x *StreamMentorChatRequest) GetHistory() []*ChatMessage {
 
 type StreamMentorChatResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Chunk         string                 `protobuf:"bytes,1,opt,name=chunk,proto3" json:"chunk,omitempty"` // Partial response
+	Chunk         string                 `protobuf:"bytes,1,opt,name=chunk,proto3" json:"chunk,omitempty"`
 	IsComplete    bool                   `protobuf:"varint,2,opt,name=is_complete,json=isComplete,proto3" json:"is_complete,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1526,8 +1527,8 @@ type GenerateAssessmentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SkillName     string                 `protobuf:"bytes,1,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
 	Level         DifficultyLevel        `protobuf:"varint,2,opt,name=level,proto3,enum=skillsphere.ai.v1.DifficultyLevel" json:"level,omitempty"`
-	QuestionCount int32                  `protobuf:"varint,3,opt,name=question_count,json=questionCount,proto3" json:"question_count,omitempty"` // Default 10
-	Format        string                 `protobuf:"bytes,4,opt,name=format,proto3" json:"format,omitempty"`                                     // "multiple_choice", "coding", "essay"
+	QuestionCount int32                  `protobuf:"varint,3,opt,name=question_count,json=questionCount,proto3" json:"question_count,omitempty"`
+	Format        string                 `protobuf:"bytes,4,opt,name=format,proto3" json:"format,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1646,10 +1647,10 @@ type AssessmentQuestion struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	QuestionNumber  int32                  `protobuf:"varint,1,opt,name=question_number,json=questionNumber,proto3" json:"question_number,omitempty"`
 	Question        string                 `protobuf:"bytes,2,opt,name=question,proto3" json:"question,omitempty"`
-	Options         []string               `protobuf:"bytes,3,rep,name=options,proto3" json:"options,omitempty"` // For multiple choice
+	Options         []string               `protobuf:"bytes,3,rep,name=options,proto3" json:"options,omitempty"`
 	CorrectAnswer   string                 `protobuf:"bytes,4,opt,name=correct_answer,json=correctAnswer,proto3" json:"correct_answer,omitempty"`
 	Explanation     string                 `protobuf:"bytes,5,opt,name=explanation,proto3" json:"explanation,omitempty"`
-	DifficultyScore int32                  `protobuf:"varint,6,opt,name=difficulty_score,json=difficultyScore,proto3" json:"difficulty_score,omitempty"` // 1-10
+	DifficultyScore int32                  `protobuf:"varint,6,opt,name=difficulty_score,json=difficultyScore,proto3" json:"difficulty_score,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1880,9 +1881,9 @@ func (x *AnalyzeProgressResponse) GetNextSteps() []string {
 
 type ProgressInsight struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Category      string                 `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"` // "sessions", "practice", "consistency"
+	Category      string                 `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
 	Metric        string                 `protobuf:"bytes,2,opt,name=metric,proto3" json:"metric,omitempty"`
-	Trend         string                 `protobuf:"bytes,3,opt,name=trend,proto3" json:"trend,omitempty"` // "improving", "declining", "stable"
+	Trend         string                 `protobuf:"bytes,3,opt,name=trend,proto3" json:"trend,omitempty"`
 	Explanation   string                 `protobuf:"bytes,4,opt,name=explanation,proto3" json:"explanation,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1950,158 +1951,180 @@ var File_ai_v1_ai_proto protoreflect.FileDescriptor
 
 const file_ai_v1_ai_proto_rawDesc = "" +
 	"\n" +
-	"\x0eai/v1/ai.proto\x12\x11skillsphere.ai.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"Z\n" +
-	"\x1dGenerateSkillEmbeddingRequest\x12\x1f\n" +
-	"\vskill_names\x18\x01 \x03(\tR\n" +
-	"skillNames\x12\x18\n" +
-	"\acontext\x18\x02 \x01(\tR\acontext\"c\n" +
+	"\x0eai/v1/ai.proto\x12\x11skillsphere.ai.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"x\n" +
+	"\x1dGenerateSkillEmbeddingRequest\x123\n" +
+	"\vskill_names\x18\x01 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x102\"\x06r\x04\x10\x01\x18dR\n" +
+	"skillNames\x12\"\n" +
+	"\acontext\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acontext\"c\n" +
 	"\x1eGenerateSkillEmbeddingResponse\x12A\n" +
 	"\n" +
 	"embeddings\x18\x01 \x03(\v2!.skillsphere.ai.v1.SkillEmbeddingR\n" +
-	"embeddings\"\xab\x01\n" +
-	"\x0eSkillEmbedding\x12\x1d\n" +
+	"embeddings\"\xca\x01\n" +
+	"\x0eSkillEmbedding\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x12\x16\n" +
-	"\x06vector\x18\x02 \x03(\x02R\x06vector\x12#\n" +
-	"\rmodel_version\x18\x03 \x01(\tR\fmodelVersion\x12=\n" +
-	"\fgenerated_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vgeneratedAt\"\xe9\x01\n" +
-	"\x16GetSkillRoadmapRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
-	"\ftarget_skill\x18\x02 \x01(\tR\vtargetSkill\x12%\n" +
-	"\x0ecurrent_skills\x18\x03 \x03(\tR\rcurrentSkills\x12E\n" +
-	"\ftarget_level\x18\x04 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelR\vtargetLevel\x12%\n" +
-	"\x0etimeline_weeks\x18\x05 \x01(\x05R\rtimelineWeeks\"\xb8\x01\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12!\n" +
+	"\x06vector\x18\x02 \x03(\x02B\t\xbaH\x06\x92\x01\x03\x10\x80\bR\x06vector\x12,\n" +
+	"\rmodel_version\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\fmodelVersion\x12=\n" +
+	"\fgenerated_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vgeneratedAt\"\xa6\x02\n" +
+	"\x16GetSkillRoadmapRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12,\n" +
+	"\ftarget_skill\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\vtargetSkill\x127\n" +
+	"\x0ecurrent_skills\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10d\"\x06r\x04\x10\x01\x18dR\rcurrentSkills\x12O\n" +
+	"\ftarget_level\x18\x04 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\vtargetLevel\x120\n" +
+	"\x0etimeline_weeks\x18\x05 \x01(\x05B\t\xbaH\x06\x1a\x04\x18h(\x01R\rtimelineWeeks\"\xe1\x01\n" +
 	"\x17GetSkillRoadmapResponse\x124\n" +
-	"\x05steps\x18\x01 \x03(\v2\x1e.skillsphere.ai.v1.RoadmapStepR\x05steps\x12'\n" +
-	"\x0festimated_hours\x18\x02 \x01(\x05R\x0eestimatedHours\x12$\n" +
-	"\rprerequisites\x18\x03 \x03(\tR\rprerequisites\x12\x18\n" +
-	"\asummary\x18\x04 \x01(\tR\asummary\"\xff\x01\n" +
-	"\vRoadmapStep\x12\x14\n" +
-	"\x05order\x18\x01 \x01(\x05R\x05order\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x16\n" +
-	"\x06topics\x18\x04 \x03(\tR\x06topics\x12'\n" +
-	"\x0festimated_hours\x18\x05 \x01(\x05R\x0eestimatedHours\x12A\n" +
-	"\tresources\x18\x06 \x03(\v2#.skillsphere.ai.v1.LearningResourceR\tresources\x12\x1e\n" +
+	"\x05steps\x18\x01 \x03(\v2\x1e.skillsphere.ai.v1.RoadmapStepR\x05steps\x123\n" +
+	"\x0festimated_hours\x18\x02 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xd0\x0f(\x00R\x0eestimatedHours\x127\n" +
+	"\rprerequisites\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x102\"\ar\x05\x10\x01\x18\xc8\x01R\rprerequisites\x12\"\n" +
+	"\asummary\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\asummary\"\xd9\x02\n" +
+	"\vRoadmapStep\x12\x1d\n" +
+	"\x05order\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\x05order\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12(\n" +
+	"\x06topics\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18dR\x06topics\x123\n" +
+	"\x0festimated_hours\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xf4\x03(\x00R\x0eestimatedHours\x12K\n" +
+	"\tresources\x18\x06 \x03(\v2#.skillsphere.ai.v1.LearningResourceB\b\xbaH\x05\x92\x01\x02\x102R\tresources\x121\n" +
 	"\n" +
-	"milestones\x18\a \x03(\tR\n" +
-	"milestones\"\x92\x01\n" +
-	"\x10LearningResource\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\x12\x10\n" +
-	"\x03url\x18\x02 \x01(\tR\x03url\x12\x12\n" +
-	"\x04type\x18\x03 \x01(\tR\x04type\x12)\n" +
-	"\x10duration_minutes\x18\x04 \x01(\x05R\x0fdurationMinutes\x12\x17\n" +
-	"\ais_free\x18\x05 \x01(\bR\x06isFree\"\x99\x01\n" +
-	"\x16GetMentorAdviceRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"milestones\x18\a \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\n" +
+	"milestones\"\xc0\x01\n" +
+	"\x10LearningResource\x12 \n" +
+	"\x05title\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xc8\x01R\x05title\x12\x1d\n" +
+	"\x03url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x03url\x12\x1b\n" +
+	"\x04type\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x04type\x125\n" +
+	"\x10duration_minutes\x18\x04 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\x90N(\x00R\x0fdurationMinutes\x12\x17\n" +
+	"\ais_free\x18\x05 \x01(\bR\x06isFree\"\xcc\x01\n" +
+	"\x16GetMentorAdviceRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12(\n" +
 	"\n" +
-	"skill_name\x18\x02 \x01(\tR\tskillName\x12\x18\n" +
-	"\acontext\x18\x03 \x01(\tR\acontext\x12-\n" +
-	"\x12specific_questions\x18\x04 \x03(\tR\x11specificQuestions\"\xc9\x01\n" +
-	"\x17GetMentorAdviceResponse\x12\x16\n" +
-	"\x06advice\x18\x01 \x01(\tR\x06advice\x12\x1d\n" +
+	"skill_name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12\"\n" +
+	"\acontext\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acontext\x12@\n" +
+	"\x12specific_questions\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x11specificQuestions\"\x8c\x02\n" +
+	"\x17GetMentorAdviceResponse\x12 \n" +
+	"\x06advice\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xa0\x1fR\x06advice\x120\n" +
 	"\n" +
-	"key_points\x18\x02 \x03(\tR\tkeyPoints\x12\x17\n" +
-	"\ado_list\x18\x03 \x03(\tR\x06doList\x12\x1b\n" +
-	"\tdont_list\x18\x04 \x03(\tR\bdontList\x12A\n" +
-	"\tresources\x18\x05 \x03(\v2#.skillsphere.ai.v1.LearningResourceR\tresources\"\xde\x01\n" +
-	"\x1aGenerateSessionPrepRequest\x12\x1d\n" +
+	"key_points\x18\x02 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\tkeyPoints\x12*\n" +
+	"\ado_list\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\x06doList\x12.\n" +
+	"\tdont_list\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\bdontList\x12A\n" +
+	"\tresources\x18\x05 \x03(\v2#.skillsphere.ai.v1.LearningResourceR\tresources\"\xa4\x02\n" +
+	"\x1aGenerateSessionPrepRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12&\n" +
-	"\x0fskills_to_teach\x18\x03 \x03(\tR\rskillsToTeach\x12&\n" +
-	"\x0fskills_to_learn\x18\x04 \x03(\tR\rskillsToLearn\x128\n" +
-	"\x18session_duration_minutes\x18\x05 \x01(\x05R\x16sessionDurationMinutes\"\xfd\x01\n" +
-	"\x1bGenerateSessionPrepResponse\x12\x16\n" +
-	"\x06agenda\x18\x01 \x01(\tR\x06agenda\x12#\n" +
-	"\rteaching_tips\x18\x02 \x03(\tR\fteachingTips\x12%\n" +
-	"\x0elearning_goals\x18\x03 \x03(\tR\rlearningGoals\x12+\n" +
-	"\x11discussion_topics\x18\x04 \x03(\tR\x10discussionTopics\x12-\n" +
-	"\x12practice_exercises\x18\x05 \x03(\tR\x11practiceExercises\x12\x1e\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x128\n" +
+	"\x0fskills_to_teach\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18dR\rskillsToTeach\x128\n" +
+	"\x0fskills_to_learn\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18dR\rskillsToLearn\x12D\n" +
+	"\x18session_duration_minutes\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe0\x03(\x0fR\x16sessionDurationMinutes\"\xdd\x02\n" +
+	"\x1bGenerateSessionPrepResponse\x12 \n" +
+	"\x06agenda\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xa0\x1fR\x06agenda\x126\n" +
+	"\rteaching_tips\x18\x02 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\fteachingTips\x128\n" +
+	"\x0elearning_goals\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\rlearningGoals\x12>\n" +
+	"\x11discussion_topics\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\x10discussionTopics\x12@\n" +
+	"\x12practice_exercises\x18\x05 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xac\x02R\x11practiceExercises\x12(\n" +
 	"\n" +
-	"icebreaker\x18\x06 \x01(\tR\n" +
-	"icebreaker\"s\n" +
-	"\x16AnalyzeSkillGapRequest\x12\x1a\n" +
-	"\tuser_id_1\x18\x01 \x01(\tR\auserId1\x12\x1a\n" +
-	"\tuser_id_2\x18\x02 \x01(\tR\auserId2\x12!\n" +
-	"\ffocus_skills\x18\x03 \x03(\tR\vfocusSkills\"\x8e\x01\n" +
+	"icebreaker\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\n" +
+	"icebreaker\"\x9b\x01\n" +
+	"\x16AnalyzeSkillGapRequest\x12%\n" +
+	"\tuser_id_1\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\auserId1\x12%\n" +
+	"\tuser_id_2\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\auserId2\x123\n" +
+	"\ffocus_skills\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x18dR\vfocusSkills\"\xab\x01\n" +
 	"\x17AnalyzeSkillGapResponse\x12/\n" +
-	"\x04gaps\x18\x01 \x03(\v2\x1b.skillsphere.ai.v1.SkillGapR\x04gaps\x12\x18\n" +
-	"\asummary\x18\x02 \x01(\tR\asummary\x12(\n" +
-	"\x0frecommendations\x18\x03 \x03(\tR\x0frecommendations\"\xeb\x01\n" +
-	"\bSkillGap\x12\x1d\n" +
+	"\x04gaps\x18\x01 \x03(\v2\x1b.skillsphere.ai.v1.SkillGapR\x04gaps\x12\"\n" +
+	"\asummary\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\asummary\x12;\n" +
+	"\x0frecommendations\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x0frecommendations\"\xa1\x02\n" +
+	"\bSkillGap\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x12+\n" +
-	"\x11user1_proficiency\x18\x02 \x01(\x05R\x10user1Proficiency\x12+\n" +
-	"\x11user2_proficiency\x18\x03 \x01(\x05R\x10user2Proficiency\x12\x19\n" +
-	"\bgap_size\x18\x04 \x01(\x05R\agapSize\x12)\n" +
-	"\x10is_complementary\x18\x05 \x01(\bR\x0fisComplementary\x12 \n" +
-	"\vexplanation\x18\x06 \x01(\tR\vexplanation\"\xc5\x01\n" +
-	" GenerateLearningResourcesRequest\x12\x1d\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x126\n" +
+	"\x11user1_proficiency\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x00R\x10user1Proficiency\x126\n" +
+	"\x11user2_proficiency\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x00R\x10user2Proficiency\x12$\n" +
+	"\bgap_size\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x00R\agapSize\x12)\n" +
+	"\x10is_complementary\x18\x05 \x01(\bR\x0fisComplementary\x12*\n" +
+	"\vexplanation\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vexplanation\"\xec\x01\n" +
+	" GenerateLearningResourcesRequest\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x128\n" +
-	"\x05level\x18\x02 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelR\x05level\x12+\n" +
-	"\x11preferred_formats\x18\x03 \x03(\tR\x10preferredFormats\x12\x1b\n" +
-	"\tfree_only\x18\x04 \x01(\bR\bfreeOnly\"\x8b\x01\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12B\n" +
+	"\x05level\x18\x02 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x05level\x12=\n" +
+	"\x11preferred_formats\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\n" +
+	"\"\x06r\x04\x10\x01\x182R\x10preferredFormats\x12\x1b\n" +
+	"\tfree_only\x18\x04 \x01(\bR\bfreeOnly\"\x95\x01\n" +
 	"!GenerateLearningResourcesResponse\x12A\n" +
-	"\tresources\x18\x01 \x03(\v2#.skillsphere.ai.v1.LearningResourceR\tresources\x12#\n" +
-	"\rlearning_path\x18\x02 \x01(\tR\flearningPath\"\xa3\x01\n" +
-	"\x15ChatWithMentorRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"\tresources\x18\x01 \x03(\v2#.skillsphere.ai.v1.LearningResourceR\tresources\x12-\n" +
+	"\rlearning_path\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\flearningPath\"\xcd\x01\n" +
+	"\x15ChatWithMentorRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
 	"\n" +
-	"session_id\x18\x02 \x01(\tR\tsessionId\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\tR\amessage\x128\n" +
-	"\ahistory\x18\x04 \x03(\v2\x1e.skillsphere.ai.v1.ChatMessageR\ahistory\"h\n" +
-	"\x16ChatWithMentorResponse\x12\x1a\n" +
-	"\bresponse\x18\x01 \x01(\tR\bresponse\x122\n" +
-	"\x15follow_up_suggestions\x18\x02 \x03(\tR\x13followUpSuggestions\"u\n" +
-	"\vChatMessage\x12\x12\n" +
-	"\x04role\x18\x01 \x01(\tR\x04role\x12\x18\n" +
-	"\acontent\x18\x02 \x01(\tR\acontent\x128\n" +
-	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\"\x86\x01\n" +
-	"\x17StreamMentorChatRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\x128\n" +
-	"\ahistory\x18\x03 \x03(\v2\x1e.skillsphere.ai.v1.ChatMessageR\ahistory\"Q\n" +
-	"\x18StreamMentorChatResponse\x12\x14\n" +
-	"\x05chunk\x18\x01 \x01(\tR\x05chunk\x12\x1f\n" +
+	"session_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\tsessionId\x12$\n" +
+	"\amessage\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xd0\x0fR\amessage\x12B\n" +
+	"\ahistory\x18\x04 \x03(\v2\x1e.skillsphere.ai.v1.ChatMessageB\b\xbaH\x05\x92\x01\x02\x102R\ahistory\"\x85\x01\n" +
+	"\x16ChatWithMentorResponse\x12$\n" +
+	"\bresponse\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xa0\x1fR\bresponse\x12E\n" +
+	"\x15follow_up_suggestions\x18\x02 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\n" +
+	"\"\ar\x05\x10\x01\x18\xac\x02R\x13followUpSuggestions\"\x8a\x01\n" +
+	"\vChatMessage\x12\x1d\n" +
+	"\x04role\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x04role\x12\"\n" +
+	"\acontent\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\acontent\x128\n" +
+	"\ttimestamp\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\"\xa7\x01\n" +
+	"\x17StreamMentorChatRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\amessage\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xd0\x0fR\amessage\x12B\n" +
+	"\ahistory\x18\x03 \x03(\v2\x1e.skillsphere.ai.v1.ChatMessageB\b\xbaH\x05\x92\x01\x02\x102R\ahistory\"[\n" +
+	"\x18StreamMentorChatResponse\x12\x1e\n" +
+	"\x05chunk\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x05chunk\x12\x1f\n" +
 	"\vis_complete\x18\x02 \x01(\bR\n" +
-	"isComplete\"\xb3\x01\n" +
-	"\x19GenerateAssessmentRequest\x12\x1d\n" +
+	"isComplete\"\xdc\x01\n" +
+	"\x19GenerateAssessmentRequest\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x128\n" +
-	"\x05level\x18\x02 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelR\x05level\x12%\n" +
-	"\x0equestion_count\x18\x03 \x01(\x05R\rquestionCount\x12\x16\n" +
-	"\x06format\x18\x04 \x01(\tR\x06format\"\x8e\x01\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12B\n" +
+	"\x05level\x18\x02 \x01(\x0e2\".skillsphere.ai.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x05level\x120\n" +
+	"\x0equestion_count\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\rquestionCount\x12\x1f\n" +
+	"\x06format\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\x06format\"\x8e\x01\n" +
 	"\x1aGenerateAssessmentResponse\x12C\n" +
 	"\tquestions\x18\x01 \x03(\v2%.skillsphere.ai.v1.AssessmentQuestionR\tquestions\x12+\n" +
-	"\x11estimated_minutes\x18\x02 \x01(\x05R\x10estimatedMinutes\"\xe7\x01\n" +
-	"\x12AssessmentQuestion\x12'\n" +
-	"\x0fquestion_number\x18\x01 \x01(\x05R\x0equestionNumber\x12\x1a\n" +
-	"\bquestion\x18\x02 \x01(\tR\bquestion\x12\x18\n" +
-	"\aoptions\x18\x03 \x03(\tR\aoptions\x12%\n" +
-	"\x0ecorrect_answer\x18\x04 \x01(\tR\rcorrectAnswer\x12 \n" +
-	"\vexplanation\x18\x05 \x01(\tR\vexplanation\x12)\n" +
-	"\x10difficulty_score\x18\x06 \x01(\x05R\x0fdifficultyScore\"\xbe\x01\n" +
-	"\x16AnalyzeProgressRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x129\n" +
+	"\x11estimated_minutes\x18\x02 \x01(\x05R\x10estimatedMinutes\"\xae\x02\n" +
+	"\x12AssessmentQuestion\x120\n" +
+	"\x0fquestion_number\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\x0equestionNumber\x12&\n" +
+	"\bquestion\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xe8\aR\bquestion\x12+\n" +
+	"\aoptions\x18\x03 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\n" +
+	"\"\ar\x05\x10\x01\x18\xac\x02R\aoptions\x12/\n" +
+	"\x0ecorrect_answer\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\rcorrectAnswer\x12*\n" +
+	"\vexplanation\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vexplanation\x124\n" +
+	"\x10difficulty_score\x18\x06 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x01R\x0fdifficultyScore\"\xd4\x01\n" +
+	"\x16AnalyzeProgressRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x129\n" +
 	"\n" +
 	"start_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\x8b\x02\n" +
-	"\x17AnalyzeProgressResponse\x12\x18\n" +
-	"\asummary\x18\x01 \x01(\tR\asummary\x12>\n" +
-	"\binsights\x18\x02 \x03(\v2\".skillsphere.ai.v1.ProgressInsightR\binsights\x12/\n" +
-	"\x13progress_percentage\x18\x03 \x01(\x01R\x12progressPercentage\x12\x1c\n" +
-	"\tstrengths\x18\x04 \x03(\tR\tstrengths\x12(\n" +
-	"\x10areas_to_improve\x18\x05 \x03(\tR\x0eareasToImprove\x12\x1d\n" +
+	"\bend_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xf1\x02\n" +
+	"\x17AnalyzeProgressResponse\x12\"\n" +
+	"\asummary\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\asummary\x12H\n" +
+	"\binsights\x18\x02 \x03(\v2\".skillsphere.ai.v1.ProgressInsightB\b\xbaH\x05\x92\x01\x02\x102R\binsights\x12H\n" +
+	"\x13progress_percentage\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x12progressPercentage\x12/\n" +
+	"\tstrengths\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\tstrengths\x12;\n" +
+	"\x10areas_to_improve\x18\x05 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\x0eareasToImprove\x120\n" +
 	"\n" +
-	"next_steps\x18\x06 \x03(\tR\tnextSteps\"}\n" +
-	"\x0fProgressInsight\x12\x1a\n" +
-	"\bcategory\x18\x01 \x01(\tR\bcategory\x12\x16\n" +
-	"\x06metric\x18\x02 \x01(\tR\x06metric\x12\x14\n" +
-	"\x05trend\x18\x03 \x01(\tR\x05trend\x12 \n" +
-	"\vexplanation\x18\x04 \x01(\tR\vexplanation*v\n" +
+	"next_steps\x18\x06 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\tnextSteps\"\xa2\x01\n" +
+	"\x0fProgressInsight\x12#\n" +
+	"\bcategory\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x182R\bcategory\x12\x1f\n" +
+	"\x06metric\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x06metric\x12\x1d\n" +
+	"\x05trend\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18 R\x05trend\x12*\n" +
+	"\vexplanation\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vexplanation*v\n" +
 	"\aAIModel\x12\x18\n" +
 	"\x14AI_MODEL_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13AI_MODEL_GEMINI_PRO\x10\x01\x12\x19\n" +

@@ -7,6 +7,7 @@
 package adminv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -312,7 +313,7 @@ type SuspendUserRequest struct {
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	AdminId       string                 `protobuf:"bytes,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
-	DurationDays  int32                  `protobuf:"varint,4,opt,name=duration_days,json=durationDays,proto3" json:"duration_days,omitempty"` // 0 for indefinite
+	DurationDays  int32                  `protobuf:"varint,4,opt,name=duration_days,json=durationDays,proto3" json:"duration_days,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -774,7 +775,7 @@ func (x *DeleteUserAccountResponse) GetMessage() string {
 type FlagContentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ContentId     string                 `protobuf:"bytes,1,opt,name=content_id,json=contentId,proto3" json:"content_id,omitempty"`
-	ContentType   string                 `protobuf:"bytes,2,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"` // "message", "profile", "workshop", etc.
+	ContentType   string                 `protobuf:"bytes,2,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
 	ReporterId    string                 `protobuf:"bytes,3,opt,name=reporter_id,json=reporterId,proto3" json:"reporter_id,omitempty"`
 	ReportType    ReportType             `protobuf:"varint,4,opt,name=report_type,json=reportType,proto3,enum=skillsphere.admin.v1.ReportType" json:"report_type,omitempty"`
 	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
@@ -1013,7 +1014,7 @@ type FlaggedContent struct {
 	Description    string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	ReporterId     string                 `protobuf:"bytes,7,opt,name=reporter_id,json=reporterId,proto3" json:"reporter_id,omitempty"`
 	ReportedUserId string                 `protobuf:"bytes,8,opt,name=reported_user_id,json=reportedUserId,proto3" json:"reported_user_id,omitempty"`
-	FlagCount      int32                  `protobuf:"varint,9,opt,name=flag_count,json=flagCount,proto3" json:"flag_count,omitempty"` // How many times flagged
+	FlagCount      int32                  `protobuf:"varint,9,opt,name=flag_count,json=flagCount,proto3" json:"flag_count,omitempty"`
 	Status         ReportStatus           `protobuf:"varint,10,opt,name=status,proto3,enum=skillsphere.admin.v1.ReportStatus" json:"status,omitempty"`
 	FlaggedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=flagged_at,json=flaggedAt,proto3" json:"flagged_at,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -1372,7 +1373,7 @@ type Dispute struct {
 	DisputeId       string                 `protobuf:"bytes,1,opt,name=dispute_id,json=disputeId,proto3" json:"dispute_id,omitempty"`
 	DisputingUserId string                 `protobuf:"bytes,2,opt,name=disputing_user_id,json=disputingUserId,proto3" json:"disputing_user_id,omitempty"`
 	DisputedUserId  string                 `protobuf:"bytes,3,opt,name=disputed_user_id,json=disputedUserId,proto3" json:"disputed_user_id,omitempty"`
-	RelatedId       string                 `protobuf:"bytes,4,opt,name=related_id,json=relatedId,proto3" json:"related_id,omitempty"` // Session, gig, or payment ID
+	RelatedId       string                 `protobuf:"bytes,4,opt,name=related_id,json=relatedId,proto3" json:"related_id,omitempty"`
 	RelatedType     string                 `protobuf:"bytes,5,opt,name=related_type,json=relatedType,proto3" json:"related_type,omitempty"`
 	Reason          string                 `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 	Description     string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
@@ -1504,7 +1505,7 @@ type ResolveDisputeRequest struct {
 	DisputeId     string                 `protobuf:"bytes,1,opt,name=dispute_id,json=disputeId,proto3" json:"dispute_id,omitempty"`
 	AdminId       string                 `protobuf:"bytes,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	Resolution    string                 `protobuf:"bytes,3,opt,name=resolution,proto3" json:"resolution,omitempty"`
-	WinnerId      string                 `protobuf:"bytes,4,opt,name=winner_id,json=winnerId,proto3" json:"winner_id,omitempty"` // User who wins the dispute
+	WinnerId      string                 `protobuf:"bytes,4,opt,name=winner_id,json=winnerId,proto3" json:"winner_id,omitempty"`
 	RefundAmount  *v1.Money              `protobuf:"bytes,5,opt,name=refund_amount,json=refundAmount,proto3" json:"refund_amount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2428,7 +2429,7 @@ type ToggleFeatureFlagRequest struct {
 	AdminId       string                 `protobuf:"bytes,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	FeatureName   string                 `protobuf:"bytes,2,opt,name=feature_name,json=featureName,proto3" json:"feature_name,omitempty"`
 	Enabled       bool                   `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	UserIds       []string               `protobuf:"bytes,4,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"` // Optional: enable for specific users
+	UserIds       []string               `protobuf:"bytes,4,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2928,8 +2929,8 @@ type GetAuditLogsRequest struct {
 	AdminId       string                 `protobuf:"bytes,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	StartDate     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
 	EndDate       *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	ActionType    string                 `protobuf:"bytes,4,opt,name=action_type,json=actionType,proto3" json:"action_type,omitempty"`         // Optional filter
-	TargetUserId  string                 `protobuf:"bytes,5,opt,name=target_user_id,json=targetUserId,proto3" json:"target_user_id,omitempty"` // Optional filter
+	ActionType    string                 `protobuf:"bytes,4,opt,name=action_type,json=actionType,proto3" json:"action_type,omitempty"`
+	TargetUserId  string                 `protobuf:"bytes,5,opt,name=target_user_id,json=targetUserId,proto3" json:"target_user_id,omitempty"`
 	PageSize      int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                 `protobuf:"bytes,7,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -3072,7 +3073,7 @@ type AuditLog struct {
 	LogId         string                 `protobuf:"bytes,1,opt,name=log_id,json=logId,proto3" json:"log_id,omitempty"`
 	AdminId       string                 `protobuf:"bytes,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	Action        string                 `protobuf:"bytes,3,opt,name=action,proto3" json:"action,omitempty"`
-	TargetType    string                 `protobuf:"bytes,4,opt,name=target_type,json=targetType,proto3" json:"target_type,omitempty"` // "user", "content", "dispute"
+	TargetType    string                 `protobuf:"bytes,4,opt,name=target_type,json=targetType,proto3" json:"target_type,omitempty"`
 	TargetId      string                 `protobuf:"bytes,5,opt,name=target_id,json=targetId,proto3" json:"target_id,omitempty"`
 	Details       map[string]string      `protobuf:"bytes,6,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
@@ -3165,7 +3166,7 @@ type CreateAnnouncementRequest struct {
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	Priority      AnnouncementPriority   `protobuf:"varint,4,opt,name=priority,proto3,enum=skillsphere.admin.v1.AnnouncementPriority" json:"priority,omitempty"`
-	TargetUserIds []string               `protobuf:"bytes,5,rep,name=target_user_ids,json=targetUserIds,proto3" json:"target_user_ids,omitempty"` // Empty for all users
+	TargetUserIds []string               `protobuf:"bytes,5,rep,name=target_user_ids,json=targetUserIds,proto3" json:"target_user_ids,omitempty"`
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -3471,248 +3472,255 @@ var File_admin_v1_admin_proto protoreflect.FileDescriptor
 
 const file_admin_v1_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x14admin/v1/admin.proto\x12\x14skillsphere.admin.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x85\x01\n" +
-	"\x12SuspendUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12#\n" +
-	"\rduration_days\x18\x04 \x01(\x05R\fdurationDays\"\x8b\x01\n" +
+	"\x14admin/v1/admin.proto\x12\x14skillsphere.admin.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xae\x01\n" +
+	"\x12SuspendUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\x12,\n" +
+	"\rduration_days\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fdurationDays\"\x8b\x01\n" +
 	"\x13SuspendUserResponse\x12/\n" +
 	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12C\n" +
-	"\x0fsuspended_until\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0esuspendedUntil\"b\n" +
-	"\x14UnsuspendUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"H\n" +
+	"\x0fsuspended_until\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0esuspendedUntil\"\x82\x01\n" +
+	"\x14UnsuspendUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"H\n" +
 	"\x15UnsuspendUserResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"z\n" +
-	"\x0eBanUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x1c\n" +
-	"\tpermanent\x18\x04 \x01(\bR\tpermanent\"Y\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"\x9a\x01\n" +
+	"\x0eBanUserRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\x12\x1c\n" +
+	"\tpermanent\x18\x04 \x01(\bR\tpermanent\"d\n" +
 	"\x0fBanUserResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12\x15\n" +
-	"\x06ban_id\x18\x02 \x01(\tR\x05banId\"\x87\x01\n" +
-	"\x18DeleteUserAccountRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x1f\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12 \n" +
+	"\x06ban_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05banId\"\xa7\x01\n" +
+	"\x18DeleteUserAccountRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\x12\x1f\n" +
 	"\vhard_delete\x18\x04 \x01(\bR\n" +
-	"hardDelete\"O\n" +
+	"hardDelete\"Y\n" +
 	"\x19DeleteUserAccountResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\x9b\x02\n" +
-	"\x12FlagContentRequest\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\"\n" +
+	"\amessage\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\amessage\"\xd8\x02\n" +
+	"\x12FlagContentRequest\x12(\n" +
 	"\n" +
-	"content_id\x18\x01 \x01(\tR\tcontentId\x12!\n" +
-	"\fcontent_type\x18\x02 \x01(\tR\vcontentType\x12\x1f\n" +
-	"\vreporter_id\x18\x03 \x01(\tR\n" +
-	"reporterId\x12A\n" +
-	"\vreport_type\x18\x04 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeR\n" +
-	"reportType\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12=\n" +
-	"\bevidence\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentR\bevidence\"j\n" +
-	"\x13FlagContentResponse\x12\x17\n" +
-	"\aflag_id\x18\x01 \x01(\tR\x06flagId\x12:\n" +
-	"\x06status\x18\x02 \x01(\x0e2\".skillsphere.admin.v1.ReportStatusR\x06status\"Q\n" +
-	"\x1bReviewFlaggedContentRequest\x12\x17\n" +
-	"\aflag_id\x18\x01 \x01(\tR\x06flagId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\"^\n" +
+	"content_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcontentId\x12*\n" +
+	"\fcontent_type\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\vcontentType\x12*\n" +
+	"\vreporter_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reporterId\x12K\n" +
+	"\vreport_type\x18\x04 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"reportType\x12*\n" +
+	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\x12G\n" +
+	"\bevidence\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\bevidence\"\x7f\n" +
+	"\x13FlagContentResponse\x12\"\n" +
+	"\aflag_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06flagId\x12D\n" +
+	"\x06status\x18\x02 \x01(\x0e2\".skillsphere.admin.v1.ReportStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"g\n" +
+	"\x1bReviewFlaggedContentRequest\x12\"\n" +
+	"\aflag_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06flagId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\"^\n" +
 	"\x1cReviewFlaggedContentResponse\x12>\n" +
-	"\acontent\x18\x01 \x01(\v2$.skillsphere.admin.v1.FlaggedContentR\acontent\"\xda\x03\n" +
-	"\x0eFlaggedContent\x12\x17\n" +
-	"\aflag_id\x18\x01 \x01(\tR\x06flagId\x12\x1d\n" +
+	"\acontent\x18\x01 \x01(\v2$.skillsphere.admin.v1.FlaggedContentR\acontent\"\xc0\x04\n" +
+	"\x0eFlaggedContent\x12\"\n" +
+	"\aflag_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06flagId\x12(\n" +
 	"\n" +
-	"content_id\x18\x02 \x01(\tR\tcontentId\x12!\n" +
-	"\fcontent_type\x18\x03 \x01(\tR\vcontentType\x12'\n" +
-	"\x0fcontent_preview\x18\x04 \x01(\tR\x0econtentPreview\x12A\n" +
-	"\vreport_type\x18\x05 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeR\n" +
-	"reportType\x12 \n" +
-	"\vdescription\x18\x06 \x01(\tR\vdescription\x12\x1f\n" +
-	"\vreporter_id\x18\a \x01(\tR\n" +
-	"reporterId\x12(\n" +
-	"\x10reported_user_id\x18\b \x01(\tR\x0ereportedUserId\x12\x1d\n" +
+	"content_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcontentId\x12*\n" +
+	"\fcontent_type\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\vcontentType\x121\n" +
+	"\x0fcontent_preview\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x0econtentPreview\x12K\n" +
+	"\vreport_type\x18\x05 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"reportType\x12*\n" +
+	"\vdescription\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\x12*\n" +
+	"\vreporter_id\x18\a \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reporterId\x123\n" +
+	"\x10reported_user_id\x18\b \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0ereportedUserId\x12&\n" +
 	"\n" +
-	"flag_count\x18\t \x01(\x05R\tflagCount\x12:\n" +
+	"flag_count\x18\t \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tflagCount\x12D\n" +
 	"\x06status\x18\n" +
-	" \x01(\x0e2\".skillsphere.admin.v1.ReportStatusR\x06status\x129\n" +
+	" \x01(\x0e2\".skillsphere.admin.v1.ReportStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x129\n" +
 	"\n" +
-	"flagged_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tflaggedAt\"\xcb\x01\n" +
-	"\x14RemoveContentRequest\x12\x1d\n" +
+	"flagged_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tflaggedAt\"\xfe\x01\n" +
+	"\x14RemoveContentRequest\x12(\n" +
 	"\n" +
-	"content_id\x18\x01 \x01(\tR\tcontentId\x12!\n" +
-	"\fcontent_type\x18\x02 \x01(\tR\vcontentType\x12\x19\n" +
-	"\badmin_id\x18\x03 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x04 \x01(\tR\x06reason\x12>\n" +
-	"\x06action\x18\x05 \x01(\x0e2&.skillsphere.admin.v1.ModerationActionR\x06action\"V\n" +
+	"content_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcontentId\x12*\n" +
+	"\fcontent_type\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\vcontentType\x12$\n" +
+	"\badmin_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\x12H\n" +
+	"\x06action\x18\x05 \x01(\x0e2&.skillsphere.admin.v1.ModerationActionB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06action\"V\n" +
 	"\x15RemoveContentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\ruser_notified\x18\x02 \x01(\bR\fuserNotified\"\x8d\x01\n" +
-	"\x12GetDisputesRequest\x12;\n" +
-	"\x06status\x18\x01 \x01(\x0e2#.skillsphere.admin.v1.DisputeStatusR\x06status\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\ruser_notified\x18\x02 \x01(\bR\fuserNotified\"\xac\x01\n" +
+	"\x12GetDisputesRequest\x12E\n" +
+	"\x06status\x18\x01 \x01(\x0e2#.skillsphere.admin.v1.DisputeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\"x\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"\x82\x01\n" +
 	"\x13GetDisputesResponse\x129\n" +
-	"\bdisputes\x18\x01 \x03(\v2\x1d.skillsphere.admin.v1.DisputeR\bdisputes\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x9a\x04\n" +
-	"\aDispute\x12\x1d\n" +
+	"\bdisputes\x18\x01 \x03(\v2\x1d.skillsphere.admin.v1.DisputeR\bdisputes\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"\x82\x05\n" +
+	"\aDispute\x12(\n" +
 	"\n" +
-	"dispute_id\x18\x01 \x01(\tR\tdisputeId\x12*\n" +
-	"\x11disputing_user_id\x18\x02 \x01(\tR\x0fdisputingUserId\x12(\n" +
-	"\x10disputed_user_id\x18\x03 \x01(\tR\x0edisputedUserId\x12\x1d\n" +
+	"dispute_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tdisputeId\x125\n" +
+	"\x11disputing_user_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fdisputingUserId\x123\n" +
+	"\x10disputed_user_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0edisputedUserId\x12(\n" +
 	"\n" +
-	"related_id\x18\x04 \x01(\tR\trelatedId\x12!\n" +
-	"\frelated_type\x18\x05 \x01(\tR\vrelatedType\x12\x16\n" +
-	"\x06reason\x18\x06 \x01(\tR\x06reason\x12 \n" +
-	"\vdescription\x18\a \x01(\tR\vdescription\x12=\n" +
-	"\bevidence\x18\b \x03(\v2!.skillsphere.common.v1.AttachmentR\bevidence\x12;\n" +
-	"\x06status\x18\t \x01(\x0e2#.skillsphere.admin.v1.DisputeStatusR\x06status\x12*\n" +
+	"related_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\trelatedId\x12*\n" +
+	"\frelated_type\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x182R\vrelatedType\x12 \n" +
+	"\x06reason\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x06reason\x12*\n" +
+	"\vdescription\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12G\n" +
+	"\bevidence\x18\b \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\bevidence\x12E\n" +
+	"\x06status\x18\t \x01(\x0e2#.skillsphere.admin.v1.DisputeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x125\n" +
 	"\x11assigned_admin_id\x18\n" +
-	" \x01(\tR\x0fassignedAdminId\x129\n" +
+	" \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fassignedAdminId\x129\n" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12;\n" +
 	"\vresolved_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"resolvedAt\"\xd1\x01\n" +
-	"\x15ResolveDisputeRequest\x12\x1d\n" +
+	"resolvedAt\"\xfc\x01\n" +
+	"\x15ResolveDisputeRequest\x12(\n" +
 	"\n" +
-	"dispute_id\x18\x01 \x01(\tR\tdisputeId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x1e\n" +
+	"dispute_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tdisputeId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12(\n" +
 	"\n" +
-	"resolution\x18\x03 \x01(\tR\n" +
-	"resolution\x12\x1b\n" +
-	"\twinner_id\x18\x04 \x01(\tR\bwinnerId\x12A\n" +
+	"resolution\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\n" +
+	"resolution\x12&\n" +
+	"\twinner_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bwinnerId\x12A\n" +
 	"\rrefund_amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\frefundAmount\"v\n" +
 	"\x16ResolveDisputeResponse\x127\n" +
 	"\adispute\x18\x01 \x01(\v2\x1d.skillsphere.admin.v1.DisputeR\adispute\x12#\n" +
-	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"\xc1\x01\n" +
-	"\x11GetReportsRequest\x12:\n" +
-	"\x06status\x18\x01 \x01(\x0e2\".skillsphere.admin.v1.ReportStatusR\x06status\x124\n" +
-	"\x04type\x18\x02 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeR\x04type\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"\xea\x01\n" +
+	"\x11GetReportsRequest\x12D\n" +
+	"\x06status\x18\x01 \x01(\x0e2\".skillsphere.admin.v1.ReportStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12>\n" +
+	"\x04type\x18\x02 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12&\n" +
+	"\tpage_size\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x04 \x01(\tR\tpageToken\"t\n" +
+	"page_token\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"~\n" +
 	"\x12GetReportsResponse\x126\n" +
-	"\areports\x18\x01 \x03(\v2\x1c.skillsphere.admin.v1.ReportR\areports\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x8a\x03\n" +
-	"\x06Report\x12\x1b\n" +
-	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x1f\n" +
-	"\vreporter_id\x18\x02 \x01(\tR\n" +
-	"reporterId\x12(\n" +
-	"\x10reported_user_id\x18\x03 \x01(\tR\x0ereportedUserId\x12\x1d\n" +
+	"\areports\x18\x01 \x03(\v2\x1c.skillsphere.admin.v1.ReportR\areports\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"\xdf\x03\n" +
+	"\x06Report\x12&\n" +
+	"\treport_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breportId\x12*\n" +
+	"\vreporter_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reporterId\x123\n" +
+	"\x10reported_user_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0ereportedUserId\x12(\n" +
 	"\n" +
-	"related_id\x18\x04 \x01(\tR\trelatedId\x124\n" +
-	"\x04type\x18\x05 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeR\x04type\x12 \n" +
-	"\vdescription\x18\x06 \x01(\tR\vdescription\x12:\n" +
-	"\x06status\x18\a \x01(\x0e2\".skillsphere.admin.v1.ReportStatusR\x06status\x12*\n" +
-	"\x11assigned_admin_id\x18\b \x01(\tR\x0fassignedAdminId\x129\n" +
+	"related_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\trelatedId\x12>\n" +
+	"\x04type\x18\x05 \x01(\x0e2 .skillsphere.admin.v1.ReportTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12*\n" +
+	"\vdescription\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\x12D\n" +
+	"\x06status\x18\a \x01(\x0e2\".skillsphere.admin.v1.ReportStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x125\n" +
+	"\x11assigned_admin_id\x18\b \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fassignedAdminId\x129\n" +
 	"\n" +
-	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"R\n" +
-	"\x18InvestigateReportRequest\x12\x1b\n" +
-	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\"\x88\x01\n" +
+	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"h\n" +
+	"\x18InvestigateReportRequest\x12&\n" +
+	"\treport_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breportId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\"\x88\x01\n" +
 	"\x19InvestigateReportResponse\x124\n" +
 	"\x06report\x18\x01 \x01(\v2\x1c.skillsphere.admin.v1.ReportR\x06report\x125\n" +
-	"\x05notes\x18\x02 \x03(\v2\x1f.skillsphere.admin.v1.AdminNoteR\x05notes\"\x94\x01\n" +
-	"\tAdminNote\x12\x17\n" +
-	"\anote_id\x18\x01 \x01(\tR\x06noteId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x18\n" +
-	"\acontent\x18\x03 \x01(\tR\acontent\x129\n" +
+	"\x05notes\x18\x02 \x03(\v2\x1f.skillsphere.admin.v1.AdminNoteR\x05notes\"\xb4\x01\n" +
+	"\tAdminNote\x12\"\n" +
+	"\anote_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06noteId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12\"\n" +
+	"\acontent\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\acontent\x129\n" +
 	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xc2\x01\n" +
-	"\x12CloseReportRequest\x12\x1b\n" +
-	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12I\n" +
-	"\faction_taken\x18\x03 \x01(\x0e2&.skillsphere.admin.v1.ModerationActionR\vactionTaken\x12)\n" +
-	"\x10resolution_notes\x18\x04 \x01(\tR\x0fresolutionNotes\"K\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xec\x01\n" +
+	"\x12CloseReportRequest\x12&\n" +
+	"\treport_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breportId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12S\n" +
+	"\faction_taken\x18\x03 \x01(\x0e2&.skillsphere.admin.v1.ModerationActionB\b\xbaH\x05\x82\x01\x02\x10\x01R\vactionTaken\x123\n" +
+	"\x10resolution_notes\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x0fresolutionNotes\"K\n" +
 	"\x13CloseReportResponse\x124\n" +
-	"\x06report\x18\x01 \x01(\v2\x1c.skillsphere.admin.v1.ReportR\x06report\"~\n" +
-	"\x1dUpdatePlatformSettingsRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\x12B\n" +
-	"\bsettings\x18\x02 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsR\bsettings\"d\n" +
+	"\x06report\x18\x01 \x01(\v2\x1c.skillsphere.admin.v1.ReportR\x06report\"\x91\x01\n" +
+	"\x1dUpdatePlatformSettingsRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12J\n" +
+	"\bsettings\x18\x02 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsB\x06\xbaH\x03\xc8\x01\x01R\bsettings\"d\n" +
 	"\x1eUpdatePlatformSettingsResponse\x12B\n" +
-	"\bsettings\x18\x01 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsR\bsettings\"7\n" +
-	"\x1aGetPlatformSettingsRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\"a\n" +
+	"\bsettings\x18\x01 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsR\bsettings\"B\n" +
+	"\x1aGetPlatformSettingsRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\"a\n" +
 	"\x1bGetPlatformSettingsResponse\x12B\n" +
-	"\bsettings\x18\x01 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsR\bsettings\"\x9d\x04\n" +
+	"\bsettings\x18\x01 \x01(\v2&.skillsphere.admin.v1.PlatformSettingsR\bsettings\"\xef\x04\n" +
 	"\x10PlatformSettings\x12)\n" +
-	"\x10maintenance_mode\x18\x01 \x01(\bR\x0fmaintenanceMode\x12/\n" +
-	"\x13maintenance_message\x18\x02 \x01(\tR\x12maintenanceMessage\x12.\n" +
-	"\x13new_signups_enabled\x18\x03 \x01(\bR\x11newSignupsEnabled\x12/\n" +
-	"\x14max_sessions_per_day\x18\x04 \x01(\x05R\x11maxSessionsPerDay\x12,\n" +
-	"\x12min_session_rating\x18\x05 \x01(\x05R\x10minSessionRating\x12>\n" +
-	"\x1bauto_approve_certifications\x18\x06 \x01(\bR\x19autoApproveCertifications\x126\n" +
-	"\x17platform_fee_percentage\x18\a \x01(\x01R\x15platformFeePercentage\x12c\n" +
-	"\x0fcustom_settings\x18\b \x03(\v2:.skillsphere.admin.v1.PlatformSettings.CustomSettingsEntryR\x0ecustomSettings\x1aA\n" +
+	"\x10maintenance_mode\x18\x01 \x01(\bR\x0fmaintenanceMode\x129\n" +
+	"\x13maintenance_message\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x12maintenanceMessage\x12.\n" +
+	"\x13new_signups_enabled\x18\x03 \x01(\bR\x11newSignupsEnabled\x12:\n" +
+	"\x14max_sessions_per_day\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x00R\x11maxSessionsPerDay\x127\n" +
+	"\x12min_session_rating\x18\x05 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x00R\x10minSessionRating\x12>\n" +
+	"\x1bauto_approve_certifications\x18\x06 \x01(\bR\x19autoApproveCertifications\x12O\n" +
+	"\x17platform_fee_percentage\x18\a \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\x15platformFeePercentage\x12|\n" +
+	"\x0fcustom_settings\x18\b \x03(\v2:.skillsphere.admin.v1.PlatformSettings.CustomSettingsEntryB\x17\xbaH\x14\x9a\x01\x11\x102\"\x06r\x04\x10\x01\x18@*\x05r\x03\x18\xc8\x01R\x0ecustomSettings\x1aA\n" +
 	"\x13CustomSettingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8d\x01\n" +
-	"\x18ToggleFeatureFlagRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\x12!\n" +
-	"\ffeature_name\x18\x02 \x01(\tR\vfeatureName\x12\x18\n" +
-	"\aenabled\x18\x03 \x01(\bR\aenabled\x12\x19\n" +
-	"\buser_ids\x18\x04 \x03(\tR\auserIds\"X\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb5\x01\n" +
+	"\x18ToggleFeatureFlagRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12,\n" +
+	"\ffeature_name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18@R\vfeatureName\x12\x18\n" +
+	"\aenabled\x18\x03 \x01(\bR\aenabled\x12+\n" +
+	"\buser_ids\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10d\"\x06r\x04\x10\x01\x182R\auserIds\"X\n" +
 	"\x19ToggleFeatureFlagResponse\x12;\n" +
-	"\afeature\x18\x01 \x01(\v2!.skillsphere.admin.v1.FeatureFlagR\afeature\"4\n" +
-	"\x17ListFeatureFlagsRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\"Y\n" +
+	"\afeature\x18\x01 \x01(\v2!.skillsphere.admin.v1.FeatureFlagR\afeature\"?\n" +
+	"\x17ListFeatureFlagsRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\"Y\n" +
 	"\x18ListFeatureFlagsResponse\x12=\n" +
-	"\bfeatures\x18\x01 \x03(\v2!.skillsphere.admin.v1.FeatureFlagR\bfeatures\"\xc4\x01\n" +
-	"\vFeatureFlag\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\aenabled\x18\x02 \x01(\bR\aenabled\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12*\n" +
-	"\x11enabled_for_users\x18\x04 \x03(\tR\x0fenabledForUsers\x129\n" +
+	"\bfeatures\x18\x01 \x03(\v2!.skillsphere.admin.v1.FeatureFlagR\bfeatures\"\xeb\x01\n" +
+	"\vFeatureFlag\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18@R\x04name\x12\x18\n" +
+	"\aenabled\x18\x02 \x01(\bR\aenabled\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\vdescription\x12<\n" +
+	"\x11enabled_for_users\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10d\"\x06r\x04\x10\x01\x182R\x0fenabledForUsers\x129\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x95\x01\n" +
-	"\x13VerifyExpertRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x1b\n" +
-	"\tskill_ids\x18\x03 \x03(\tR\bskillIds\x12-\n" +
-	"\x12verification_notes\x18\x04 \x01(\tR\x11verificationNotes\"d\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xc7\x01\n" +
+	"\x13VerifyExpertRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12-\n" +
+	"\tskill_ids\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\bskillIds\x127\n" +
+	"\x12verification_notes\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x11verificationNotes\"q\n" +
 	"\x14VerifyExpertResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12\x1b\n" +
-	"\tbadge_url\x18\x02 \x01(\tR\bbadgeUrl\"g\n" +
-	"\x19RevokeVerificationRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"M\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12(\n" +
+	"\tbadge_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\bbadgeUrl\"\x87\x01\n" +
+	"\x19RevokeVerificationRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"M\n" +
 	"\x1aRevokeVerificationResponse\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"\xa5\x02\n" +
-	"\x13GetAuditLogsRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\x129\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\"\xd8\x02\n" +
+	"\x13GetAuditLogsRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x129\n" +
 	"\n" +
 	"start_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x1f\n" +
-	"\vaction_type\x18\x04 \x01(\tR\n" +
-	"actionType\x12$\n" +
-	"\x0etarget_user_id\x18\x05 \x01(\tR\ftargetUserId\x12\x1b\n" +
-	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\bend_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12(\n" +
+	"\vaction_type\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\n" +
+	"actionType\x12-\n" +
+	"\x0etarget_user_id\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x182R\ftargetUserId\x12'\n" +
+	"\tpage_size\x18\x06 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xc8\x01(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\a \x01(\tR\tpageToken\"r\n" +
+	"page_token\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"|\n" +
 	"\x14GetAuditLogsResponse\x122\n" +
-	"\x04logs\x18\x01 \x03(\v2\x1e.skillsphere.admin.v1.AuditLogR\x04logs\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xcf\x02\n" +
-	"\bAuditLog\x12\x15\n" +
-	"\x06log_id\x18\x01 \x01(\tR\x05logId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06action\x18\x03 \x01(\tR\x06action\x12\x1f\n" +
-	"\vtarget_type\x18\x04 \x01(\tR\n" +
-	"targetType\x12\x1b\n" +
-	"\ttarget_id\x18\x05 \x01(\tR\btargetId\x12E\n" +
-	"\adetails\x18\x06 \x03(\v2+.skillsphere.admin.v1.AuditLog.DetailsEntryR\adetails\x128\n" +
+	"\x04logs\x18\x01 \x03(\v2\x1e.skillsphere.admin.v1.AuditLogR\x04logs\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"\x99\x03\n" +
+	"\bAuditLog\x12 \n" +
+	"\x06log_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05logId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12\x1f\n" +
+	"\x06action\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x06action\x12(\n" +
+	"\vtarget_type\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\n" +
+	"targetType\x12$\n" +
+	"\ttarget_id\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x182R\btargetId\x12^\n" +
+	"\adetails\x18\x06 \x03(\v2+.skillsphere.admin.v1.AuditLog.DetailsEntryB\x17\xbaH\x14\x9a\x01\x11\x10\x14\"\x06r\x04\x10\x01\x18 *\x05r\x03\x18\x80\x02R\adetails\x128\n" +
 	"\ttimestamp\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x1a:\n" +
 	"\fDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x91\x02\n" +
-	"\x19CreateAnnouncementRequest\x12\x19\n" +
-	"\badmin_id\x18\x01 \x01(\tR\aadminId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12\x18\n" +
-	"\acontent\x18\x03 \x01(\tR\acontent\x12F\n" +
-	"\bpriority\x18\x04 \x01(\x0e2*.skillsphere.admin.v1.AnnouncementPriorityR\bpriority\x12&\n" +
-	"\x0ftarget_user_ids\x18\x05 \x03(\tR\rtargetUserIds\x129\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd0\x02\n" +
+	"\x19CreateAnnouncementRequest\x12$\n" +
+	"\badmin_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12\x1f\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18xR\x05title\x12$\n" +
+	"\acontent\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x88'R\acontent\x12P\n" +
+	"\bpriority\x18\x04 \x01(\x0e2*.skillsphere.admin.v1.AnnouncementPriorityB\b\xbaH\x05\x82\x01\x02\x10\x01R\bpriority\x129\n" +
+	"\x0ftarget_user_ids\x18\x05 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\xf4\x03\"\x06r\x04\x10\x01\x182R\rtargetUserIds\x129\n" +
 	"\n" +
 	"expires_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"d\n" +
 	"\x1aCreateAnnouncementResponse\x12F\n" +
@@ -3721,12 +3729,13 @@ const file_admin_v1_admin_proto_rawDesc = "" +
 	"\vactive_only\x18\x01 \x01(\bR\n" +
 	"activeOnly\"d\n" +
 	"\x18GetAnnouncementsResponse\x12H\n" +
-	"\rannouncements\x18\x01 \x03(\v2\".skillsphere.admin.v1.AnnouncementR\rannouncements\"\xc2\x02\n" +
-	"\fAnnouncement\x12'\n" +
-	"\x0fannouncement_id\x18\x01 \x01(\tR\x0eannouncementId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12\x18\n" +
-	"\acontent\x18\x03 \x01(\tR\acontent\x12F\n" +
-	"\bpriority\x18\x04 \x01(\x0e2*.skillsphere.admin.v1.AnnouncementPriorityR\bpriority\x129\n" +
+	"\rannouncements\x18\x01 \x03(\v2\".skillsphere.admin.v1.AnnouncementR\rannouncements\"\xee\x02\n" +
+	"\fAnnouncement\x122\n" +
+	"\x0fannouncement_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0eannouncementId\x12\x1f\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18xR\x05title\x12$\n" +
+	"\acontent\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x88'R\acontent\x12P\n" +
+	"\bpriority\x18\x04 \x01(\x0e2*.skillsphere.admin.v1.AnnouncementPriorityB\b\xbaH\x05\x82\x01\x02\x10\x01R\bpriority\x129\n" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +

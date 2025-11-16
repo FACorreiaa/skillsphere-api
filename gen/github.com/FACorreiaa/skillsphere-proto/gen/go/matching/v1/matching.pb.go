@@ -7,6 +7,7 @@
 package matchingv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -134,9 +135,9 @@ type FindMatchesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Algorithm     MatchingAlgorithm      `protobuf:"varint,2,opt,name=algorithm,proto3,enum=skillsphere.matching.v1.MatchingAlgorithm" json:"algorithm,omitempty"`
-	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"` // Default 20, max 100
+	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	Filters       *v1.SearchFilters      `protobuf:"bytes,4,opt,name=filters,proto3" json:"filters,omitempty"`
-	MinMatchScore float64                `protobuf:"fixed64,5,opt,name=min_match_score,json=minMatchScore,proto3" json:"min_match_score,omitempty"` // Threshold 0.0-1.0 (default 0.5)
+	MinMatchScore float64                `protobuf:"fixed64,5,opt,name=min_match_score,json=minMatchScore,proto3" json:"min_match_score,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -261,9 +262,9 @@ func (x *FindMatchesResponse) GetMetadata() *MatchingMetadata {
 type Match struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	MatchScore    float64                `protobuf:"fixed64,2,opt,name=match_score,json=matchScore,proto3" json:"match_score,omitempty"` // 0.0-1.0
+	MatchScore    float64                `protobuf:"fixed64,2,opt,name=match_score,json=matchScore,proto3" json:"match_score,omitempty"`
 	SkillMatches  []*SkillMatch          `protobuf:"bytes,3,rep,name=skill_matches,json=skillMatches,proto3" json:"skill_matches,omitempty"`
-	Explanation   string                 `protobuf:"bytes,4,opt,name=explanation,proto3" json:"explanation,omitempty"`            // Human-readable reason
+	Explanation   string                 `protobuf:"bytes,4,opt,name=explanation,proto3" json:"explanation,omitempty"`
 	IsMutual      bool                   `protobuf:"varint,5,opt,name=is_mutual,json=isMutual,proto3" json:"is_mutual,omitempty"` // Both users can help each other
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -704,8 +705,8 @@ func (x *GetRecommendationsResponse) GetRecommendations() []*Recommendation {
 
 type Recommendation struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	ItemId         string                 `protobuf:"bytes,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`       // User ID or Skill ID
-	ItemType       string                 `protobuf:"bytes,2,opt,name=item_type,json=itemType,proto3" json:"item_type,omitempty"` // "user", "skill", "session"
+	ItemId         string                 `protobuf:"bytes,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+	ItemType       string                 `protobuf:"bytes,2,opt,name=item_type,json=itemType,proto3" json:"item_type,omitempty"`
 	Title          string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
 	Description    string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	RelevanceScore float64                `protobuf:"fixed64,5,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"`
@@ -1049,7 +1050,7 @@ func (x *GenerateEmbeddingsResponse) GetEmbeddings() []*SkillEmbedding {
 type SkillEmbedding struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SkillName     string                 `protobuf:"bytes,1,opt,name=skill_name,json=skillName,proto3" json:"skill_name,omitempty"`
-	Vector        []float32              `protobuf:"fixed32,2,rep,packed,name=vector,proto3" json:"vector,omitempty"` // 300D vector from Gemini
+	Vector        []float32              `protobuf:"fixed32,2,rep,packed,name=vector,proto3" json:"vector,omitempty"`
 	ModelVersion  string                 `protobuf:"bytes,3,opt,name=model_version,json=modelVersion,proto3" json:"model_version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1110,82 +1111,86 @@ var File_matching_v1_matching_proto protoreflect.FileDescriptor
 
 const file_matching_v1_matching_proto_rawDesc = "" +
 	"\n" +
-	"\x1amatching/v1/matching.proto\x12\x17skillsphere.matching.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xf5\x01\n" +
-	"\x12FindMatchesRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12H\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmR\talgorithm\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\x12>\n" +
-	"\afilters\x18\x04 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12&\n" +
-	"\x0fmin_match_score\x18\x05 \x01(\x01R\rminMatchScore\"\x96\x01\n" +
+	"\x1amatching/v1/matching.proto\x12\x17skillsphere.matching.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xae\x02\n" +
+	"\x12FindMatchesRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12R\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmB\b\xbaH\x05\x82\x01\x02\x10\x01R\talgorithm\x12\x1f\n" +
+	"\x05limit\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x05limit\x12>\n" +
+	"\afilters\x18\x04 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12?\n" +
+	"\x0fmin_match_score\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\rminMatchScore\"\x96\x01\n" +
 	"\x13FindMatchesResponse\x128\n" +
 	"\amatches\x18\x01 \x03(\v2\x1e.skillsphere.matching.v1.MatchR\amatches\x12E\n" +
-	"\bmetadata\x18\x02 \x01(\v2).skillsphere.matching.v1.MatchingMetadataR\bmetadata\"\xe2\x01\n" +
+	"\bmetadata\x18\x02 \x01(\v2).skillsphere.matching.v1.MatchingMetadataR\bmetadata\"\x8f\x02\n" +
 	"\x05Match\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12\x1f\n" +
-	"\vmatch_score\x18\x02 \x01(\x01R\n" +
-	"matchScore\x12H\n" +
-	"\rskill_matches\x18\x03 \x03(\v2#.skillsphere.matching.v1.SkillMatchR\fskillMatches\x12 \n" +
-	"\vexplanation\x18\x04 \x01(\tR\vexplanation\x12\x1b\n" +
-	"\tis_mutual\x18\x05 \x01(\bR\bisMutual\"\xae\x01\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x128\n" +
+	"\vmatch_score\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"matchScore\x12R\n" +
+	"\rskill_matches\x18\x03 \x03(\v2#.skillsphere.matching.v1.SkillMatchB\b\xbaH\x05\x92\x01\x02\x102R\fskillMatches\x12*\n" +
+	"\vexplanation\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vexplanation\x12\x1b\n" +
+	"\tis_mutual\x18\x05 \x01(\bR\bisMutual\"\xcf\x01\n" +
 	"\n" +
-	"SkillMatch\x12\x1d\n" +
+	"SkillMatch\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x12)\n" +
-	"\x10user_proficiency\x18\x02 \x01(\x05R\x0fuserProficiency\x12+\n" +
-	"\x11match_proficiency\x18\x03 \x01(\x05R\x10matchProficiency\x12)\n" +
-	"\x10is_complementary\x18\x04 \x01(\bR\x0fisComplementary\"\xf4\x01\n" +
-	"\x10MatchingMetadata\x12Q\n" +
-	"\x0ealgorithm_used\x18\x01 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmR\ralgorithmUsed\x12)\n" +
-	"\x10total_candidates\x18\x02 \x01(\x05R\x0ftotalCandidates\x12%\n" +
-	"\x0efiltered_count\x18\x03 \x01(\x05R\rfilteredCount\x12;\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x124\n" +
+	"\x10user_proficiency\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x00R\x0fuserProficiency\x126\n" +
+	"\x11match_proficiency\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x00R\x10matchProficiency\x12)\n" +
+	"\x10is_complementary\x18\x04 \x01(\bR\x0fisComplementary\"\x90\x02\n" +
+	"\x10MatchingMetadata\x12[\n" +
+	"\x0ealgorithm_used\x18\x01 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmB\b\xbaH\x05\x82\x01\x02\x10\x01R\ralgorithmUsed\x122\n" +
+	"\x10total_candidates\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0ftotalCandidates\x12.\n" +
+	"\x0efiltered_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rfilteredCount\x12;\n" +
 	"\vcomputed_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"computedAt\"\x98\x01\n" +
-	"\x14GetMatchScoreRequest\x12\x1a\n" +
-	"\tuser_id_1\x18\x01 \x01(\tR\auserId1\x12\x1a\n" +
-	"\tuser_id_2\x18\x02 \x01(\tR\auserId2\x12H\n" +
-	"\talgorithm\x18\x03 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmR\talgorithm\"\xc1\x01\n" +
-	"\x15GetMatchScoreResponse\x12\x1f\n" +
-	"\vmatch_score\x18\x01 \x01(\x01R\n" +
-	"matchScore\x12H\n" +
-	"\rskill_matches\x18\x02 \x03(\v2#.skillsphere.matching.v1.SkillMatchR\fskillMatches\x12 \n" +
-	"\vexplanation\x18\x03 \x01(\tR\vexplanation\x12\x1b\n" +
-	"\tis_mutual\x18\x04 \x01(\bR\bisMutual\"\x8b\x01\n" +
-	"\x19GetRecommendationsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12?\n" +
-	"\x04type\x18\x03 \x01(\x0e2+.skillsphere.matching.v1.RecommendationTypeR\x04type\"o\n" +
+	"computedAt\"\xb8\x01\n" +
+	"\x14GetMatchScoreRequest\x12%\n" +
+	"\tuser_id_1\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\auserId1\x12%\n" +
+	"\tuser_id_2\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\auserId2\x12R\n" +
+	"\talgorithm\x18\x03 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmB\b\xbaH\x05\x82\x01\x02\x10\x01R\talgorithm\"\xee\x01\n" +
+	"\x15GetMatchScoreResponse\x128\n" +
+	"\vmatch_score\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"matchScore\x12R\n" +
+	"\rskill_matches\x18\x02 \x03(\v2#.skillsphere.matching.v1.SkillMatchB\b\xbaH\x05\x92\x01\x02\x102R\fskillMatches\x12*\n" +
+	"\vexplanation\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vexplanation\x12\x1b\n" +
+	"\tis_mutual\x18\x04 \x01(\bR\bisMutual\"\xab\x01\n" +
+	"\x19GetRecommendationsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\x12I\n" +
+	"\x04type\x18\x03 \x01(\x0e2+.skillsphere.matching.v1.RecommendationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\"o\n" +
 	"\x1aGetRecommendationsResponse\x12Q\n" +
-	"\x0frecommendations\x18\x01 \x03(\v2'.skillsphere.matching.v1.RecommendationR\x0frecommendations\"\xbf\x01\n" +
-	"\x0eRecommendation\x12\x17\n" +
-	"\aitem_id\x18\x01 \x01(\tR\x06itemId\x12\x1b\n" +
-	"\titem_type\x18\x02 \x01(\tR\bitemType\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12'\n" +
-	"\x0frelevance_score\x18\x05 \x01(\x01R\x0erelevanceScore\x12\x16\n" +
-	"\x06reason\x18\x06 \x01(\tR\x06reason\"\x91\x01\n" +
-	"\x16GetSimilarUsersRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12H\n" +
-	"\talgorithm\x18\x03 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmR\talgorithm\"U\n" +
+	"\x0frecommendations\x18\x01 \x03(\v2'.skillsphere.matching.v1.RecommendationR\x0frecommendations\"\x8c\x02\n" +
+	"\x0eRecommendation\x12 \n" +
+	"\aitem_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x182R\x06itemId\x12&\n" +
+	"\titem_type\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\bitemType\x12 \n" +
+	"\x05title\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\x12@\n" +
+	"\x0frelevance_score\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x0erelevanceScore\x12 \n" +
+	"\x06reason\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"\xb1\x01\n" +
+	"\x16GetSimilarUsersRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\x12R\n" +
+	"\talgorithm\x18\x03 \x01(\x0e2*.skillsphere.matching.v1.MatchingAlgorithmB\b\xbaH\x05\x82\x01\x02\x10\x01R\talgorithm\"U\n" +
 	"\x17GetSimilarUsersResponse\x12:\n" +
-	"\x05users\x18\x01 \x03(\v2$.skillsphere.matching.v1.SimilarUserR\x05users\"\x8e\x01\n" +
+	"\x05users\x18\x01 \x03(\v2$.skillsphere.matching.v1.SimilarUserR\x05users\"\xb9\x01\n" +
 	"\vSimilarUser\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12)\n" +
-	"\x10similarity_score\x18\x02 \x01(\x01R\x0fsimilarityScore\x12#\n" +
-	"\rcommon_skills\x18\x03 \x03(\tR\fcommonSkills\"U\n" +
-	"\x19GenerateEmbeddingsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vskill_names\x18\x02 \x03(\tR\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12B\n" +
+	"\x10similarity_score\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x0fsimilarityScore\x125\n" +
+	"\rcommon_skills\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x18dR\fcommonSkills\"t\n" +
+	"\x19GenerateEmbeddingsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x123\n" +
+	"\vskill_names\x18\x02 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x102\"\x06r\x04\x10\x01\x18dR\n" +
 	"skillNames\"e\n" +
 	"\x1aGenerateEmbeddingsResponse\x12G\n" +
 	"\n" +
 	"embeddings\x18\x01 \x03(\v2'.skillsphere.matching.v1.SkillEmbeddingR\n" +
-	"embeddings\"l\n" +
-	"\x0eSkillEmbedding\x12\x1d\n" +
+	"embeddings\"\x8b\x01\n" +
+	"\x0eSkillEmbedding\x12(\n" +
 	"\n" +
-	"skill_name\x18\x01 \x01(\tR\tskillName\x12\x16\n" +
-	"\x06vector\x18\x02 \x03(\x02R\x06vector\x12#\n" +
-	"\rmodel_version\x18\x03 \x01(\tR\fmodelVersion*\xb9\x01\n" +
+	"skill_name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12!\n" +
+	"\x06vector\x18\x02 \x03(\x02B\t\xbaH\x06\x92\x01\x03\x10\x80\bR\x06vector\x12,\n" +
+	"\rmodel_version\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\fmodelVersion*\xb9\x01\n" +
 	"\x11MatchingAlgorithm\x12\"\n" +
 	"\x1eMATCHING_ALGORITHM_UNSPECIFIED\x10\x00\x12 \n" +
 	"\x1cMATCHING_ALGORITHM_EUCLIDEAN\x10\x01\x12\x1d\n" +

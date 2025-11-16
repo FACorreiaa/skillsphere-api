@@ -7,6 +7,7 @@
 package workshopv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -1095,7 +1096,7 @@ type ListWorkshopsRequest struct {
 	UpcomingOnly  bool                   `protobuf:"varint,6,opt,name=upcoming_only,json=upcomingOnly,proto3" json:"upcoming_only,omitempty"`
 	StartDate     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
 	EndDate       *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	HostId        string                 `protobuf:"bytes,9,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"` // Filter by host
+	HostId        string                 `protobuf:"bytes,9,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1257,7 +1258,7 @@ type RegisterForWorkshopRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	WorkshopId      string                 `protobuf:"bytes,1,opt,name=workshop_id,json=workshopId,proto3" json:"workshop_id,omitempty"`
 	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PaymentMethodId string                 `protobuf:"bytes,3,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"` // For paid workshops
+	PaymentMethodId string                 `protobuf:"bytes,3,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1317,7 +1318,7 @@ type RegisterForWorkshopResponse struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Registration      *Registration          `protobuf:"bytes,1,opt,name=registration,proto3" json:"registration,omitempty"`
 	ConfirmationEmail string                 `protobuf:"bytes,2,opt,name=confirmation_email,json=confirmationEmail,proto3" json:"confirmation_email,omitempty"`
-	CalendarInvite    string                 `protobuf:"bytes,3,opt,name=calendar_invite,json=calendarInvite,proto3" json:"calendar_invite,omitempty"` // ICS file URL
+	CalendarInvite    string                 `protobuf:"bytes,3,opt,name=calendar_invite,json=calendarInvite,proto3" json:"calendar_invite,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1496,7 +1497,7 @@ func (x *CancelRegistrationResponse) GetRefundAmount() *v1.Money {
 type GetAttendeesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WorkshopId    string                 `protobuf:"bytes,1,opt,name=workshop_id,json=workshopId,proto3" json:"workshop_id,omitempty"`
-	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"` // Authorization
+	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1737,7 +1738,7 @@ type StartWorkshopResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Workshop      *Workshop              `protobuf:"bytes,1,opt,name=workshop,proto3" json:"workshop,omitempty"`
 	StreamingUrl  string                 `protobuf:"bytes,2,opt,name=streaming_url,json=streamingUrl,proto3" json:"streaming_url,omitempty"`
-	HostKey       string                 `protobuf:"bytes,3,opt,name=host_key,json=hostKey,proto3" json:"host_key,omitempty"` // Auth key for host controls
+	HostKey       string                 `protobuf:"bytes,3,opt,name=host_key,json=hostKey,proto3" json:"host_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1797,7 +1798,7 @@ type EndWorkshopRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WorkshopId    string                 `protobuf:"bytes,1,opt,name=workshop_id,json=workshopId,proto3" json:"workshop_id,omitempty"`
 	HostId        string                 `protobuf:"bytes,2,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	RecordingUrl  string                 `protobuf:"bytes,3,opt,name=recording_url,json=recordingUrl,proto3" json:"recording_url,omitempty"` // Optional recording
+	RecordingUrl  string                 `protobuf:"bytes,3,opt,name=recording_url,json=recordingUrl,proto3" json:"recording_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2028,7 +2029,7 @@ func (x *GetUserWorkshopsResponse) GetAttendingWorkshops() []*Workshop {
 type GetWorkshopRecordingRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WorkshopId    string                 `protobuf:"bytes,1,opt,name=workshop_id,json=workshopId,proto3" json:"workshop_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Check if user attended
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2149,182 +2150,192 @@ var File_workshop_v1_workshop_proto protoreflect.FileDescriptor
 
 const file_workshop_v1_workshop_proto_rawDesc = "" +
 	"\n" +
-	"\x1aworkshop/v1/workshop.proto\x12\x17skillsphere.workshop.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xae\t\n" +
-	"\bWorkshop\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x05 \x03(\tR\bskillIds\x12C\n" +
+	"\x1aworkshop/v1/workshop.proto\x12\x17skillsphere.workshop.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xad\v\n" +
+	"\bWorkshop\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\ahost_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\x12 \n" +
+	"\x05title\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12-\n" +
+	"\tskill_ids\x18\x05 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x12C\n" +
 	"\x0fscheduled_start\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12?\n" +
-	"\rscheduled_end\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12)\n" +
-	"\x10duration_minutes\x18\b \x01(\x05R\x0fdurationMinutes\x12\x1a\n" +
-	"\btimezone\x18\t \x01(\tR\btimezone\x12)\n" +
+	"\rscheduled_end\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x125\n" +
+	"\x10duration_minutes\x18\b \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe0\x03(\x0fR\x0fdurationMinutes\x12#\n" +
+	"\btimezone\x18\t \x01(\tB\a\xbaH\x04r\x02\x18dR\btimezone\x125\n" +
 	"\x10max_participants\x18\n" +
-	" \x01(\x05R\x0fmaxParticipants\x121\n" +
-	"\x14current_participants\x18\v \x01(\x05R\x13currentParticipants\x12?\n" +
+	" \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x01R\x0fmaxParticipants\x12:\n" +
+	"\x14current_participants\x18\v \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x13currentParticipants\x12?\n" +
 	"\fticket_price\x18\f \x01(\v2\x1c.skillsphere.common.v1.MoneyR\vticketPrice\x12\x17\n" +
-	"\ais_free\x18\r \x01(\bR\x06isFree\x12&\n" +
-	"\x0fcover_image_url\x18\x0e \x01(\tR\rcoverImageUrl\x12?\n" +
-	"\x06format\x18\x0f \x01(\x0e2'.skillsphere.workshop.v1.WorkshopFormatR\x06format\x12H\n" +
+	"\ais_free\x18\r \x01(\bR\x06isFree\x123\n" +
+	"\x0fcover_image_url\x18\x0e \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\rcoverImageUrl\x12I\n" +
+	"\x06format\x18\x0f \x01(\x0e2'.skillsphere.workshop.v1.WorkshopFormatB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06format\x12R\n" +
 	"\n" +
-	"difficulty\x18\x10 \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelR\n" +
-	"difficulty\x12$\n" +
-	"\rprerequisites\x18\x11 \x03(\tR\rprerequisites\x12+\n" +
-	"\x11learning_outcomes\x18\x12 \x03(\tR\x10learningOutcomes\x12\x1f\n" +
-	"\vmeeting_url\x18\x13 \x01(\tR\n" +
-	"meetingUrl\x12#\n" +
-	"\rrecording_url\x18\x14 \x01(\tR\frecordingUrl\x12?\n" +
-	"\tmaterials\x18\x15 \x03(\v2!.skillsphere.common.v1.AttachmentR\tmaterials\x12?\n" +
-	"\x06status\x18\x16 \x01(\x0e2'.skillsphere.workshop.v1.WorkshopStatusR\x06status\x129\n" +
+	"difficulty\x18\x10 \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"difficulty\x127\n" +
+	"\rprerequisites\x18\x11 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\rprerequisites\x12>\n" +
+	"\x11learning_outcomes\x18\x12 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\x10learningOutcomes\x12,\n" +
+	"\vmeeting_url\x18\x13 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\n" +
+	"meetingUrl\x120\n" +
+	"\rrecording_url\x18\x14 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\frecordingUrl\x12I\n" +
+	"\tmaterials\x18\x15 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\x14R\tmaterials\x12I\n" +
+	"\x06status\x18\x16 \x01(\x0e2'.skillsphere.workshop.v1.WorkshopStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x129\n" +
 	"\n" +
 	"created_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12%\n" +
-	"\x0eaverage_rating\x18\x19 \x01(\x01R\raverageRating\x12#\n" +
-	"\rtotal_reviews\x18\x1a \x01(\x05R\ftotalReviews\"\xca\x02\n" +
-	"\fRegistration\x12'\n" +
-	"\x0fregistration_id\x18\x01 \x01(\tR\x0eregistrationId\x12\x1f\n" +
-	"\vworkshop_id\x18\x02 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\x12\x1d\n" +
+	"updated_at\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12>\n" +
+	"\x0eaverage_rating\x18\x19 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\raverageRating\x12,\n" +
+	"\rtotal_reviews\x18\x1a \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ftotalReviews\"\xf4\x02\n" +
+	"\fRegistration\x122\n" +
+	"\x0fregistration_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0eregistrationId\x12*\n" +
+	"\vworkshop_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\auser_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
 	"\n" +
-	"payment_id\x18\x04 \x01(\tR\tpaymentId\x12?\n" +
+	"payment_id\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\tpaymentId\x12?\n" +
 	"\rregistered_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\fregisteredAt\x12\x1a\n" +
 	"\battended\x18\x06 \x01(\bR\battended\x12\x1c\n" +
 	"\tcancelled\x18\a \x01(\bR\tcancelled\x12=\n" +
-	"\fcancelled_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vcancelledAt\"\xd8\x04\n" +
-	"\x15CreateWorkshopRequest\x12\x17\n" +
-	"\ahost_id\x18\x01 \x01(\tR\x06hostId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x04 \x03(\tR\bskillIds\x12C\n" +
-	"\x0fscheduled_start\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12)\n" +
-	"\x10duration_minutes\x18\x06 \x01(\x05R\x0fdurationMinutes\x12)\n" +
-	"\x10max_participants\x18\a \x01(\x05R\x0fmaxParticipants\x12?\n" +
+	"\fcancelled_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vcancelledAt\"\xdf\x05\n" +
+	"\x15CreateWorkshopRequest\x12\"\n" +
+	"\ahost_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12/\n" +
+	"\tskill_ids\x18\x04 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x12C\n" +
+	"\x0fscheduled_start\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x125\n" +
+	"\x10duration_minutes\x18\x06 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe0\x03(\x0fR\x0fdurationMinutes\x125\n" +
+	"\x10max_participants\x18\a \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x01R\x0fmaxParticipants\x12?\n" +
 	"\fticket_price\x18\b \x01(\v2\x1c.skillsphere.common.v1.MoneyR\vticketPrice\x12\x17\n" +
-	"\ais_free\x18\t \x01(\bR\x06isFree\x12?\n" +
+	"\ais_free\x18\t \x01(\bR\x06isFree\x12I\n" +
 	"\x06format\x18\n" +
-	" \x01(\x0e2'.skillsphere.workshop.v1.WorkshopFormatR\x06format\x12H\n" +
+	" \x01(\x0e2'.skillsphere.workshop.v1.WorkshopFormatB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06format\x12R\n" +
 	"\n" +
-	"difficulty\x18\v \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelR\n" +
-	"difficulty\x12$\n" +
-	"\rprerequisites\x18\f \x03(\tR\rprerequisites\x12+\n" +
-	"\x11learning_outcomes\x18\r \x03(\tR\x10learningOutcomes\"|\n" +
+	"difficulty\x18\v \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"difficulty\x127\n" +
+	"\rprerequisites\x18\f \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\rprerequisites\x12>\n" +
+	"\x11learning_outcomes\x18\r \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\x10learningOutcomes\"\x89\x01\n" +
 	"\x16CreateWorkshopResponse\x12=\n" +
-	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x12#\n" +
-	"\rshareable_url\x18\x02 \x01(\tR\fshareableUrl\"5\n" +
-	"\x12GetWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
+	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x120\n" +
+	"\rshareable_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\fshareableUrl\"@\n" +
+	"\x12GetWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
 	"workshopId\"\xcc\x01\n" +
 	"\x13GetWorkshopResponse\x12=\n" +
 	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x12/\n" +
 	"\x04host\x18\x02 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04host\x12\x17\n" +
 	"\ais_full\x18\x03 \x01(\bR\x06isFull\x12,\n" +
-	"\x12user_is_registered\x18\x04 \x01(\bR\x10userIsRegistered\"\xa1\x02\n" +
-	"\x15UpdateWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12C\n" +
-	"\x0fscheduled_start\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12)\n" +
-	"\x10max_participants\x18\x05 \x01(\x05R\x0fmaxParticipants\x12?\n" +
+	"\x12user_is_registered\x18\x04 \x01(\bR\x10userIsRegistered\"\xce\x02\n" +
+	"\x15UpdateWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12C\n" +
+	"\x0fscheduled_start\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x125\n" +
+	"\x10max_participants\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x01R\x0fmaxParticipants\x12?\n" +
 	"\fticket_price\x18\x06 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\vticketPrice\"W\n" +
 	"\x16UpdateWorkshopResponse\x12=\n" +
-	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\"i\n" +
-	"\x15CancelWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"~\n" +
+	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\"\x89\x01\n" +
+	"\x15CancelWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\ahost_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"~\n" +
 	"\x16CancelWorkshopResponse\x12=\n" +
 	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x12%\n" +
-	"\x0erefunds_issued\x18\x02 \x01(\x05R\rrefundsIssued\"\xaf\x03\n" +
-	"\x14ListWorkshopsRequest\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\x0erefunds_issued\x18\x02 \x01(\x05R\rrefundsIssued\"\xe1\x03\n" +
+	"\x14ListWorkshopsRequest\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12D\n" +
+	"page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12N\n" +
 	"\n" +
-	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12H\n" +
+	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12R\n" +
 	"\n" +
-	"difficulty\x18\x04 \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelR\n" +
+	"difficulty\x18\x04 \x01(\x0e2(.skillsphere.workshop.v1.DifficultyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
 	"difficulty\x12\x1b\n" +
 	"\tfree_only\x18\x05 \x01(\bR\bfreeOnly\x12#\n" +
 	"\rupcoming_only\x18\x06 \x01(\bR\fupcomingOnly\x129\n" +
 	"\n" +
 	"start_date\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x17\n" +
-	"\ahost_id\x18\t \x01(\tR\x06hostId\"\xa1\x01\n" +
+	"\bend_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12 \n" +
+	"\ahost_id\x18\t \x01(\tB\a\xbaH\x04r\x02\x182R\x06hostId\"\xb4\x01\n" +
 	"\x15ListWorkshopsResponse\x12?\n" +
-	"\tworkshops\x18\x01 \x03(\v2!.skillsphere.workshop.v1.WorkshopR\tworkshops\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\x82\x01\n" +
-	"\x1aRegisterForWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12*\n" +
-	"\x11payment_method_id\x18\x03 \x01(\tR\x0fpaymentMethodId\"\xc0\x01\n" +
+	"\tworkshops\x18\x01 \x03(\v2!.skillsphere.workshop.v1.WorkshopR\tworkshops\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"\xa1\x01\n" +
+	"\x1aRegisterForWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x123\n" +
+	"\x11payment_method_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x0fpaymentMethodId\"\xd7\x01\n" +
 	"\x1bRegisterForWorkshopResponse\x12I\n" +
-	"\fregistration\x18\x01 \x01(\v2%.skillsphere.workshop.v1.RegistrationR\fregistration\x12-\n" +
-	"\x12confirmation_email\x18\x02 \x01(\tR\x11confirmationEmail\x12'\n" +
-	"\x0fcalendar_invite\x18\x03 \x01(\tR\x0ecalendarInvite\"u\n" +
-	"\x19CancelRegistrationRequest\x12'\n" +
-	"\x0fregistration_id\x18\x01 \x01(\tR\x0eregistrationId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"\x9e\x01\n" +
+	"\fregistration\x18\x01 \x01(\v2%.skillsphere.workshop.v1.RegistrationR\fregistration\x127\n" +
+	"\x12confirmation_email\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\x11confirmationEmail\x124\n" +
+	"\x0fcalendar_invite\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x0ecalendarInvite\"\x95\x01\n" +
+	"\x19CancelRegistrationRequest\x122\n" +
+	"\x0fregistration_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0eregistrationId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"\x9e\x01\n" +
 	"\x1aCancelRegistrationResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\x12A\n" +
-	"\rrefund_amount\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\frefundAmount\"O\n" +
-	"\x13GetAttendeesRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\"\xa9\x01\n" +
+	"\rrefund_amount\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\frefundAmount\"e\n" +
+	"\x13GetAttendeesRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\ahost_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\"\xa9\x01\n" +
 	"\x14GetAttendeesResponse\x12?\n" +
 	"\tattendees\x18\x01 \x03(\v2!.skillsphere.workshop.v1.AttendeeR\tattendees\x12)\n" +
 	"\x10total_registered\x18\x02 \x01(\x05R\x0ftotalRegistered\x12%\n" +
-	"\x0etotal_attended\x18\x03 \x01(\x05R\rtotalAttended\"\xbb\x01\n" +
-	"\bAttendee\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x1d\n" +
+	"\x0etotal_attended\x18\x03 \x01(\x05R\rtotalAttended\"\xde\x01\n" +
+	"\bAttendee\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12%\n" +
+	"\busername\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\busername\x12*\n" +
 	"\n" +
-	"avatar_url\x18\x03 \x01(\tR\tavatarUrl\x12?\n" +
+	"avatar_url\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tavatarUrl\x12?\n" +
 	"\rregistered_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\fregisteredAt\x12\x1a\n" +
-	"\battended\x18\x05 \x01(\bR\battended\"P\n" +
-	"\x14StartWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\"\x96\x01\n" +
+	"\battended\x18\x05 \x01(\bR\battended\"f\n" +
+	"\x14StartWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\ahost_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\"\xad\x01\n" +
 	"\x15StartWorkshopResponse\x12=\n" +
-	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x12#\n" +
-	"\rstreaming_url\x18\x02 \x01(\tR\fstreamingUrl\x12\x19\n" +
-	"\bhost_key\x18\x03 \x01(\tR\ahostKey\"s\n" +
-	"\x12EndWorkshopRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\ahost_id\x18\x02 \x01(\tR\x06hostId\x12#\n" +
-	"\rrecording_url\x18\x03 \x01(\tR\frecordingUrl\"\x85\x01\n" +
+	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x120\n" +
+	"\rstreaming_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\fstreamingUrl\x12#\n" +
+	"\bhost_key\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x01R\ahostKey\"\x96\x01\n" +
+	"\x12EndWorkshopRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\ahost_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06hostId\x120\n" +
+	"\rrecording_url\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\frecordingUrl\"\x85\x01\n" +
 	"\x13EndWorkshopResponse\x12=\n" +
 	"\bworkshop\x18\x01 \x01(\v2!.skillsphere.workshop.v1.WorkshopR\bworkshop\x12/\n" +
-	"\x13recording_available\x18\x02 \x01(\bR\x12recordingAvailable\"\xba\x01\n" +
-	"\x17GetUserWorkshopsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
+	"\x13recording_available\x18\x02 \x01(\bR\x12recordingAvailable\"\xcf\x01\n" +
+	"\x17GetUserWorkshopsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x17\n" +
 	"\aas_host\x18\x02 \x01(\bR\x06asHost\x12\x1f\n" +
 	"\vas_attendee\x18\x03 \x01(\bR\n" +
-	"asAttendee\x12L\n" +
-	"\rstatus_filter\x18\x04 \x01(\x0e2'.skillsphere.workshop.v1.WorkshopStatusR\fstatusFilter\"\xbc\x01\n" +
+	"asAttendee\x12V\n" +
+	"\rstatus_filter\x18\x04 \x01(\x0e2'.skillsphere.workshop.v1.WorkshopStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fstatusFilter\"\xbc\x01\n" +
 	"\x18GetUserWorkshopsResponse\x12L\n" +
 	"\x10hosted_workshops\x18\x01 \x03(\v2!.skillsphere.workshop.v1.WorkshopR\x0fhostedWorkshops\x12R\n" +
-	"\x13attending_workshops\x18\x02 \x03(\v2!.skillsphere.workshop.v1.WorkshopR\x12attendingWorkshops\"W\n" +
-	"\x1bGetWorkshopRecordingRequest\x12\x1f\n" +
-	"\vworkshop_id\x18\x01 \x01(\tR\n" +
-	"workshopId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"\xec\x01\n" +
-	"\x1cGetWorkshopRecordingResponse\x12#\n" +
-	"\rrecording_url\x18\x01 \x01(\tR\frecordingUrl\x12!\n" +
+	"\x13attending_workshops\x18\x02 \x03(\v2!.skillsphere.workshop.v1.WorkshopR\x12attendingWorkshops\"m\n" +
+	"\x1bGetWorkshopRecordingRequest\x12*\n" +
+	"\vworkshop_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"workshopId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"\xf9\x01\n" +
+	"\x1cGetWorkshopRecordingResponse\x120\n" +
+	"\rrecording_url\x18\x01 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\frecordingUrl\x12!\n" +
 	"\fis_available\x18\x02 \x01(\bR\visAvailable\x12C\n" +
 	"\x0favailable_until\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0eavailableUntil\x12?\n" +
 	"\tmaterials\x18\x04 \x03(\v2!.skillsphere.common.v1.AttachmentR\tmaterials*\xe2\x01\n" +

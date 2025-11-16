@@ -7,6 +7,7 @@
 package commonv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -549,13 +550,15 @@ func (DayOfWeek) EnumDescriptor() ([]byte, []int) {
 
 // Geographic location for user matching
 type Location struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	City          string                 `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
-	Country       string                 `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
-	CountryCode   string                 `protobuf:"bytes,3,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"` // ISO 3166-1 alpha-2 (e.g., "US", "BR")
-	Timezone      string                 `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`                          // IANA timezone (e.g., "America/New_York")
-	Latitude      float64                `protobuf:"fixed64,5,opt,name=latitude,proto3" json:"latitude,omitempty"`                        // Optional for distance-based matching
-	Longitude     float64                `protobuf:"fixed64,6,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	City    string                 `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
+	Country string                 `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
+	// ISO 3166-1 alpha-2 (e.g., "US", "BR")
+	CountryCode string `protobuf:"bytes,3,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
+	// IANA timezone (e.g., "America/New_York")
+	Timezone      string  `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`
+	Latitude      float64 `protobuf:"fixed64,5,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float64 `protobuf:"fixed64,6,opt,name=longitude,proto3" json:"longitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -634,10 +637,12 @@ func (x *Location) GetLongitude() float64 {
 
 // Time slot for availability
 type TimeSlot struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Day           DayOfWeek              `protobuf:"varint,1,opt,name=day,proto3,enum=skillsphere.common.v1.DayOfWeek" json:"day,omitempty"`
-	StartTime     string                 `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"` // Format: "HH:MM" (24-hour)
-	EndTime       string                 `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`       // Format: "HH:MM" (24-hour)
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Day   DayOfWeek              `protobuf:"varint,1,opt,name=day,proto3,enum=skillsphere.common.v1.DayOfWeek" json:"day,omitempty"`
+	// Format: "HH:MM" (24-hour)
+	StartTime string `protobuf:"bytes,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	// Format: "HH:MM" (24-hour)
+	EndTime       string `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -697,7 +702,7 @@ func (x *TimeSlot) GetEndTime() string {
 type Availability struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TimeSlots     []*TimeSlot            `protobuf:"bytes,1,rep,name=time_slots,json=timeSlots,proto3" json:"time_slots,omitempty"`
-	Timezone      string                 `protobuf:"bytes,2,opt,name=timezone,proto3" json:"timezone,omitempty"` // User's timezone
+	Timezone      string                 `protobuf:"bytes,2,opt,name=timezone,proto3" json:"timezone,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -748,13 +753,14 @@ func (x *Availability) GetTimezone() string {
 
 // Skill definition
 type Skill struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	SkillId         string                 `protobuf:"bytes,1,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
-	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"` // e.g., "Python Programming"
-	Category        SkillCategory          `protobuf:"varint,3,opt,name=category,proto3,enum=skillsphere.common.v1.SkillCategory" json:"category,omitempty"`
-	Description     string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`                                 // Optional detailed description
-	Tags            []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`                                               // Keywords for search (e.g., ["backend", "django"])
-	PopularityScore int32                  `protobuf:"varint,6,opt,name=popularity_score,json=popularityScore,proto3" json:"popularity_score,omitempty"` // For trending skills
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	SkillId     string                 `protobuf:"bytes,1,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
+	Name        string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Category    SkillCategory          `protobuf:"varint,3,opt,name=category,proto3,enum=skillsphere.common.v1.SkillCategory" json:"category,omitempty"`
+	Description string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	// Keywords for search (e.g., ["backend", "django"])
+	Tags            []string `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
+	PopularityScore int32    `protobuf:"varint,6,opt,name=popularity_score,json=popularityScore,proto3" json:"popularity_score,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -836,11 +842,11 @@ type UserSkill struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	UserId                string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	SkillId               string                 `protobuf:"bytes,2,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
-	ProficiencyLevel      int32                  `protobuf:"varint,3,opt,name=proficiency_level,json=proficiencyLevel,proto3" json:"proficiency_level,omitempty"` // 1-10 scale
+	ProficiencyLevel      int32                  `protobuf:"varint,3,opt,name=proficiency_level,json=proficiencyLevel,proto3" json:"proficiency_level,omitempty"`
 	ProficiencyCategory   ProficiencyLevel       `protobuf:"varint,4,opt,name=proficiency_category,json=proficiencyCategory,proto3,enum=skillsphere.common.v1.ProficiencyLevel" json:"proficiency_category,omitempty"`
 	IsOffered             bool                   `protobuf:"varint,5,opt,name=is_offered,json=isOffered,proto3" json:"is_offered,omitempty"` // True if offering, false if wanting
 	AcquiredAt            *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=acquired_at,json=acquiredAt,proto3" json:"acquired_at,omitempty"`
-	ExperienceDescription string                 `protobuf:"bytes,7,opt,name=experience_description,json=experienceDescription,proto3" json:"experience_description,omitempty"` // Optional narrative (e.g., "5 years in ML")
+	ExperienceDescription string                 `protobuf:"bytes,7,opt,name=experience_description,json=experienceDescription,proto3" json:"experience_description,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -941,7 +947,7 @@ type User struct {
 	SkillsOffered []*UserSkill `protobuf:"bytes,11,rep,name=skills_offered,json=skillsOffered,proto3" json:"skills_offered,omitempty"`
 	SkillsWanted  []*UserSkill `protobuf:"bytes,12,rep,name=skills_wanted,json=skillsWanted,proto3" json:"skills_wanted,omitempty"`
 	// Stats
-	AverageRating     float64 `protobuf:"fixed64,13,opt,name=average_rating,json=averageRating,proto3" json:"average_rating,omitempty"` // 1.0-5.0
+	AverageRating     float64 `protobuf:"fixed64,13,opt,name=average_rating,json=averageRating,proto3" json:"average_rating,omitempty"`
 	TotalSessions     int32   `protobuf:"varint,14,opt,name=total_sessions,json=totalSessions,proto3" json:"total_sessions,omitempty"`
 	CompletedSessions int32   `protobuf:"varint,15,opt,name=completed_sessions,json=completedSessions,proto3" json:"completed_sessions,omitempty"`
 	TotalReviews      int32   `protobuf:"varint,16,opt,name=total_reviews,json=totalReviews,proto3" json:"total_reviews,omitempty"`
@@ -950,8 +956,9 @@ type User struct {
 	UpdatedAt    *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	LastActiveAt *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=last_active_at,json=lastActiveAt,proto3" json:"last_active_at,omitempty"`
 	// Premium features
-	IsVerified     bool     `protobuf:"varint,20,opt,name=is_verified,json=isVerified,proto3" json:"is_verified,omitempty"` // Blue checkmark for trusted experts
-	Certifications []string `protobuf:"bytes,21,rep,name=certifications,proto3" json:"certifications,omitempty"`            // IDs of blockchain certifications
+	IsVerified bool `protobuf:"varint,20,opt,name=is_verified,json=isVerified,proto3" json:"is_verified,omitempty"` // Blue checkmark for trusted experts
+	// IDs of blockchain certifications
+	Certifications []string `protobuf:"bytes,21,rep,name=certifications,proto3" json:"certifications,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1138,9 +1145,9 @@ type Rating struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RatingId      string                 `protobuf:"bytes,1,opt,name=rating_id,json=ratingId,proto3" json:"rating_id,omitempty"`
 	SessionId     string                 `protobuf:"bytes,2,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
-	ReviewerId    string                 `protobuf:"bytes,3,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"` // User who gave the rating
-	RevieweeId    string                 `protobuf:"bytes,4,opt,name=reviewee_id,json=revieweeId,proto3" json:"reviewee_id,omitempty"` // User who received the rating
-	Score         int32                  `protobuf:"varint,5,opt,name=score,proto3" json:"score,omitempty"`                            // 1-5 stars
+	ReviewerId    string                 `protobuf:"bytes,3,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"`
+	RevieweeId    string                 `protobuf:"bytes,4,opt,name=reviewee_id,json=revieweeId,proto3" json:"reviewee_id,omitempty"`
+	Score         int32                  `protobuf:"varint,5,opt,name=score,proto3" json:"score,omitempty"`
 	Comment       string                 `protobuf:"bytes,6,opt,name=comment,proto3" json:"comment,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1317,7 +1324,7 @@ type PageInfo struct {
 	PageSize          int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken     string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	PreviousPageToken string                 `protobuf:"bytes,3,opt,name=previous_page_token,json=previousPageToken,proto3" json:"previous_page_token,omitempty"`
-	TotalCount        int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"` // Optional total count
+	TotalCount        int32                  `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -1383,9 +1390,9 @@ func (x *PageInfo) GetTotalCount() int32 {
 // Error detail for rich error responses
 type ErrorDetail struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"` // Application-specific error code
+	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // Additional context
+	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1444,8 +1451,8 @@ func (x *ErrorDetail) GetMetadata() map[string]string {
 // Money amount for payments
 type Money struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CurrencyCode  string                 `protobuf:"bytes,1,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"` // ISO 4217 (e.g., "USD", "BRL")
-	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`                                // Amount in smallest currency unit (cents)
+	CurrencyCode  string                 `protobuf:"bytes,1,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`
+	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1593,7 +1600,7 @@ type SearchFilters struct {
 	Categories      []SkillCategory        `protobuf:"varint,1,rep,packed,name=categories,proto3,enum=skillsphere.common.v1.SkillCategory" json:"categories,omitempty"`
 	SkillIds        []string               `protobuf:"bytes,2,rep,name=skill_ids,json=skillIds,proto3" json:"skill_ids,omitempty"`
 	Location        *Location              `protobuf:"bytes,3,opt,name=location,proto3" json:"location,omitempty"`
-	MaxDistanceKm   int32                  `protobuf:"varint,4,opt,name=max_distance_km,json=maxDistanceKm,proto3" json:"max_distance_km,omitempty"` // For geo-based search
+	MaxDistanceKm   int32                  `protobuf:"varint,4,opt,name=max_distance_km,json=maxDistanceKm,proto3" json:"max_distance_km,omitempty"`
 	MinProficiency  ProficiencyLevel       `protobuf:"varint,5,opt,name=min_proficiency,json=minProficiency,proto3,enum=skillsphere.common.v1.ProficiencyLevel" json:"min_proficiency,omitempty"`
 	MinSubscription SubscriptionTier       `protobuf:"varint,6,opt,name=min_subscription,json=minSubscription,proto3,enum=skillsphere.common.v1.SubscriptionTier" json:"min_subscription,omitempty"`
 	VerifiedOnly    bool                   `protobuf:"varint,7,opt,name=verified_only,json=verifiedOnly,proto3" json:"verified_only,omitempty"`
@@ -1692,104 +1699,110 @@ var File_common_v1_common_proto protoreflect.FileDescriptor
 
 const file_common_v1_common_proto_rawDesc = "" +
 	"\n" +
-	"\x16common/v1/common.proto\x12\x15skillsphere.common.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb1\x01\n" +
-	"\bLocation\x12\x12\n" +
-	"\x04city\x18\x01 \x01(\tR\x04city\x12\x18\n" +
-	"\acountry\x18\x02 \x01(\tR\acountry\x12!\n" +
-	"\fcountry_code\x18\x03 \x01(\tR\vcountryCode\x12\x1a\n" +
-	"\btimezone\x18\x04 \x01(\tR\btimezone\x12\x1a\n" +
-	"\blatitude\x18\x05 \x01(\x01R\blatitude\x12\x1c\n" +
-	"\tlongitude\x18\x06 \x01(\x01R\tlongitude\"x\n" +
-	"\bTimeSlot\x122\n" +
-	"\x03day\x18\x01 \x01(\x0e2 .skillsphere.common.v1.DayOfWeekR\x03day\x12\x1d\n" +
+	"\x16common/v1/common.proto\x12\x15skillsphere.common.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\x94\x02\n" +
+	"\bLocation\x12\x1b\n" +
+	"\x04city\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18dR\x04city\x12!\n" +
+	"\acountry\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\acountry\x127\n" +
+	"\fcountry_code\x18\x03 \x01(\tB\x14\xbaH\x11r\x0f2\r^[A-Za-z]{2}$R\vcountryCode\x12#\n" +
+	"\btimezone\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\btimezone\x123\n" +
+	"\blatitude\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x125\n" +
+	"\tlongitude\x18\x06 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\"\xca\x01\n" +
+	"\bTimeSlot\x12<\n" +
+	"\x03day\x18\x01 \x01(\x0e2 .skillsphere.common.v1.DayOfWeekB\b\xbaH\x05\x82\x01\x02\x10\x01R\x03day\x12A\n" +
 	"\n" +
-	"start_time\x18\x02 \x01(\tR\tstartTime\x12\x19\n" +
-	"\bend_time\x18\x03 \x01(\tR\aendTime\"j\n" +
-	"\fAvailability\x12>\n" +
+	"start_time\x18\x02 \x01(\tB\"\xbaH\x1fr\x1d2\x1b^(?:[01]\\d|2[0-3]):[0-5]\\d$R\tstartTime\x12=\n" +
+	"\bend_time\x18\x03 \x01(\tB\"\xbaH\x1fr\x1d2\x1b^(?:[01]\\d|2[0-3]):[0-5]\\d$R\aendTime\"~\n" +
+	"\fAvailability\x12I\n" +
 	"\n" +
-	"time_slots\x18\x01 \x03(\v2\x1f.skillsphere.common.v1.TimeSlotR\ttimeSlots\x12\x1a\n" +
-	"\btimezone\x18\x02 \x01(\tR\btimezone\"\xd9\x01\n" +
-	"\x05Skill\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12@\n" +
-	"\bcategory\x18\x03 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x12\n" +
-	"\x04tags\x18\x05 \x03(\tR\x04tags\x12)\n" +
-	"\x10popularity_score\x18\x06 \x01(\x05R\x0fpopularityScore\"\xdb\x02\n" +
-	"\tUserSkill\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x12+\n" +
-	"\x11proficiency_level\x18\x03 \x01(\x05R\x10proficiencyLevel\x12Z\n" +
-	"\x14proficiency_category\x18\x04 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelR\x13proficiencyCategory\x12\x1d\n" +
+	"time_slots\x18\x01 \x03(\v2\x1f.skillsphere.common.v1.TimeSlotB\t\xbaH\x06\x92\x01\x03\x10\xa8\x01R\ttimeSlots\x12#\n" +
+	"\btimezone\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\btimezone\"\x9e\x02\n" +
+	"\x05Skill\x12$\n" +
+	"\bskill_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12\x1d\n" +
+	"\x04name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x04name\x12J\n" +
+	"\bcategory\x18\x03 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x82\x01\x02\x10\x01R\bcategory\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12$\n" +
+	"\x04tags\x18\x05 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x19\"\x06r\x04\x10\x01\x18 R\x04tags\x122\n" +
+	"\x10popularity_score\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0fpopularityScore\"\x90\x03\n" +
+	"\tUserSkill\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x126\n" +
+	"\x11proficiency_level\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x01R\x10proficiencyLevel\x12d\n" +
+	"\x14proficiency_category\x18\x04 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x13proficiencyCategory\x12\x1d\n" +
 	"\n" +
 	"is_offered\x18\x05 \x01(\bR\tisOffered\x12;\n" +
 	"\vacquired_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"acquiredAt\x125\n" +
-	"\x16experience_description\x18\a \x01(\tR\x15experienceDescription\"\xef\a\n" +
-	"\x04User\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\busername\x18\x03 \x01(\tR\busername\x12!\n" +
-	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12\x10\n" +
-	"\x03bio\x18\x05 \x01(\tR\x03bio\x12\x1d\n" +
+	"acquiredAt\x12?\n" +
+	"\x16experience_description\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x15experienceDescription\"\xa1\t\n" +
+	"\x04User\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x05email\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x18\xfe\x01`\x01R\x05email\x12%\n" +
+	"\busername\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x03\x18\x1eR\busername\x12,\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\vdisplayName\x12\x1a\n" +
+	"\x03bio\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x03bio\x12*\n" +
 	"\n" +
-	"avatar_url\x18\x06 \x01(\tR\tavatarUrl\x12;\n" +
+	"avatar_url\x18\x06 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tavatarUrl\x12;\n" +
 	"\blocation\x18\a \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\x12G\n" +
-	"\favailability\x18\b \x01(\v2#.skillsphere.common.v1.AvailabilityR\favailability\x129\n" +
-	"\x06status\x18\t \x01(\x0e2!.skillsphere.common.v1.UserStatusR\x06status\x12T\n" +
+	"\favailability\x18\b \x01(\v2#.skillsphere.common.v1.AvailabilityR\favailability\x12C\n" +
+	"\x06status\x18\t \x01(\x0e2!.skillsphere.common.v1.UserStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12^\n" +
 	"\x11subscription_tier\x18\n" +
-	" \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\x10subscriptionTier\x12G\n" +
-	"\x0eskills_offered\x18\v \x03(\v2 .skillsphere.common.v1.UserSkillR\rskillsOffered\x12E\n" +
-	"\rskills_wanted\x18\f \x03(\v2 .skillsphere.common.v1.UserSkillR\fskillsWanted\x12%\n" +
-	"\x0eaverage_rating\x18\r \x01(\x01R\raverageRating\x12%\n" +
-	"\x0etotal_sessions\x18\x0e \x01(\x05R\rtotalSessions\x12-\n" +
-	"\x12completed_sessions\x18\x0f \x01(\x05R\x11completedSessions\x12#\n" +
-	"\rtotal_reviews\x18\x10 \x01(\x05R\ftotalReviews\x129\n" +
+	" \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\x10subscriptionTier\x12Q\n" +
+	"\x0eskills_offered\x18\v \x03(\v2 .skillsphere.common.v1.UserSkillB\b\xbaH\x05\x92\x01\x02\x10dR\rskillsOffered\x12O\n" +
+	"\rskills_wanted\x18\f \x03(\v2 .skillsphere.common.v1.UserSkillB\b\xbaH\x05\x92\x01\x02\x10dR\fskillsWanted\x12>\n" +
+	"\x0eaverage_rating\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\raverageRating\x12.\n" +
+	"\x0etotal_sessions\x18\x0e \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x126\n" +
+	"\x12completed_sessions\x18\x0f \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11completedSessions\x12,\n" +
+	"\rtotal_reviews\x18\x10 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ftotalReviews\x129\n" +
 	"\n" +
 	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12@\n" +
 	"\x0elast_active_at\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\flastActiveAt\x12\x1f\n" +
 	"\vis_verified\x18\x14 \x01(\bR\n" +
-	"isVerified\x12&\n" +
-	"\x0ecertifications\x18\x15 \x03(\tR\x0ecertifications\"\xf1\x01\n" +
-	"\x06Rating\x12\x1b\n" +
-	"\trating_id\x18\x01 \x01(\tR\bratingId\x12\x1d\n" +
+	"isVerified\x128\n" +
+	"\x0ecertifications\x18\x15 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x18dR\x0ecertifications\"\xb2\x02\n" +
+	"\x06Rating\x12&\n" +
+	"\trating_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bratingId\x12(\n" +
 	"\n" +
-	"session_id\x18\x02 \x01(\tR\tsessionId\x12\x1f\n" +
-	"\vreviewer_id\x18\x03 \x01(\tR\n" +
-	"reviewerId\x12\x1f\n" +
-	"\vreviewee_id\x18\x04 \x01(\tR\n" +
-	"revieweeId\x12\x14\n" +
-	"\x05score\x18\x05 \x01(\x05R\x05score\x12\x18\n" +
-	"\acomment\x18\x06 \x01(\tR\acomment\x129\n" +
+	"session_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12*\n" +
+	"\vreviewer_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reviewerId\x12*\n" +
+	"\vreviewee_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"revieweeId\x12\x1f\n" +
+	"\x05score\x18\x05 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x05score\x12\"\n" +
+	"\acomment\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\acomment\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x95\x02\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xcc\x02\n" +
 	"\n" +
-	"Attachment\x12#\n" +
-	"\rattachment_id\x18\x01 \x01(\tR\fattachmentId\x12\x1b\n" +
-	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12\x19\n" +
-	"\bfile_url\x18\x03 \x01(\tR\afileUrl\x12E\n" +
-	"\fcontent_type\x18\x04 \x01(\x0e2\".skillsphere.common.v1.ContentTypeR\vcontentType\x12&\n" +
-	"\x0ffile_size_bytes\x18\x05 \x01(\x03R\rfileSizeBytes\x12;\n" +
+	"Attachment\x12.\n" +
+	"\rattachment_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\fattachmentId\x12'\n" +
+	"\tfile_name\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\bfileName\x12&\n" +
+	"\bfile_url\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\afileUrl\x12O\n" +
+	"\fcontent_type\x18\x04 \x01(\x0e2\".skillsphere.common.v1.ContentTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\vcontentType\x12/\n" +
+	"\x0ffile_size_bytes\x18\x05 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\rfileSizeBytes\x12;\n" +
 	"\vuploaded_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"uploadedAt\"\xa0\x01\n" +
-	"\bPageInfo\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12.\n" +
-	"\x13previous_page_token\x18\x03 \x01(\tR\x11previousPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x04 \x01(\x05R\n" +
-	"totalCount\"\xc6\x01\n" +
-	"\vErrorDetail\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\x12L\n" +
-	"\bmetadata\x18\x03 \x03(\v20.skillsphere.common.v1.ErrorDetail.MetadataEntryR\bmetadata\x1a;\n" +
+	"uploadedAt\"\xc8\x01\n" +
+	"\bPageInfo\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x128\n" +
+	"\x13previous_page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\x11previousPageToken\x12(\n" +
+	"\vtotal_count\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"\xf6\x01\n" +
+	"\vErrorDetail\x12\x1d\n" +
+	"\x04code\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18@R\x04code\x12\"\n" +
+	"\amessage\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\amessage\x12g\n" +
+	"\bmetadata\x18\x03 \x03(\v20.skillsphere.common.v1.ErrorDetail.MetadataEntryB\x19\xbaH\x16\x9a\x01\x13\x10\x14\"\x06r\x04\x10\x01\x18 *\ar\x05\x10\x01\x18\x80\x02R\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"D\n" +
-	"\x05Money\x12#\n" +
-	"\rcurrency_code\x18\x01 \x01(\tR\fcurrencyCode\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x03R\x06amount\"\x8a\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"`\n" +
+	"\x05Money\x126\n" +
+	"\rcurrency_code\x18\x01 \x01(\tB\x11\xbaH\x0er\f2\n" +
+	"^[A-Z]{3}$R\fcurrencyCode\x12\x1f\n" +
+	"\x06amount\x18\x02 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\x06amount\"\x8a\x02\n" +
 	"\x17NotificationPreferences\x12#\n" +
 	"\remail_enabled\x18\x01 \x01(\bR\femailEnabled\x12!\n" +
 	"\fpush_enabled\x18\x02 \x01(\bR\vpushEnabled\x12\x1f\n" +
@@ -1799,19 +1812,21 @@ const file_common_v1_common_proto_rawDesc = "" +
 	"\vnew_matches\x18\x05 \x01(\bR\n" +
 	"newMatches\x12\x1a\n" +
 	"\bmessages\x18\x06 \x01(\bR\bmessages\x12\x1c\n" +
-	"\tmarketing\x18\a \x01(\bR\tmarketing\"\xc1\x03\n" +
-	"\rSearchFilters\x12D\n" +
+	"\tmarketing\x18\a \x01(\bR\tmarketing\"\x97\x04\n" +
+	"\rSearchFilters\x12N\n" +
 	"\n" +
-	"categories\x18\x01 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12\x1b\n" +
-	"\tskill_ids\x18\x02 \x03(\tR\bskillIds\x12;\n" +
-	"\blocation\x18\x03 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\x12&\n" +
-	"\x0fmax_distance_km\x18\x04 \x01(\x05R\rmaxDistanceKm\x12P\n" +
-	"\x0fmin_proficiency\x18\x05 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelR\x0eminProficiency\x12R\n" +
-	"\x10min_subscription\x18\x06 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\x0fminSubscription\x12#\n" +
-	"\rverified_only\x18\a \x01(\bR\fverifiedOnly\x12\x1d\n" +
+	"categories\x18\x01 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12-\n" +
+	"\tskill_ids\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\bskillIds\x12;\n" +
+	"\blocation\x18\x03 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\x123\n" +
+	"\x0fmax_distance_km\x18\x04 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xa0\x9c\x01(\x00R\rmaxDistanceKm\x12Z\n" +
+	"\x0fmin_proficiency\x18\x05 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0eminProficiency\x12\\\n" +
+	"\x10min_subscription\x18\x06 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0fminSubscription\x12#\n" +
+	"\rverified_only\x18\a \x01(\bR\fverifiedOnly\x126\n" +
 	"\n" +
-	"min_rating\x18\b \x01(\x01R\tminRating*\x9a\x02\n" +
+	"min_rating\x18\b \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\tminRating*\x9a\x02\n" +
 	"\rSkillCategory\x12\x1e\n" +
 	"\x1aSKILL_CATEGORY_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13SKILL_CATEGORY_TECH\x10\x01\x12\x1c\n" +

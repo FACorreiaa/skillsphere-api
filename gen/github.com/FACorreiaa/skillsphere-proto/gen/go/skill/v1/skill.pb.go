@@ -7,6 +7,7 @@
 package skillv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -303,7 +304,7 @@ type ListSkillsRequest struct {
 	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	Categories    []v1.SkillCategory     `protobuf:"varint,3,rep,packed,name=categories,proto3,enum=skillsphere.common.v1.SkillCategory" json:"categories,omitempty"`
-	SortBy        string                 `protobuf:"bytes,4,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"` // "name", "popularity", "created_at"
+	SortBy        string                 `protobuf:"bytes,4,opt,name=sort_by,json=sortBy,proto3" json:"sort_by,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -606,8 +607,8 @@ type AddUserSkillRequest struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	UserId                string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	SkillId               string                 `protobuf:"bytes,2,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
-	ProficiencyLevel      int32                  `protobuf:"varint,3,opt,name=proficiency_level,json=proficiencyLevel,proto3" json:"proficiency_level,omitempty"` // 1-10
-	IsOffered             bool                   `protobuf:"varint,4,opt,name=is_offered,json=isOffered,proto3" json:"is_offered,omitempty"`                      // true = offering, false = wanting
+	ProficiencyLevel      int32                  `protobuf:"varint,3,opt,name=proficiency_level,json=proficiencyLevel,proto3" json:"proficiency_level,omitempty"`
+	IsOffered             bool                   `protobuf:"varint,4,opt,name=is_offered,json=isOffered,proto3" json:"is_offered,omitempty"` // true = offering, false = wanting
 	ExperienceDescription string                 `protobuf:"bytes,5,opt,name=experience_description,json=experienceDescription,proto3" json:"experience_description,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
@@ -1062,7 +1063,7 @@ type GetTrendingSkillsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"` // Default 10, max 50
 	Category      v1.SkillCategory       `protobuf:"varint,2,opt,name=category,proto3,enum=skillsphere.common.v1.SkillCategory" json:"category,omitempty"`
-	Days          int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"` // Trending window (default 7)
+	Days          int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1167,7 +1168,7 @@ type TrendingSkill struct {
 	Skill              *v1.Skill              `protobuf:"bytes,1,opt,name=skill,proto3" json:"skill,omitempty"`
 	PopularityScore    int32                  `protobuf:"varint,2,opt,name=popularity_score,json=popularityScore,proto3" json:"popularity_score,omitempty"`
 	SessionsLastPeriod int32                  `protobuf:"varint,3,opt,name=sessions_last_period,json=sessionsLastPeriod,proto3" json:"sessions_last_period,omitempty"`
-	GrowthRate         float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"` // Percentage growth
+	GrowthRate         float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -1232,7 +1233,7 @@ func (x *TrendingSkill) GetGrowthRate() float64 {
 
 type SearchSkillsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // Keyword search
+	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	Categories    []v1.SkillCategory     `protobuf:"varint,2,rep,packed,name=categories,proto3,enum=skillsphere.common.v1.SkillCategory" json:"categories,omitempty"`
 	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1337,7 +1338,7 @@ func (x *SearchSkillsResponse) GetSkills() []*v1.Skill {
 type GetSkillSuggestionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"` // Default 10
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1433,8 +1434,8 @@ func (x *GetSkillSuggestionsResponse) GetSuggestions() []*SkillSuggestion {
 type SkillSuggestion struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Skill          *v1.Skill              `protobuf:"bytes,1,opt,name=skill,proto3" json:"skill,omitempty"`
-	Reason         string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`                                         // Why this is suggested
-	RelevanceScore float64                `protobuf:"fixed64,3,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"` // 0.0-1.0
+	Reason         string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	RelevanceScore float64                `protobuf:"fixed64,3,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1494,110 +1495,116 @@ var File_skill_v1_skill_proto protoreflect.FileDescriptor
 
 const file_skill_v1_skill_proto_rawDesc = "" +
 	"\n" +
-	"\x14skill/v1/skill.proto\x12\x14skillsphere.skill.v1\x1a\x16common/v1/common.proto\"\xa0\x01\n" +
-	"\x12CreateSkillRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12@\n" +
-	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x12\n" +
-	"\x04tags\x18\x04 \x03(\tR\x04tags\"I\n" +
+	"\x14skill/v1/skill.proto\x12\x14skillsphere.skill.v1\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xd1\x01\n" +
+	"\x12CreateSkillRequest\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x04name\x12J\n" +
+	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x82\x01\x02\x10\x01R\bcategory\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12$\n" +
+	"\x04tags\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x19\"\x06r\x04\x10\x01\x18 R\x04tags\"I\n" +
 	"\x13CreateSkillResponse\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\",\n" +
-	"\x0fGetSkillRequest\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\"~\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\"7\n" +
+	"\x0fGetSkillRequest\x12$\n" +
+	"\bskill_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\"~\n" +
 	"\x10GetSkillResponse\x122\n" +
 	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x126\n" +
-	"\x05stats\x18\x02 \x01(\v2 .skillsphere.skill.v1.SkillStatsR\x05stats\"\xc6\x01\n" +
+	"\x05stats\x18\x02 \x01(\v2 .skillsphere.skill.v1.SkillStatsR\x05stats\"\xfa\x01\n" +
 	"\n" +
-	"SkillStats\x120\n" +
-	"\x14total_users_offering\x18\x01 \x01(\x05R\x12totalUsersOffering\x12.\n" +
-	"\x13total_users_wanting\x18\x02 \x01(\x05R\x11totalUsersWanting\x12%\n" +
-	"\x0etotal_sessions\x18\x03 \x01(\x05R\rtotalSessions\x12/\n" +
-	"\x13average_proficiency\x18\x04 \x01(\x01R\x12averageProficiency\"\xae\x01\n" +
-	"\x11ListSkillsRequest\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"SkillStats\x129\n" +
+	"\x14total_users_offering\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12totalUsersOffering\x127\n" +
+	"\x13total_users_wanting\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11totalUsersWanting\x12.\n" +
+	"\x0etotal_sessions\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rtotalSessions\x12H\n" +
+	"\x13average_proficiency\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00$@)\x00\x00\x00\x00\x00\x00\x00\x00R\x12averageProficiency\"\xd6\x01\n" +
+	"\x11ListSkillsRequest\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12D\n" +
+	"page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12N\n" +
 	"\n" +
-	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12\x17\n" +
-	"\asort_by\x18\x04 \x01(\tR\x06sortBy\"\x93\x01\n" +
+	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12 \n" +
+	"\asort_by\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18\x14R\x06sortBy\"\xa6\x01\n" +
 	"\x12ListSkillsResponse\x124\n" +
-	"\x06skills\x18\x01 \x03(\v2\x1c.skillsphere.common.v1.SkillR\x06skills\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"H\n" +
-	"\x12UpdateSkillRequest\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\"I\n" +
+	"\x06skills\x18\x01 \x03(\v2\x1c.skillsphere.common.v1.SkillR\x06skills\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"P\n" +
+	"\x12UpdateSkillRequest\x12:\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillB\x06\xbaH\x03\xc8\x01\x01R\x05skill\"I\n" +
 	"\x13UpdateSkillResponse\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\"/\n" +
-	"\x12DeleteSkillRequest\x12\x19\n" +
-	"\bskill_id\x18\x01 \x01(\tR\askillId\"/\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\":\n" +
+	"\x12DeleteSkillRequest\x12$\n" +
+	"\bskill_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\"/\n" +
 	"\x13DeleteSkillResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xcc\x01\n" +
-	"\x13AddUserSkillRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x12+\n" +
-	"\x11proficiency_level\x18\x03 \x01(\x05R\x10proficiencyLevel\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xf7\x01\n" +
+	"\x13AddUserSkillRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x126\n" +
+	"\x11proficiency_level\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x01R\x10proficiencyLevel\x12\x1d\n" +
 	"\n" +
-	"is_offered\x18\x04 \x01(\bR\tisOffered\x125\n" +
-	"\x16experience_description\x18\x05 \x01(\tR\x15experienceDescription\"W\n" +
+	"is_offered\x18\x04 \x01(\bR\tisOffered\x12?\n" +
+	"\x16experience_description\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x15experienceDescription\"W\n" +
 	"\x14AddUserSkillResponse\x12?\n" +
 	"\n" +
-	"user_skill\x18\x01 \x01(\v2 .skillsphere.common.v1.UserSkillR\tuserSkill\"k\n" +
-	"\x16RemoveUserSkillRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x12\x1d\n" +
+	"user_skill\x18\x01 \x01(\v2 .skillsphere.common.v1.UserSkillR\tuserSkill\"\x81\x01\n" +
+	"\x16RemoveUserSkillRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12\x1d\n" +
 	"\n" +
 	"is_offered\x18\x03 \x01(\bR\tisOffered\"3\n" +
 	"\x17RemoveUserSkillResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xcf\x01\n" +
-	"\x16UpdateUserSkillRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x12+\n" +
-	"\x11proficiency_level\x18\x03 \x01(\x05R\x10proficiencyLevel\x125\n" +
-	"\x16experience_description\x18\x04 \x01(\tR\x15experienceDescription\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xfa\x01\n" +
+	"\x16UpdateUserSkillRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x126\n" +
+	"\x11proficiency_level\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\n" +
+	"(\x01R\x10proficiencyLevel\x12?\n" +
+	"\x16experience_description\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x15experienceDescription\x12\x1d\n" +
 	"\n" +
 	"is_offered\x18\x05 \x01(\bR\tisOffered\"Z\n" +
 	"\x17UpdateUserSkillResponse\x12?\n" +
 	"\n" +
-	"user_skill\x18\x01 \x01(\v2 .skillsphere.common.v1.UserSkillR\tuserSkill\"s\n" +
-	"\x14GetUserSkillsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"user_skill\x18\x01 \x01(\v2 .skillsphere.common.v1.UserSkillR\tuserSkill\"~\n" +
+	"\x14GetUserSkillsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12!\n" +
 	"\foffered_only\x18\x02 \x01(\bR\vofferedOnly\x12\x1f\n" +
 	"\vwanted_only\x18\x03 \x01(\bR\n" +
 	"wantedOnly\"\xa7\x01\n" +
 	"\x15GetUserSkillsResponse\x12G\n" +
 	"\x0eskills_offered\x18\x01 \x03(\v2 .skillsphere.common.v1.UserSkillR\rskillsOffered\x12E\n" +
-	"\rskills_wanted\x18\x02 \x03(\v2 .skillsphere.common.v1.UserSkillR\fskillsWanted\"\x86\x01\n" +
-	"\x18GetTrendingSkillsRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12@\n" +
-	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12\x12\n" +
-	"\x04days\x18\x03 \x01(\x05R\x04days\"X\n" +
+	"\rskills_wanted\x18\x02 \x03(\v2 .skillsphere.common.v1.UserSkillR\fskillsWanted\"\x9c\x01\n" +
+	"\x18GetTrendingSkillsRequest\x12\x1f\n" +
+	"\x05limit\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\x12@\n" +
+	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12\x1d\n" +
+	"\x04days\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x1e(\x01R\x04days\"X\n" +
 	"\x19GetTrendingSkillsResponse\x12;\n" +
-	"\x06skills\x18\x01 \x03(\v2#.skillsphere.skill.v1.TrendingSkillR\x06skills\"\xc1\x01\n" +
+	"\x06skills\x18\x01 \x03(\v2#.skillsphere.skill.v1.TrendingSkillR\x06skills\"\xec\x01\n" +
 	"\rTrendingSkill\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12)\n" +
-	"\x10popularity_score\x18\x02 \x01(\x05R\x0fpopularityScore\x120\n" +
-	"\x14sessions_last_period\x18\x03 \x01(\x05R\x12sessionsLastPeriod\x12\x1f\n" +
-	"\vgrowth_rate\x18\x04 \x01(\x01R\n" +
-	"growthRate\"\x87\x01\n" +
-	"\x13SearchSkillsRequest\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12D\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x122\n" +
+	"\x10popularity_score\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0fpopularityScore\x129\n" +
+	"\x14sessions_last_period\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12sessionsLastPeriod\x128\n" +
+	"\vgrowth_rate\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00Y\xc0R\n" +
+	"growthRate\"\xa8\x01\n" +
+	"\x13SearchSkillsRequest\x12 \n" +
+	"\x05query\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xc8\x01R\x05query\x12N\n" +
 	"\n" +
-	"categories\x18\x02 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"L\n" +
+	"categories\x18\x02 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12\x1f\n" +
+	"\x05limit\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x05limit\"L\n" +
 	"\x14SearchSkillsResponse\x124\n" +
-	"\x06skills\x18\x01 \x03(\v2\x1c.skillsphere.common.v1.SkillR\x06skills\"K\n" +
-	"\x1aGetSkillSuggestionsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"f\n" +
+	"\x06skills\x18\x01 \x03(\v2\x1c.skillsphere.common.v1.SkillR\x06skills\"a\n" +
+	"\x1aGetSkillSuggestionsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\"f\n" +
 	"\x1bGetSkillSuggestionsResponse\x12G\n" +
-	"\vsuggestions\x18\x01 \x03(\v2%.skillsphere.skill.v1.SkillSuggestionR\vsuggestions\"\x86\x01\n" +
+	"\vsuggestions\x18\x01 \x03(\v2%.skillsphere.skill.v1.SkillSuggestionR\vsuggestions\"\xa9\x01\n" +
 	"\x0fSkillSuggestion\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason\x12'\n" +
-	"\x0frelevance_score\x18\x03 \x01(\x01R\x0erelevanceScore2\x80\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12 \n" +
+	"\x06reason\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\x12@\n" +
+	"\x0frelevance_score\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x0erelevanceScore2\x80\n" +
 	"\n" +
 	"\fSkillService\x12b\n" +
 	"\vCreateSkill\x12(.skillsphere.skill.v1.CreateSkillRequest\x1a).skillsphere.skill.v1.CreateSkillResponse\x12Y\n" +

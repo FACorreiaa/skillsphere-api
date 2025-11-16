@@ -7,6 +7,7 @@
 package chatv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -85,7 +86,7 @@ type Message struct {
 	SenderId       string                 `protobuf:"bytes,3,opt,name=sender_id,json=senderId,proto3" json:"sender_id,omitempty"`
 	RecipientId    string                 `protobuf:"bytes,4,opt,name=recipient_id,json=recipientId,proto3" json:"recipient_id,omitempty"`
 	Type           MessageType            `protobuf:"varint,5,opt,name=type,proto3,enum=skillsphere.chat.v1.MessageType" json:"type,omitempty"`
-	Content        string                 `protobuf:"bytes,6,opt,name=content,proto3" json:"content,omitempty"` // Text or file URL
+	Content        string                 `protobuf:"bytes,6,opt,name=content,proto3" json:"content,omitempty"`
 	Attachments    []*v1.Attachment       `protobuf:"bytes,7,rep,name=attachments,proto3" json:"attachments,omitempty"`
 	SentAt         *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=sent_at,json=sentAt,proto3" json:"sent_at,omitempty"`
 	ReadAt         *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=read_at,json=readAt,proto3" json:"read_at,omitempty"`
@@ -213,7 +214,7 @@ func (x *Message) GetReactions() []*Reaction {
 type Reaction struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Emoji         string                 `protobuf:"bytes,2,opt,name=emoji,proto3" json:"emoji,omitempty"` // Unicode emoji
+	Emoji         string                 `protobuf:"bytes,2,opt,name=emoji,proto3" json:"emoji,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -366,7 +367,7 @@ type SendMessageRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	SenderId       string                 `protobuf:"bytes,1,opt,name=sender_id,json=senderId,proto3" json:"sender_id,omitempty"`
 	RecipientId    string                 `protobuf:"bytes,2,opt,name=recipient_id,json=recipientId,proto3" json:"recipient_id,omitempty"`
-	ConversationId string                 `protobuf:"bytes,3,opt,name=conversation_id,json=conversationId,proto3" json:"conversation_id,omitempty"` // Optional for new conversations
+	ConversationId string                 `protobuf:"bytes,3,opt,name=conversation_id,json=conversationId,proto3" json:"conversation_id,omitempty"`
 	Type           MessageType            `protobuf:"varint,4,opt,name=type,proto3,enum=skillsphere.chat.v1.MessageType" json:"type,omitempty"`
 	Content        string                 `protobuf:"bytes,5,opt,name=content,proto3" json:"content,omitempty"`
 	Attachments    []*v1.Attachment       `protobuf:"bytes,6,rep,name=attachments,proto3" json:"attachments,omitempty"`
@@ -621,7 +622,7 @@ func (x *GetMessagesResponse) GetNextPageToken() string {
 type StreamMessagesRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	UserId          string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ConversationIds []string               `protobuf:"bytes,2,rep,name=conversation_ids,json=conversationIds,proto3" json:"conversation_ids,omitempty"` // Empty for all conversations
+	ConversationIds []string               `protobuf:"bytes,2,rep,name=conversation_ids,json=conversationIds,proto3" json:"conversation_ids,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -673,8 +674,8 @@ func (x *StreamMessagesRequest) GetConversationIds() []string {
 type StreamMessagesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	EventType     string                 `protobuf:"bytes,2,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"` // "new_message", "message_read", "typing"
-	Typing        *TypingIndicator       `protobuf:"bytes,3,opt,name=typing,proto3" json:"typing,omitempty"`                        // Optional
+	EventType     string                 `protobuf:"bytes,2,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	Typing        *TypingIndicator       `protobuf:"bytes,3,opt,name=typing,proto3" json:"typing,omitempty"` // Optional
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -794,7 +795,7 @@ type MarkAsReadRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	MessageIds     []string               `protobuf:"bytes,2,rep,name=message_ids,json=messageIds,proto3" json:"message_ids,omitempty"`
-	ConversationId string                 `protobuf:"bytes,3,opt,name=conversation_id,json=conversationId,proto3" json:"conversation_id,omitempty"` // Mark all in conversation
+	ConversationId string                 `protobuf:"bytes,3,opt,name=conversation_id,json=conversationId,proto3" json:"conversation_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1017,7 +1018,7 @@ func (x *ListConversationsResponse) GetNextPageToken() string {
 type DeleteMessageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // For authorization
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1338,110 +1339,114 @@ var File_chat_v1_chat_proto protoreflect.FileDescriptor
 
 const file_chat_v1_chat_proto_rawDesc = "" +
 	"\n" +
-	"\x12chat/v1/chat.proto\x12\x13skillsphere.chat.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x85\x04\n" +
-	"\aMessage\x12\x1d\n" +
+	"\x12chat/v1/chat.proto\x12\x13skillsphere.chat.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xd9\x04\n" +
+	"\aMessage\x12(\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\tR\tmessageId\x12'\n" +
-	"\x0fconversation_id\x18\x02 \x01(\tR\x0econversationId\x12\x1b\n" +
-	"\tsender_id\x18\x03 \x01(\tR\bsenderId\x12!\n" +
-	"\frecipient_id\x18\x04 \x01(\tR\vrecipientId\x124\n" +
-	"\x04type\x18\x05 \x01(\x0e2 .skillsphere.chat.v1.MessageTypeR\x04type\x12\x18\n" +
-	"\acontent\x18\x06 \x01(\tR\acontent\x12C\n" +
-	"\vattachments\x18\a \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x123\n" +
+	"message_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tmessageId\x122\n" +
+	"\x0fconversation_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0econversationId\x12&\n" +
+	"\tsender_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bsenderId\x12,\n" +
+	"\frecipient_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vrecipientId\x12>\n" +
+	"\x04type\x18\x05 \x01(\x0e2 .skillsphere.chat.v1.MessageTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\"\n" +
+	"\acontent\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\acontent\x12M\n" +
+	"\vattachments\x18\a \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x123\n" +
 	"\asent_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x06sentAt\x123\n" +
 	"\aread_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x06readAt\x12\x17\n" +
 	"\ais_read\x18\n" +
 	" \x01(\bR\x06isRead\x12\x1d\n" +
 	"\n" +
-	"is_deleted\x18\v \x01(\bR\tisDeleted\x12;\n" +
-	"\treactions\x18\f \x03(\v2\x1d.skillsphere.chat.v1.ReactionR\treactions\"t\n" +
-	"\bReaction\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05emoji\x18\x02 \x01(\tR\x05emoji\x129\n" +
+	"is_deleted\x18\v \x01(\bR\tisDeleted\x12E\n" +
+	"\treactions\x18\f \x03(\v2\x1d.skillsphere.chat.v1.ReactionB\b\xbaH\x05\x92\x01\x02\x10dR\treactions\"\x88\x01\n" +
+	"\bReaction\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1d\n" +
+	"\x05emoji\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18\bR\x05emoji\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xdb\x02\n" +
-	"\fConversation\x12'\n" +
-	"\x0fconversation_id\x18\x01 \x01(\tR\x0econversationId\x12'\n" +
-	"\x0fparticipant_ids\x18\x02 \x03(\tR\x0eparticipantIds\x12?\n" +
-	"\flast_message\x18\x03 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\vlastMessage\x12!\n" +
-	"\funread_count\x18\x04 \x01(\x05R\vunreadCount\x129\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x83\x03\n" +
+	"\fConversation\x122\n" +
+	"\x0fconversation_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0econversationId\x12;\n" +
+	"\x0fparticipant_ids\x18\x02 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x02\x10\x14\"\x06r\x04\x10\x01\x182R\x0eparticipantIds\x12?\n" +
+	"\flast_message\x18\x03 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\vlastMessage\x12*\n" +
+	"\funread_count\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vunreadCount\x129\n" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x1f\n" +
 	"\vis_archived\x18\a \x01(\bR\n" +
-	"isArchived\"\x92\x02\n" +
-	"\x12SendMessageRequest\x12\x1b\n" +
-	"\tsender_id\x18\x01 \x01(\tR\bsenderId\x12!\n" +
-	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\x12'\n" +
-	"\x0fconversation_id\x18\x03 \x01(\tR\x0econversationId\x124\n" +
-	"\x04type\x18\x04 \x01(\x0e2 .skillsphere.chat.v1.MessageTypeR\x04type\x12\x18\n" +
-	"\acontent\x18\x05 \x01(\tR\acontent\x12C\n" +
-	"\vattachments\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\"v\n" +
+	"isArchived\"\xcf\x02\n" +
+	"\x12SendMessageRequest\x12&\n" +
+	"\tsender_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bsenderId\x12,\n" +
+	"\frecipient_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vrecipientId\x120\n" +
+	"\x0fconversation_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x0econversationId\x12>\n" +
+	"\x04type\x18\x04 \x01(\x0e2 .skillsphere.chat.v1.MessageTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\"\n" +
+	"\acontent\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\acontent\x12M\n" +
+	"\vattachments\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\"\x81\x01\n" +
 	"\x13SendMessageResponse\x126\n" +
-	"\amessage\x18\x01 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\amessage\x12'\n" +
-	"\x0fconversation_id\x18\x02 \x01(\tR\x0econversationId\"\xab\x01\n" +
-	"\x12GetMessagesRequest\x12'\n" +
-	"\x0fconversation_id\x18\x01 \x01(\tR\x0econversationId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\amessage\x18\x01 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\amessage\x122\n" +
+	"\x0fconversation_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0econversationId\"\xcc\x01\n" +
+	"\x12GetMessagesRequest\x122\n" +
+	"\x0fconversation_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0econversationId\x12'\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xc8\x01(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x120\n" +
-	"\x05since\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x05since\"w\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x120\n" +
+	"\x05since\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x05since\"\x81\x01\n" +
 	"\x13GetMessagesResponse\x128\n" +
-	"\bmessages\x18\x01 \x03(\v2\x1c.skillsphere.chat.v1.MessageR\bmessages\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"[\n" +
-	"\x15StreamMessagesRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12)\n" +
-	"\x10conversation_ids\x18\x02 \x03(\tR\x0fconversationIds\"\xad\x01\n" +
+	"\bmessages\x18\x01 \x03(\v2\x1c.skillsphere.chat.v1.MessageR\bmessages\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"x\n" +
+	"\x15StreamMessagesRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12;\n" +
+	"\x10conversation_ids\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\x0fconversationIds\"\xb8\x01\n" +
 	"\x16StreamMessagesResponse\x126\n" +
-	"\amessage\x18\x01 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\amessage\x12\x1d\n" +
+	"\amessage\x18\x01 \x01(\v2\x1c.skillsphere.chat.v1.MessageR\amessage\x12(\n" +
 	"\n" +
-	"event_type\x18\x02 \x01(\tR\teventType\x12<\n" +
-	"\x06typing\x18\x03 \x01(\v2$.skillsphere.chat.v1.TypingIndicatorR\x06typing\"p\n" +
-	"\x0fTypingIndicator\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12'\n" +
-	"\x0fconversation_id\x18\x02 \x01(\tR\x0econversationId\x12\x1b\n" +
-	"\tis_typing\x18\x03 \x01(\bR\bisTyping\"v\n" +
-	"\x11MarkAsReadRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vmessage_ids\x18\x02 \x03(\tR\n" +
-	"messageIds\x12'\n" +
-	"\x0fconversation_id\x18\x03 \x01(\tR\x0econversationId\"7\n" +
-	"\x12MarkAsReadResponse\x12!\n" +
-	"\fmarked_count\x18\x01 \x01(\x05R\vmarkedCount\"\x90\x01\n" +
-	"\x18ListConversationsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"event_type\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\teventType\x12<\n" +
+	"\x06typing\x18\x03 \x01(\v2$.skillsphere.chat.v1.TypingIndicatorR\x06typing\"\x86\x01\n" +
+	"\x0fTypingIndicator\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x122\n" +
+	"\x0fconversation_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0econversationId\x12\x1b\n" +
+	"\tis_typing\x18\x03 \x01(\bR\bisTyping\"\x9d\x01\n" +
+	"\x11MarkAsReadRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x122\n" +
+	"\vmessage_ids\x18\x02 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\xc8\x01\"\x06r\x04\x10\x01\x182R\n" +
+	"messageIds\x120\n" +
+	"\x0fconversation_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x0econversationId\"@\n" +
+	"\x12MarkAsReadResponse\x12*\n" +
+	"\fmarked_count\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vmarkedCount\"\xb0\x01\n" +
+	"\x18ListConversationsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12\x1f\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12\x1f\n" +
 	"\vunread_only\x18\x04 \x01(\bR\n" +
-	"unreadOnly\"\x8c\x01\n" +
+	"unreadOnly\"\x96\x01\n" +
 	"\x19ListConversationsResponse\x12G\n" +
-	"\rconversations\x18\x01 \x03(\v2!.skillsphere.chat.v1.ConversationR\rconversations\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"N\n" +
-	"\x14DeleteMessageRequest\x12\x1d\n" +
+	"\rconversations\x18\x01 \x03(\v2!.skillsphere.chat.v1.ConversationR\rconversations\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"d\n" +
+	"\x14DeleteMessageRequest\x12(\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"1\n" +
+	"message_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tmessageId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"1\n" +
 	"\x15DeleteMessageResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"e\n" +
-	"\x15ReactToMessageRequest\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x84\x01\n" +
+	"\x15ReactToMessageRequest\x12(\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05emoji\x18\x03 \x01(\tR\x05emoji\"S\n" +
+	"message_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tmessageId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1d\n" +
+	"\x05emoji\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18\bR\x05emoji\"S\n" +
 	"\x16ReactToMessageResponse\x129\n" +
-	"\breaction\x18\x01 \x01(\v2\x1d.skillsphere.chat.v1.ReactionR\breaction\"\x90\x01\n" +
-	"\x14ReportMessageRequest\x12\x1d\n" +
+	"\breaction\x18\x01 \x01(\v2\x1d.skillsphere.chat.v1.ReactionR\breaction\"\xba\x01\n" +
+	"\x14ReportMessageRequest\x12(\n" +
 	"\n" +
-	"message_id\x18\x01 \x01(\tR\tmessageId\x12\x1f\n" +
-	"\vreporter_id\x18\x02 \x01(\tR\n" +
-	"reporterId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"L\n" +
-	"\x15ReportMessageResponse\x12\x1b\n" +
-	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status*\x8a\x01\n" +
+	"message_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tmessageId\x12*\n" +
+	"\vreporter_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reporterId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x06reason\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\"b\n" +
+	"\x15ReportMessageResponse\x12&\n" +
+	"\treport_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breportId\x12!\n" +
+	"\x06status\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x06status*\x8a\x01\n" +
 	"\vMessageType\x12\x1c\n" +
 	"\x18MESSAGE_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11MESSAGE_TYPE_TEXT\x10\x01\x12\x16\n" +

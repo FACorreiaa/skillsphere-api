@@ -7,6 +7,7 @@
 package challengev1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -418,11 +419,11 @@ func (x *Challenge) GetCreatedAt() *timestamppb.Timestamp {
 
 type Prize struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Rank          int32                  `protobuf:"varint,1,opt,name=rank,proto3" json:"rank,omitempty"`  // 1st, 2nd, 3rd place
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"` // e.g., "First Place"
+	Rank          int32                  `protobuf:"varint,1,opt,name=rank,proto3" json:"rank,omitempty"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	CashPrize     *v1.Money              `protobuf:"bytes,4,opt,name=cash_prize,json=cashPrize,proto3" json:"cash_prize,omitempty"`
-	Perks         []string               `protobuf:"bytes,5,rep,name=perks,proto3" json:"perks,omitempty"` // e.g., "Premium subscription", "Certification"
+	Perks         []string               `protobuf:"bytes,5,rep,name=perks,proto3" json:"perks,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -500,8 +501,8 @@ type ChallengeEntry struct {
 	Title       string                 `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`
 	Description string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	Attachments []*v1.Attachment       `protobuf:"bytes,6,rep,name=attachments,proto3" json:"attachments,omitempty"`
-	DemoUrl     string                 `protobuf:"bytes,7,opt,name=demo_url,json=demoUrl,proto3" json:"demo_url,omitempty"`       // Live demo or video
-	SourceUrl   string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"` // GitHub repo, etc.
+	DemoUrl     string                 `protobuf:"bytes,7,opt,name=demo_url,json=demoUrl,proto3" json:"demo_url,omitempty"`
+	SourceUrl   string                 `protobuf:"bytes,8,opt,name=source_url,json=sourceUrl,proto3" json:"source_url,omitempty"`
 	// Voting
 	VoteCount     int32    `protobuf:"varint,9,opt,name=vote_count,json=voteCount,proto3" json:"vote_count,omitempty"`
 	AverageRating float64  `protobuf:"fixed64,10,opt,name=average_rating,json=averageRating,proto3" json:"average_rating,omitempty"`
@@ -509,7 +510,7 @@ type ChallengeEntry struct {
 	// Status
 	Status        EntryStatus            `protobuf:"varint,12,opt,name=status,proto3,enum=skillsphere.challenge.v1.EntryStatus" json:"status,omitempty"`
 	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
-	Rank          int32                  `protobuf:"varint,14,opt,name=rank,proto3" json:"rank,omitempty"` // Final rank (if winner)
+	Rank          int32                  `protobuf:"varint,14,opt,name=rank,proto3" json:"rank,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -647,7 +648,7 @@ type Vote struct {
 	VoteId        string                 `protobuf:"bytes,1,opt,name=vote_id,json=voteId,proto3" json:"vote_id,omitempty"`
 	EntryId       string                 `protobuf:"bytes,2,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
 	VoterId       string                 `protobuf:"bytes,3,opt,name=voter_id,json=voterId,proto3" json:"voter_id,omitempty"`
-	Rating        int32                  `protobuf:"varint,4,opt,name=rating,proto3" json:"rating,omitempty"` // 1-5 stars
+	Rating        int32                  `protobuf:"varint,4,opt,name=rating,proto3" json:"rating,omitempty"`
 	Comment       string                 `protobuf:"bytes,5,opt,name=comment,proto3" json:"comment,omitempty"`
 	VotedAt       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=voted_at,json=votedAt,proto3" json:"voted_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1573,7 +1574,7 @@ func (x *VoteOnEntryResponse) GetUpdatedEntry() *ChallengeEntry {
 type GetLeaderboardRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ChallengeId   string                 `protobuf:"bytes,1,opt,name=challenge_id,json=challengeId,proto3" json:"challenge_id,omitempty"`
-	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"` // Top N entries
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2102,69 +2103,76 @@ var File_challenge_v1_challenge_proto protoreflect.FileDescriptor
 
 const file_challenge_v1_challenge_proto_rawDesc = "" +
 	"\n" +
-	"\x1cchallenge/v1/challenge.proto\x12\x18skillsphere.challenge.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x94\b\n" +
-	"\tChallenge\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x04 \x03(\tR\bskillIds\x12J\n" +
+	"\x1cchallenge/v1/challenge.proto\x12\x18skillsphere.challenge.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xe9\t\n" +
+	"\tChallenge\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12-\n" +
+	"\tskill_ids\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x12T\n" +
 	"\n" +
-	"difficulty\x18\x05 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyR\n" +
+	"difficulty\x18\x05 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
 	"difficulty\x129\n" +
 	"\n" +
 	"start_date\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
 	"\bend_date\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12B\n" +
-	"\x0fvoting_end_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\rvotingEndDate\x12\x14\n" +
-	"\x05rules\x18\t \x03(\tR\x05rules\x12)\n" +
+	"\x0fvoting_end_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\rvotingEndDate\x12'\n" +
+	"\x05rules\x18\t \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x05rules\x12<\n" +
 	"\x10judging_criteria\x18\n" +
-	" \x03(\tR\x0fjudgingCriteria\x12)\n" +
-	"\x10max_participants\x18\v \x01(\x05R\x0fmaxParticipants\x123\n" +
-	"\x15requires_verification\x18\f \x01(\bR\x14requiresVerification\x127\n" +
-	"\x06prizes\x18\r \x03(\v2\x1f.skillsphere.challenge.v1.PrizeR\x06prizes\x12\x1f\n" +
+	" \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x0fjudgingCriteria\x126\n" +
+	"\x10max_participants\x18\v \x01(\x05B\v\xbaH\b\x1a\x06\x18\xa0\x8d\x06(\x01R\x0fmaxParticipants\x123\n" +
+	"\x15requires_verification\x18\f \x01(\bR\x14requiresVerification\x12A\n" +
+	"\x06prizes\x18\r \x03(\v2\x1f.skillsphere.challenge.v1.PrizeB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\x06prizes\x12\x1f\n" +
 	"\vhas_sponsor\x18\x0e \x01(\bR\n" +
-	"hasSponsor\x12!\n" +
-	"\fsponsor_name\x18\x0f \x01(\tR\vsponsorName\x12(\n" +
-	"\x10sponsor_logo_url\x18\x10 \x01(\tR\x0esponsorLogoUrl\x12A\n" +
-	"\x06status\x18\x11 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusR\x06status\x12;\n" +
-	"\x04type\x18\x12 \x01(\x0e2'.skillsphere.challenge.v1.ChallengeTypeR\x04type\x12+\n" +
-	"\x11participant_count\x18\x13 \x01(\x05R\x10participantCount\x12\x1f\n" +
-	"\ventry_count\x18\x14 \x01(\x05R\n" +
-	"entryCount\x12(\n" +
-	"\x10banner_image_url\x18\x15 \x01(\tR\x0ebannerImageUrl\x12\x12\n" +
-	"\x04tags\x18\x16 \x03(\tR\x04tags\x129\n" +
+	"hasSponsor\x12*\n" +
+	"\fsponsor_name\x18\x0f \x01(\tB\a\xbaH\x04r\x02\x18dR\vsponsorName\x125\n" +
+	"\x10sponsor_logo_url\x18\x10 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x0esponsorLogoUrl\x12K\n" +
+	"\x06status\x18\x11 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12E\n" +
+	"\x04type\x18\x12 \x01(\x0e2'.skillsphere.challenge.v1.ChallengeTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x124\n" +
+	"\x11participant_count\x18\x13 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x10participantCount\x12(\n" +
+	"\ventry_count\x18\x14 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"entryCount\x125\n" +
+	"\x10banner_image_url\x18\x15 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x0ebannerImageUrl\x12$\n" +
+	"\x04tags\x18\x16 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18 R\x04tags\x129\n" +
 	"\n" +
-	"created_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xa6\x01\n" +
-	"\x05Prize\x12\x12\n" +
-	"\x04rank\x18\x01 \x01(\x05R\x04rank\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12;\n" +
+	"created_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xd9\x01\n" +
+	"\x05Prize\x12\x1d\n" +
+	"\x04rank\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x04rank\x12\x1f\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\vdescription\x12;\n" +
 	"\n" +
-	"cash_prize\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\tcashPrize\x12\x14\n" +
-	"\x05perks\x18\x05 \x03(\tR\x05perks\"\x8a\x04\n" +
-	"\x0eChallengeEntry\x12\x19\n" +
-	"\bentry_id\x18\x01 \x01(\tR\aentryId\x12!\n" +
-	"\fchallenge_id\x18\x02 \x01(\tR\vchallengeId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05title\x18\x04 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12C\n" +
-	"\vattachments\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x12\x19\n" +
-	"\bdemo_url\x18\a \x01(\tR\ademoUrl\x12\x1d\n" +
+	"cash_prize\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\tcashPrize\x12'\n" +
+	"\x05perks\x18\x05 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xc8\x01R\x05perks\"\xae\x05\n" +
+	"\x0eChallengeEntry\x12$\n" +
+	"\bentry_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aentryId\x12,\n" +
+	"\fchallenge_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12\"\n" +
+	"\auser_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x05title\x18\x04 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12M\n" +
+	"\vattachments\x18\x06 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x12&\n" +
+	"\bdemo_url\x18\a \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\ademoUrl\x12*\n" +
 	"\n" +
-	"source_url\x18\b \x01(\tR\tsourceUrl\x12\x1d\n" +
+	"source_url\x18\b \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tsourceUrl\x12&\n" +
 	"\n" +
-	"vote_count\x18\t \x01(\x05R\tvoteCount\x12%\n" +
+	"vote_count\x18\t \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tvoteCount\x12>\n" +
 	"\x0eaverage_rating\x18\n" +
-	" \x01(\x01R\raverageRating\x12\x12\n" +
-	"\x04tags\x18\v \x03(\tR\x04tags\x12=\n" +
-	"\x06status\x18\f \x01(\x0e2%.skillsphere.challenge.v1.EntryStatusR\x06status\x12=\n" +
-	"\fsubmitted_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12\x12\n" +
-	"\x04rank\x18\x0e \x01(\x05R\x04rank\"\xbe\x01\n" +
-	"\x04Vote\x12\x17\n" +
-	"\avote_id\x18\x01 \x01(\tR\x06voteId\x12\x19\n" +
-	"\bentry_id\x18\x02 \x01(\tR\aentryId\x12\x19\n" +
-	"\bvoter_id\x18\x03 \x01(\tR\avoterId\x12\x16\n" +
-	"\x06rating\x18\x04 \x01(\x05R\x06rating\x12\x18\n" +
-	"\acomment\x18\x05 \x01(\tR\acomment\x125\n" +
+	" \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\raverageRating\x12$\n" +
+	"\x04tags\x18\v \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18 R\x04tags\x12G\n" +
+	"\x06status\x18\f \x01(\x0e2%.skillsphere.challenge.v1.EntryStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12=\n" +
+	"\fsubmitted_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12\x1d\n" +
+	"\x04rank\x18\x0e \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x04rank\"\xf4\x01\n" +
+	"\x04Vote\x12\"\n" +
+	"\avote_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06voteId\x12$\n" +
+	"\bentry_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aentryId\x12$\n" +
+	"\bvoter_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\avoterId\x12!\n" +
+	"\x06rating\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x06rating\x12\"\n" +
+	"\acomment\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acomment\x125\n" +
 	"\bvoted_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\avotedAt\"\xce\x01\n" +
 	"\x10LeaderboardEntry\x12\x12\n" +
 	"\x04rank\x18\x01 \x01(\x05R\x04rank\x12/\n" +
@@ -2172,108 +2180,115 @@ const file_challenge_v1_challenge_proto_rawDesc = "" +
 	"\x05entry\x18\x03 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\x05entry\x12\x1f\n" +
 	"\vtotal_votes\x18\x04 \x01(\x05R\n" +
 	"totalVotes\x12\x14\n" +
-	"\x05score\x18\x05 \x01(\x01R\x05score\"\xb7\x03\n" +
-	"\x16CreateChallengeRequest\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x03 \x03(\tR\bskillIds\x12J\n" +
+	"\x05score\x18\x05 \x01(\x01R\x05score\"\x92\x04\n" +
+	"\x16CreateChallengeRequest\x12 \n" +
+	"\x05title\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12/\n" +
+	"\tskill_ids\x18\x03 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x12T\n" +
 	"\n" +
-	"difficulty\x18\x04 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyR\n" +
+	"difficulty\x18\x04 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
 	"difficulty\x129\n" +
 	"\n" +
 	"start_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x14\n" +
-	"\x05rules\x18\a \x03(\tR\x05rules\x127\n" +
-	"\x06prizes\x18\b \x03(\v2\x1f.skillsphere.challenge.v1.PrizeR\x06prizes\x12;\n" +
-	"\x04type\x18\t \x01(\x0e2'.skillsphere.challenge.v1.ChallengeTypeR\x04type\"\x81\x01\n" +
+	"\bend_date\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12'\n" +
+	"\x05rules\x18\a \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x05rules\x12A\n" +
+	"\x06prizes\x18\b \x03(\v2\x1f.skillsphere.challenge.v1.PrizeB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\x06prizes\x12E\n" +
+	"\x04type\x18\t \x01(\x0e2'.skillsphere.challenge.v1.ChallengeTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\"\x8e\x01\n" +
 	"\x17CreateChallengeResponse\x12A\n" +
-	"\tchallenge\x18\x01 \x01(\v2#.skillsphere.challenge.v1.ChallengeR\tchallenge\x12#\n" +
-	"\rshareable_url\x18\x02 \x01(\tR\fshareableUrl\"8\n" +
-	"\x13GetChallengeRequest\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\"\xd6\x01\n" +
+	"\tchallenge\x18\x01 \x01(\v2#.skillsphere.challenge.v1.ChallengeR\tchallenge\x120\n" +
+	"\rshareable_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\fshareableUrl\"C\n" +
+	"\x13GetChallengeRequest\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\"\xd6\x01\n" +
 	"\x14GetChallengeResponse\x12A\n" +
 	"\tchallenge\x18\x01 \x01(\v2#.skillsphere.challenge.v1.ChallengeR\tchallenge\x122\n" +
 	"\x15user_is_participating\x18\x02 \x01(\bR\x13userIsParticipating\x12G\n" +
 	"\n" +
-	"user_entry\x18\x03 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\tuserEntry\"\xa8\x02\n" +
-	"\x15ListChallengesRequest\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"user_entry\x18\x03 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\tuserEntry\"\xdb\x02\n" +
+	"\x15ListChallengesRequest\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12A\n" +
-	"\x06status\x18\x03 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusR\x06status\x12D\n" +
+	"page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12K\n" +
+	"\x06status\x18\x03 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12N\n" +
 	"\n" +
-	"categories\x18\x04 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12J\n" +
+	"categories\x18\x04 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12T\n" +
 	"\n" +
-	"difficulty\x18\x05 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyR\n" +
-	"difficulty\"\x85\x01\n" +
+	"difficulty\x18\x05 \x01(\x0e2*.skillsphere.common.v1.ChallengeDifficultyB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"difficulty\"\x8f\x01\n" +
 	"\x16ListChallengesResponse\x12C\n" +
 	"\n" +
 	"challenges\x18\x01 \x03(\v2#.skillsphere.challenge.v1.ChallengeR\n" +
-	"challenges\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"R\n" +
-	"\x14JoinChallengeRequest\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"K\n" +
+	"challenges\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"h\n" +
+	"\x14JoinChallengeRequest\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"U\n" +
 	"\x15JoinChallengeResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\x9b\x02\n" +
-	"\x12SubmitEntryRequest\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12C\n" +
-	"\vattachments\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x12\x19\n" +
-	"\bdemo_url\x18\x06 \x01(\tR\ademoUrl\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\"\n" +
+	"\amessage\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\amessage\"\xfd\x02\n" +
+	"\x12SubmitEntryRequest\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x05title\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12M\n" +
+	"\vattachments\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x12&\n" +
+	"\bdemo_url\x18\x06 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\ademoUrl\x12*\n" +
 	"\n" +
-	"source_url\x18\a \x01(\tR\tsourceUrl\x12\x12\n" +
-	"\x04tags\x18\b \x03(\tR\x04tags\"\x88\x01\n" +
+	"source_url\x18\a \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tsourceUrl\x12$\n" +
+	"\x04tags\x18\b \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18 R\x04tags\"\x92\x01\n" +
 	"\x13SubmitEntryResponse\x12>\n" +
-	"\x05entry\x18\x01 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\x05entry\x121\n" +
-	"\x14confirmation_message\x18\x02 \x01(\tR\x13confirmationMessage\"|\n" +
-	"\x12VoteOnEntryRequest\x12\x19\n" +
-	"\bentry_id\x18\x01 \x01(\tR\aentryId\x12\x19\n" +
-	"\bvoter_id\x18\x02 \x01(\tR\avoterId\x12\x16\n" +
-	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x18\n" +
-	"\acomment\x18\x04 \x01(\tR\acomment\"\x98\x01\n" +
+	"\x05entry\x18\x01 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\x05entry\x12;\n" +
+	"\x14confirmation_message\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x13confirmationMessage\"\xa7\x01\n" +
+	"\x12VoteOnEntryRequest\x12$\n" +
+	"\bentry_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aentryId\x12$\n" +
+	"\bvoter_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\avoterId\x12!\n" +
+	"\x06rating\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x06rating\x12\"\n" +
+	"\acomment\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acomment\"\x98\x01\n" +
 	"\x13VoteOnEntryResponse\x122\n" +
 	"\x04vote\x18\x01 \x01(\v2\x1e.skillsphere.challenge.v1.VoteR\x04vote\x12M\n" +
-	"\rupdated_entry\x18\x02 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\fupdatedEntry\"P\n" +
-	"\x15GetLeaderboardRequest\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\x9d\x01\n" +
-	"\x16GetLeaderboardResponse\x12D\n" +
-	"\aentries\x18\x01 \x03(\v2*.skillsphere.challenge.v1.LeaderboardEntryR\aentries\x12=\n" +
-	"\flast_updated\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vlastUpdated\"v\n" +
-	"\x18GetUserChallengesRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12A\n" +
-	"\x06status\x18\x02 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusR\x06status\"d\n" +
+	"\rupdated_entry\x18\x02 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\fupdatedEntry\"f\n" +
+	"\x15GetLeaderboardRequest\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x05limit\"\xa7\x01\n" +
+	"\x16GetLeaderboardResponse\x12N\n" +
+	"\aentries\x18\x01 \x03(\v2*.skillsphere.challenge.v1.LeaderboardEntryB\b\xbaH\x05\x92\x01\x02\x10dR\aentries\x12=\n" +
+	"\flast_updated\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vlastUpdated\"\x8b\x01\n" +
+	"\x18GetUserChallengesRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12K\n" +
+	"\x06status\x18\x02 \x01(\x0e2).skillsphere.challenge.v1.ChallengeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"d\n" +
 	"\x19GetUserChallengesResponse\x12G\n" +
 	"\n" +
 	"challenges\x18\x01 \x03(\v2'.skillsphere.challenge.v1.UserChallengeR\n" +
-	"challenges\"\xd1\x01\n" +
+	"challenges\"\xde\x01\n" +
 	"\rUserChallenge\x12A\n" +
 	"\tchallenge\x18\x01 \x01(\v2#.skillsphere.challenge.v1.ChallengeR\tchallenge\x12G\n" +
 	"\n" +
-	"user_entry\x18\x02 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\tuserEntry\x12\x1b\n" +
-	"\tuser_rank\x18\x03 \x01(\x05R\buserRank\x12\x17\n" +
-	"\ahas_won\x18\x04 \x01(\bR\x06hasWon\"\x8f\x01\n" +
-	"\x13AwardWinnersRequest\x12!\n" +
-	"\fchallenge_id\x18\x01 \x01(\tR\vchallengeId\x12:\n" +
-	"\awinners\x18\x02 \x03(\v2 .skillsphere.challenge.v1.WinnerR\awinners\x12\x19\n" +
-	"\badmin_id\x18\x03 \x01(\tR\aadminId\"d\n" +
-	"\x06Winner\x12\x19\n" +
-	"\bentry_id\x18\x01 \x01(\tR\aentryId\x12\x12\n" +
-	"\x04rank\x18\x02 \x01(\x05R\x04rank\x12+\n" +
-	"\x11prize_description\x18\x03 \x01(\tR\x10prizeDescription\"X\n" +
+	"user_entry\x18\x02 \x01(\v2(.skillsphere.challenge.v1.ChallengeEntryR\tuserEntry\x12(\n" +
+	"\tuser_rank\x18\x03 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xa0\x8d\x06(\x01R\buserRank\x12\x17\n" +
+	"\ahas_won\x18\x04 \x01(\bR\x06hasWon\"\xaf\x01\n" +
+	"\x13AwardWinnersRequest\x12,\n" +
+	"\fchallenge_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vchallengeId\x12D\n" +
+	"\awinners\x18\x02 \x03(\v2 .skillsphere.challenge.v1.WinnerB\b\xbaH\x05\x92\x01\x02\x10dR\awinners\x12$\n" +
+	"\badmin_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\"\x84\x01\n" +
+	"\x06Winner\x12$\n" +
+	"\bentry_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aentryId\x12\x1d\n" +
+	"\x04rank\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x04rank\x125\n" +
+	"\x11prize_description\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x10prizeDescription\"j\n" +
 	"\x14AwardWinnersResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12&\n" +
-	"\x0fwinner_user_ids\x18\x02 \x03(\tR\rwinnerUserIds\"4\n" +
-	"\x1cGetTrendingChallengesRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\"d\n" +
-	"\x1dGetTrendingChallengesResponse\x12C\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x128\n" +
+	"\x0fwinner_user_ids\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10d\"\x06r\x04\x10\x01\x182R\rwinnerUserIds\"?\n" +
+	"\x1cGetTrendingChallengesRequest\x12\x1f\n" +
+	"\x05limit\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\"n\n" +
+	"\x1dGetTrendingChallengesResponse\x12M\n" +
 	"\n" +
-	"challenges\x18\x01 \x03(\v2#.skillsphere.challenge.v1.ChallengeR\n" +
+	"challenges\x18\x01 \x03(\v2#.skillsphere.challenge.v1.ChallengeB\b\xbaH\x05\x92\x01\x02\x102R\n" +
 	"challenges*\xcc\x01\n" +
 	"\x0fChallengeStatus\x12 \n" +
 	"\x1cCHALLENGE_STATUS_UNSPECIFIED\x10\x00\x12\x1d\n" +

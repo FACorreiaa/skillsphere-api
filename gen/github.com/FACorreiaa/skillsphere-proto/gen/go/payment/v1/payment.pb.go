@@ -7,6 +7,7 @@
 package paymentv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -378,7 +379,7 @@ type EscrowPayment struct {
 	Status           v1.PaymentStatus       `protobuf:"varint,6,opt,name=status,proto3,enum=skillsphere.common.v1.PaymentStatus" json:"status,omitempty"`
 	HeldUntil        *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=held_until,json=heldUntil,proto3" json:"held_until,omitempty"`
 	ReleasedAt       *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=released_at,json=releasedAt,proto3" json:"released_at,omitempty"`
-	ReleaseCondition string                 `protobuf:"bytes,9,opt,name=release_condition,json=releaseCondition,proto3" json:"release_condition,omitempty"` // e.g., "gig_completed"
+	ReleaseCondition string                 `protobuf:"bytes,9,opt,name=release_condition,json=releaseCondition,proto3" json:"release_condition,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -480,8 +481,8 @@ type CreateSubscriptionRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	UserId          string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Tier            v1.SubscriptionTier    `protobuf:"varint,2,opt,name=tier,proto3,enum=skillsphere.common.v1.SubscriptionTier" json:"tier,omitempty"`
-	PaymentMethodId string                 `protobuf:"bytes,3,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"` // Stripe payment method ID
-	PromoCode       string                 `protobuf:"bytes,4,opt,name=promo_code,json=promoCode,proto3" json:"promo_code,omitempty"`                     // Optional discount code
+	PaymentMethodId string                 `protobuf:"bytes,3,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
+	PromoCode       string                 `protobuf:"bytes,4,opt,name=promo_code,json=promoCode,proto3" json:"promo_code,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -547,7 +548,7 @@ func (x *CreateSubscriptionRequest) GetPromoCode() string {
 type CreateSubscriptionResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Subscription   *Subscription          `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
-	ClientSecret   string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"` // For 3D Secure confirmation
+	ClientSecret   string                 `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
 	RequiresAction bool                   `protobuf:"varint,3,opt,name=requires_action,json=requiresAction,proto3" json:"requires_action,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -991,7 +992,7 @@ type CreatePaymentRequest struct {
 	Purpose         PaymentPurpose         `protobuf:"varint,3,opt,name=purpose,proto3,enum=skillsphere.payment.v1.PaymentPurpose" json:"purpose,omitempty"`
 	PaymentMethodId string                 `protobuf:"bytes,4,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
 	Description     string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	Metadata        map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // e.g., workshop_id, cert_id
+	Metadata        map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1135,7 +1136,7 @@ type CreateEscrowPaymentRequest struct {
 	GigId           string                 `protobuf:"bytes,3,opt,name=gig_id,json=gigId,proto3" json:"gig_id,omitempty"`
 	Amount          *v1.Money              `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
 	PaymentMethodId string                 `protobuf:"bytes,5,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
-	HoldDays        int32                  `protobuf:"varint,6,opt,name=hold_days,json=holdDays,proto3" json:"hold_days,omitempty"` // Days to hold before auto-release
+	HoldDays        int32                  `protobuf:"varint,6,opt,name=hold_days,json=holdDays,proto3" json:"hold_days,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1259,7 +1260,7 @@ func (x *CreateEscrowPaymentResponse) GetEscrow() *EscrowPayment {
 type ReleaseEscrowRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EscrowId      string                 `protobuf:"bytes,1,opt,name=escrow_id,json=escrowId,proto3" json:"escrow_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // For authorization
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	ReleaseReason string                 `protobuf:"bytes,3,opt,name=release_reason,json=releaseReason,proto3" json:"release_reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1492,7 +1493,7 @@ type ProcessPayoutRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	UserId             string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Amount             *v1.Money              `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
-	DestinationAccount string                 `protobuf:"bytes,3,opt,name=destination_account,json=destinationAccount,proto3" json:"destination_account,omitempty"` // Stripe Connect account
+	DestinationAccount string                 `protobuf:"bytes,3,opt,name=destination_account,json=destinationAccount,proto3" json:"destination_account,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -1860,8 +1861,8 @@ type PaymentMethodInfo struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	PaymentMethodId string                 `protobuf:"bytes,1,opt,name=payment_method_id,json=paymentMethodId,proto3" json:"payment_method_id,omitempty"`
 	Type            PaymentMethod          `protobuf:"varint,2,opt,name=type,proto3,enum=skillsphere.payment.v1.PaymentMethod" json:"type,omitempty"`
-	LastFour        string                 `protobuf:"bytes,3,opt,name=last_four,json=lastFour,proto3" json:"last_four,omitempty"` // Last 4 digits of card
-	Brand           string                 `protobuf:"bytes,4,opt,name=brand,proto3" json:"brand,omitempty"`                       // Visa, Mastercard, etc.
+	LastFour        string                 `protobuf:"bytes,3,opt,name=last_four,json=lastFour,proto3" json:"last_four,omitempty"`
+	Brand           string                 `protobuf:"bytes,4,opt,name=brand,proto3" json:"brand,omitempty"`
 	ExpMonth        int32                  `protobuf:"varint,5,opt,name=exp_month,json=expMonth,proto3" json:"exp_month,omitempty"`
 	ExpYear         int32                  `protobuf:"varint,6,opt,name=exp_year,json=expYear,proto3" json:"exp_year,omitempty"`
 	IsDefault       bool                   `protobuf:"varint,7,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
@@ -2164,7 +2165,7 @@ type Invoice struct {
 	DueDate         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=due_date,json=dueDate,proto3" json:"due_date,omitempty"`
 	PaidAt          *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=paid_at,json=paidAt,proto3" json:"paid_at,omitempty"`
 	IsPaid          bool                   `protobuf:"varint,6,opt,name=is_paid,json=isPaid,proto3" json:"is_paid,omitempty"`
-	InvoiceUrl      string                 `protobuf:"bytes,7,opt,name=invoice_url,json=invoiceUrl,proto3" json:"invoice_url,omitempty"` // PDF download URL
+	InvoiceUrl      string                 `protobuf:"bytes,7,opt,name=invoice_url,json=invoiceUrl,proto3" json:"invoice_url,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -2252,177 +2253,177 @@ var File_payment_v1_payment_proto protoreflect.FileDescriptor
 
 const file_payment_v1_payment_proto_rawDesc = "" +
 	"\n" +
-	"\x18payment/v1/payment.proto\x12\x16skillsphere.payment.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\x96\x04\n" +
-	"\aPayment\x12\x1d\n" +
+	"\x18payment/v1/payment.proto\x12\x16skillsphere.payment.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xdd\x04\n" +
+	"\aPayment\x12(\n" +
 	"\n" +
-	"payment_id\x18\x01 \x01(\tR\tpaymentId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x124\n" +
-	"\x06amount\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12L\n" +
-	"\x0epayment_method\x18\x04 \x01(\x0e2%.skillsphere.payment.v1.PaymentMethodR\rpaymentMethod\x12@\n" +
-	"\apurpose\x18\x05 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeR\apurpose\x12<\n" +
-	"\x06status\x18\x06 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusR\x06status\x127\n" +
-	"\x18stripe_payment_intent_id\x18\a \x01(\tR\x15stripePaymentIntentId\x12 \n" +
-	"\vdescription\x18\b \x01(\tR\vdescription\x129\n" +
+	"payment_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tpaymentId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x124\n" +
+	"\x06amount\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12V\n" +
+	"\x0epayment_method\x18\x04 \x01(\x0e2%.skillsphere.payment.v1.PaymentMethodB\b\xbaH\x05\x82\x01\x02\x10\x01R\rpaymentMethod\x12J\n" +
+	"\apurpose\x18\x05 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeB\b\xbaH\x05\x82\x01\x02\x10\x01R\apurpose\x12F\n" +
+	"\x06status\x18\x06 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12@\n" +
+	"\x18stripe_payment_intent_id\x18\a \x01(\tB\a\xbaH\x04r\x02\x18dR\x15stripePaymentIntentId\x12*\n" +
+	"\vdescription\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\vdescription\x129\n" +
 	"\n" +
 	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xad\x04\n" +
-	"\fSubscription\x12'\n" +
-	"\x0fsubscription_id\x18\x01 \x01(\tR\x0esubscriptionId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12;\n" +
-	"\x04tier\x18\x03 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\x04tier\x124\n" +
-	"\x16stripe_subscription_id\x18\x04 \x01(\tR\x14stripeSubscriptionId\x12C\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xd6\x04\n" +
+	"\fSubscription\x122\n" +
+	"\x0fsubscription_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0esubscriptionId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12E\n" +
+	"\x04tier\x18\x03 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04tier\x12=\n" +
+	"\x16stripe_subscription_id\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\x14stripeSubscriptionId\x12C\n" +
 	"\x0emonthly_amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\rmonthlyAmount\x12L\n" +
 	"\x14current_period_start\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x12currentPeriodStart\x12H\n" +
 	"\x12current_period_end\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x10currentPeriodEnd\x12\x1b\n" +
 	"\tis_active\x18\b \x01(\bR\bisActive\x12/\n" +
 	"\x14cancel_at_period_end\x18\t \x01(\bR\x11cancelAtPeriodEnd\x12=\n" +
 	"\fcancelled_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\vcancelledAt\"\x92\x03\n" +
-	"\rEscrowPayment\x12\x1b\n" +
-	"\tescrow_id\x18\x01 \x01(\tR\bescrowId\x12\x19\n" +
-	"\bpayer_id\x18\x02 \x01(\tR\apayerId\x12\x19\n" +
-	"\bpayee_id\x18\x03 \x01(\tR\apayeeId\x12\x15\n" +
-	"\x06gig_id\x18\x04 \x01(\tR\x05gigId\x124\n" +
-	"\x06amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12<\n" +
-	"\x06status\x18\x06 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusR\x06status\x129\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vcancelledAt\"\xd1\x03\n" +
+	"\rEscrowPayment\x12&\n" +
+	"\tescrow_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bescrowId\x12$\n" +
+	"\bpayer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\apayerId\x12$\n" +
+	"\bpayee_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\apayeeId\x12 \n" +
+	"\x06gig_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x124\n" +
+	"\x06amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12F\n" +
+	"\x06status\x18\x06 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x129\n" +
 	"\n" +
 	"held_until\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\theldUntil\x12;\n" +
 	"\vreleased_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"releasedAt\x12+\n" +
-	"\x11release_condition\x18\t \x01(\tR\x10releaseCondition\"\xbc\x01\n" +
-	"\x19CreateSubscriptionRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12;\n" +
-	"\x04tier\x18\x02 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\x04tier\x12*\n" +
-	"\x11payment_method_id\x18\x03 \x01(\tR\x0fpaymentMethodId\x12\x1d\n" +
+	"releasedAt\x124\n" +
+	"\x11release_condition\x18\t \x01(\tB\a\xbaH\x04r\x02\x18dR\x10releaseCondition\"\xe5\x01\n" +
+	"\x19CreateSubscriptionRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12E\n" +
+	"\x04tier\x18\x02 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04tier\x125\n" +
+	"\x11payment_method_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\x12&\n" +
 	"\n" +
-	"promo_code\x18\x04 \x01(\tR\tpromoCode\"\xb4\x01\n" +
+	"promo_code\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\tpromoCode\"\xbe\x01\n" +
 	"\x1aCreateSubscriptionResponse\x12H\n" +
-	"\fsubscription\x18\x01 \x01(\v2$.skillsphere.payment.v1.SubscriptionR\fsubscription\x12#\n" +
-	"\rclient_secret\x18\x02 \x01(\tR\fclientSecret\x12'\n" +
-	"\x0frequires_action\x18\x03 \x01(\bR\x0erequiresAction\"\x83\x01\n" +
-	"\x19CancelSubscriptionRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1c\n" +
-	"\timmediate\x18\x02 \x01(\bR\timmediate\x12/\n" +
-	"\x13cancellation_reason\x18\x03 \x01(\tR\x12cancellationReason\"\xa9\x01\n" +
+	"\fsubscription\x18\x01 \x01(\v2$.skillsphere.payment.v1.SubscriptionR\fsubscription\x12-\n" +
+	"\rclient_secret\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\fclientSecret\x12'\n" +
+	"\x0frequires_action\x18\x03 \x01(\bR\x0erequiresAction\"\x98\x01\n" +
+	"\x19CancelSubscriptionRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1c\n" +
+	"\timmediate\x18\x02 \x01(\bR\timmediate\x129\n" +
+	"\x13cancellation_reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x12cancellationReason\"\xa9\x01\n" +
 	"\x1aCancelSubscriptionResponse\x12H\n" +
 	"\fsubscription\x18\x01 \x01(\v2$.skillsphere.payment.v1.SubscriptionR\fsubscription\x12A\n" +
-	"\x0eeffective_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\reffectiveDate\"\x92\x01\n" +
-	"\x19UpdateSubscriptionRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12B\n" +
-	"\bnew_tier\x18\x02 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\anewTier\x12\x18\n" +
+	"\x0eeffective_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\reffectiveDate\"\xa7\x01\n" +
+	"\x19UpdateSubscriptionRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12L\n" +
+	"\bnew_tier\x18\x02 \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\anewTier\x12\x18\n" +
 	"\aprorate\x18\x03 \x01(\bR\aprorate\"\xaf\x01\n" +
 	"\x1aUpdateSubscriptionResponse\x12H\n" +
 	"\fsubscription\x18\x01 \x01(\v2$.skillsphere.payment.v1.SubscriptionR\fsubscription\x12G\n" +
-	"\x10proration_amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0fprorationAmount\"1\n" +
-	"\x16GetSubscriptionRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xac\x01\n" +
+	"\x10proration_amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0fprorationAmount\"<\n" +
+	"\x16GetSubscriptionRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"\xac\x01\n" +
 	"\x17GetSubscriptionResponse\x12H\n" +
 	"\fsubscription\x18\x01 \x01(\v2$.skillsphere.payment.v1.SubscriptionR\fsubscription\x12G\n" +
-	"\bfeatures\x18\x02 \x03(\v2+.skillsphere.payment.v1.SubscriptionFeatureR\bfeatures\"n\n" +
-	"\x13SubscriptionFeature\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12!\n" +
-	"\fis_available\x18\x03 \x01(\bR\visAvailable\"\x8a\x03\n" +
-	"\x14CreatePaymentRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x124\n" +
-	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12@\n" +
-	"\apurpose\x18\x03 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeR\apurpose\x12*\n" +
-	"\x11payment_method_id\x18\x04 \x01(\tR\x0fpaymentMethodId\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\x12V\n" +
-	"\bmetadata\x18\x06 \x03(\v2:.skillsphere.payment.v1.CreatePaymentRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bfeatures\x18\x02 \x03(\v2+.skillsphere.payment.v1.SubscriptionFeatureR\bfeatures\"\x83\x01\n" +
+	"\x13SubscriptionFeature\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x04name\x12*\n" +
+	"\vdescription\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\vdescription\x12!\n" +
+	"\fis_available\x18\x03 \x01(\bR\visAvailable\"\xcd\x03\n" +
+	"\x14CreatePaymentRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x124\n" +
+	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12J\n" +
+	"\apurpose\x18\x03 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeB\b\xbaH\x05\x82\x01\x02\x10\x01R\apurpose\x125\n" +
+	"\x11payment_method_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\x12*\n" +
+	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\vdescription\x12o\n" +
+	"\bmetadata\x18\x06 \x03(\v2:.skillsphere.payment.v1.CreatePaymentRequest.MetadataEntryB\x17\xbaH\x14\x9a\x01\x11\x10\x14\"\x06r\x04\x10\x01\x18 *\x05r\x03\x18\xc8\x01R\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa0\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaa\x01\n" +
 	"\x15CreatePaymentResponse\x129\n" +
-	"\apayment\x18\x01 \x01(\v2\x1f.skillsphere.payment.v1.PaymentR\apayment\x12#\n" +
-	"\rclient_secret\x18\x02 \x01(\tR\fclientSecret\x12'\n" +
-	"\x0frequires_action\x18\x03 \x01(\bR\x0erequiresAction\"\xe8\x01\n" +
-	"\x1aCreateEscrowPaymentRequest\x12\x19\n" +
-	"\bpayer_id\x18\x01 \x01(\tR\apayerId\x12\x19\n" +
-	"\bpayee_id\x18\x02 \x01(\tR\apayeeId\x12\x15\n" +
-	"\x06gig_id\x18\x03 \x01(\tR\x05gigId\x124\n" +
-	"\x06amount\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12*\n" +
-	"\x11payment_method_id\x18\x05 \x01(\tR\x0fpaymentMethodId\x12\x1b\n" +
-	"\thold_days\x18\x06 \x01(\x05R\bholdDays\"\\\n" +
+	"\apayment\x18\x01 \x01(\v2\x1f.skillsphere.payment.v1.PaymentR\apayment\x12-\n" +
+	"\rclient_secret\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\fclientSecret\x12'\n" +
+	"\x0frequires_action\x18\x03 \x01(\bR\x0erequiresAction\"\x9f\x02\n" +
+	"\x1aCreateEscrowPaymentRequest\x12$\n" +
+	"\bpayer_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\apayerId\x12$\n" +
+	"\bpayee_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\apayeeId\x12 \n" +
+	"\x06gig_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x124\n" +
+	"\x06amount\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x125\n" +
+	"\x11payment_method_id\x18\x05 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\x12&\n" +
+	"\thold_days\x18\x06 \x01(\x05B\t\xbaH\x06\x1a\x04\x18<(\x01R\bholdDays\"\\\n" +
 	"\x1bCreateEscrowPaymentResponse\x12=\n" +
-	"\x06escrow\x18\x01 \x01(\v2%.skillsphere.payment.v1.EscrowPaymentR\x06escrow\"s\n" +
-	"\x14ReleaseEscrowRequest\x12\x1b\n" +
-	"\tescrow_id\x18\x01 \x01(\tR\bescrowId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12%\n" +
-	"\x0erelease_reason\x18\x03 \x01(\tR\rreleaseReason\"\x81\x01\n" +
+	"\x06escrow\x18\x01 \x01(\v2%.skillsphere.payment.v1.EscrowPaymentR\x06escrow\"\x93\x01\n" +
+	"\x14ReleaseEscrowRequest\x12&\n" +
+	"\tescrow_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bescrowId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12/\n" +
+	"\x0erelease_reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\rreleaseReason\"\x81\x01\n" +
 	"\x15ReleaseEscrowResponse\x12=\n" +
 	"\x06escrow\x18\x01 \x01(\v2%.skillsphere.payment.v1.EscrowPaymentR\x06escrow\x12)\n" +
-	"\x10payout_initiated\x18\x02 \x01(\bR\x0fpayoutInitiated\"\x83\x01\n" +
-	"\x14RefundPaymentRequest\x12\x1d\n" +
+	"\x10payout_initiated\x18\x02 \x01(\bR\x0fpayoutInitiated\"\x98\x01\n" +
+	"\x14RefundPaymentRequest\x12(\n" +
 	"\n" +
-	"payment_id\x18\x01 \x01(\tR\tpaymentId\x124\n" +
-	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"\xb9\x01\n" +
-	"\x15RefundPaymentResponse\x12\x1b\n" +
-	"\trefund_id\x18\x01 \x01(\tR\brefundId\x12E\n" +
-	"\x0frefunded_amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0erefundedAmount\x12<\n" +
-	"\x06status\x18\x03 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusR\x06status\"\x96\x01\n" +
-	"\x14ProcessPayoutRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x124\n" +
-	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12/\n" +
-	"\x13destination_account\x18\x03 \x01(\tR\x12destinationAccount\"\xbb\x01\n" +
-	"\x15ProcessPayoutResponse\x12\x1b\n" +
-	"\tpayout_id\x18\x01 \x01(\tR\bpayoutId\x12G\n" +
-	"\x11estimated_arrival\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10estimatedArrival\x12<\n" +
-	"\x06status\x18\x03 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusR\x06status\"\xb0\x02\n" +
-	"\x18GetPaymentHistoryRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"payment_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tpaymentId\x124\n" +
+	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"\xce\x01\n" +
+	"\x15RefundPaymentResponse\x12&\n" +
+	"\trefund_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\brefundId\x12E\n" +
+	"\x0frefunded_amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0erefundedAmount\x12F\n" +
+	"\x06status\x18\x03 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"\xac\x01\n" +
+	"\x14ProcessPayoutRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x124\n" +
+	"\x06amount\x18\x02 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x12:\n" +
+	"\x13destination_account\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x12destinationAccount\"\xd0\x01\n" +
+	"\x15ProcessPayoutResponse\x12&\n" +
+	"\tpayout_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bpayoutId\x12G\n" +
+	"\x11estimated_arrival\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10estimatedArrival\x12F\n" +
+	"\x06status\x18\x03 \x01(\x0e2$.skillsphere.common.v1.PaymentStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"\xda\x02\n" +
+	"\x18GetPaymentHistoryRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x129\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x129\n" +
 	"\n" +
 	"start_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12M\n" +
-	"\x0epurpose_filter\x18\x06 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeR\rpurposeFilter\"\xbf\x01\n" +
+	"\bend_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12W\n" +
+	"\x0epurpose_filter\x18\x06 \x01(\x0e2&.skillsphere.payment.v1.PaymentPurposeB\b\xbaH\x05\x82\x01\x02\x10\x01R\rpurposeFilter\"\xc9\x01\n" +
 	"\x19GetPaymentHistoryResponse\x12;\n" +
-	"\bpayments\x18\x01 \x03(\v2\x1f.skillsphere.payment.v1.PaymentR\bpayments\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12=\n" +
+	"\bpayments\x18\x01 \x03(\v2\x1f.skillsphere.payment.v1.PaymentR\bpayments\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12=\n" +
 	"\vtotal_spent\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\n" +
-	"totalSpent\"\x91\x01\n" +
-	"\x17AddPaymentMethodRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x127\n" +
-	"\x18stripe_payment_method_id\x18\x02 \x01(\tR\x15stripePaymentMethodId\x12$\n" +
+	"totalSpent\"\xa7\x01\n" +
+	"\x17AddPaymentMethodRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12B\n" +
+	"\x18stripe_payment_method_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x15stripePaymentMethodId\x12$\n" +
 	"\x0eset_as_default\x18\x03 \x01(\bR\fsetAsDefault\"l\n" +
 	"\x18AddPaymentMethodResponse\x12P\n" +
-	"\x0epayment_method\x18\x01 \x01(\v2).skillsphere.payment.v1.PaymentMethodInfoR\rpaymentMethod\"\x84\x02\n" +
-	"\x11PaymentMethodInfo\x12*\n" +
-	"\x11payment_method_id\x18\x01 \x01(\tR\x0fpaymentMethodId\x129\n" +
-	"\x04type\x18\x02 \x01(\x0e2%.skillsphere.payment.v1.PaymentMethodR\x04type\x12\x1b\n" +
-	"\tlast_four\x18\x03 \x01(\tR\blastFour\x12\x14\n" +
-	"\x05brand\x18\x04 \x01(\tR\x05brand\x12\x1b\n" +
-	"\texp_month\x18\x05 \x01(\x05R\bexpMonth\x12\x19\n" +
-	"\bexp_year\x18\x06 \x01(\x05R\aexpYear\x12\x1d\n" +
+	"\x0epayment_method\x18\x01 \x01(\v2).skillsphere.payment.v1.PaymentMethodInfoR\rpaymentMethod\"\xca\x02\n" +
+	"\x11PaymentMethodInfo\x125\n" +
+	"\x11payment_method_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\x12C\n" +
+	"\x04type\x18\x02 \x01(\x0e2%.skillsphere.payment.v1.PaymentMethodB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12+\n" +
+	"\tlast_four\x18\x03 \x01(\tB\x0e\xbaH\vr\t2\a^\\d{4}$R\blastFour\x12\x1d\n" +
+	"\x05brand\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18 R\x05brand\x12&\n" +
+	"\texp_month\x18\x05 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\f(\x01R\bexpMonth\x12&\n" +
+	"\bexp_year\x18\x06 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xb4\x10(\xe4\x0fR\aexpYear\x12\x1d\n" +
 	"\n" +
-	"is_default\x18\a \x01(\bR\tisDefault\"a\n" +
-	"\x1aRemovePaymentMethodRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12*\n" +
-	"\x11payment_method_id\x18\x02 \x01(\tR\x0fpaymentMethodId\"7\n" +
+	"is_default\x18\a \x01(\bR\tisDefault\"w\n" +
+	"\x1aRemovePaymentMethodRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x125\n" +
+	"\x11payment_method_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x0fpaymentMethodId\"7\n" +
 	"\x1bRemovePaymentMethodResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"i\n" +
-	"\x12GetInvoicesRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x89\x01\n" +
+	"\x12GetInvoicesRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\"z\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"\x84\x01\n" +
 	"\x13GetInvoicesResponse\x12;\n" +
-	"\binvoices\x18\x01 \x03(\v2\x1f.skillsphere.payment.v1.InvoiceR\binvoices\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xb0\x02\n" +
-	"\aInvoice\x12\x1d\n" +
+	"\binvoices\x18\x01 \x03(\v2\x1f.skillsphere.payment.v1.InvoiceR\binvoices\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\"\xd1\x02\n" +
+	"\aInvoice\x12(\n" +
 	"\n" +
-	"invoice_id\x18\x01 \x01(\tR\tinvoiceId\x12*\n" +
-	"\x11stripe_invoice_id\x18\x02 \x01(\tR\x0fstripeInvoiceId\x124\n" +
+	"invoice_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tinvoiceId\x123\n" +
+	"\x11stripe_invoice_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x0fstripeInvoiceId\x124\n" +
 	"\x06amount\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06amount\x125\n" +
 	"\bdue_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\adueDate\x123\n" +
 	"\apaid_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x06paidAt\x12\x17\n" +
-	"\ais_paid\x18\x06 \x01(\bR\x06isPaid\x12\x1f\n" +
-	"\vinvoice_url\x18\a \x01(\tR\n" +
+	"\ais_paid\x18\x06 \x01(\bR\x06isPaid\x12,\n" +
+	"\vinvoice_url\x18\a \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\n" +
 	"invoiceUrl*\xa0\x01\n" +
 	"\rPaymentMethod\x12\x1e\n" +
 	"\x1aPAYMENT_METHOD_UNSPECIFIED\x10\x00\x12\x17\n" +

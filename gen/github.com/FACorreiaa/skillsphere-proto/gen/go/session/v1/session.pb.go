@@ -7,6 +7,7 @@
 package sessionv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -26,11 +27,11 @@ const (
 type Session struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	SessionId   string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
-	InitiatorId string                 `protobuf:"bytes,2,opt,name=initiator_id,json=initiatorId,proto3" json:"initiator_id,omitempty"` // User who created the session
-	PartnerId   string                 `protobuf:"bytes,3,opt,name=partner_id,json=partnerId,proto3" json:"partner_id,omitempty"`       // Other participant
+	InitiatorId string                 `protobuf:"bytes,2,opt,name=initiator_id,json=initiatorId,proto3" json:"initiator_id,omitempty"`
+	PartnerId   string                 `protobuf:"bytes,3,opt,name=partner_id,json=partnerId,proto3" json:"partner_id,omitempty"`
 	// Skills being exchanged
-	InitiatorOffers []string `protobuf:"bytes,4,rep,name=initiator_offers,json=initiatorOffers,proto3" json:"initiator_offers,omitempty"` // Skills initiator will teach
-	PartnerOffers   []string `protobuf:"bytes,5,rep,name=partner_offers,json=partnerOffers,proto3" json:"partner_offers,omitempty"`       // Skills partner will teach
+	InitiatorOffers []string `protobuf:"bytes,4,rep,name=initiator_offers,json=initiatorOffers,proto3" json:"initiator_offers,omitempty"`
+	PartnerOffers   []string `protobuf:"bytes,5,rep,name=partner_offers,json=partnerOffers,proto3" json:"partner_offers,omitempty"`
 	// Scheduling
 	ScheduledStart *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=scheduled_start,json=scheduledStart,proto3" json:"scheduled_start,omitempty"`
 	ScheduledEnd   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=scheduled_end,json=scheduledEnd,proto3" json:"scheduled_end,omitempty"`
@@ -38,8 +39,8 @@ type Session struct {
 	ActualEnd      *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=actual_end,json=actualEnd,proto3" json:"actual_end,omitempty"`
 	// Status
 	Status     v1.SessionStatus `protobuf:"varint,10,opt,name=status,proto3,enum=skillsphere.common.v1.SessionStatus" json:"status,omitempty"`
-	MeetingUrl string           `protobuf:"bytes,11,opt,name=meeting_url,json=meetingUrl,proto3" json:"meeting_url,omitempty"` // Video call link
-	Notes      string           `protobuf:"bytes,12,opt,name=notes,proto3" json:"notes,omitempty"`                             // Session agenda/notes
+	MeetingUrl string           `protobuf:"bytes,11,opt,name=meeting_url,json=meetingUrl,proto3" json:"meeting_url,omitempty"`
+	Notes      string           `protobuf:"bytes,12,opt,name=notes,proto3" json:"notes,omitempty"`
 	// Metadata
 	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
@@ -286,7 +287,7 @@ func (x *CreateSessionRequest) GetNotes() string {
 type CreateSessionResponse struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Session           *Session               `protobuf:"bytes,1,opt,name=session,proto3" json:"session,omitempty"`
-	InvitationMessage string                 `protobuf:"bytes,2,opt,name=invitation_message,json=invitationMessage,proto3" json:"invitation_message,omitempty"` // Pre-formatted message to send partner
+	InvitationMessage string                 `protobuf:"bytes,2,opt,name=invitation_message,json=invitationMessage,proto3" json:"invitation_message,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -570,7 +571,7 @@ func (x *UpdateSessionResponse) GetSession() *Session {
 type CancelSessionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Who is cancelling
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -787,7 +788,7 @@ type CompleteSessionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"` // Session summary
+	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1042,10 +1043,10 @@ func (x *ListUserSessionsResponse) GetTotalCount() int32 {
 type RateSessionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
-	ReviewerId    string                 `protobuf:"bytes,2,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"` // User giving the rating
-	Score         int32                  `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty"`                            // 1-5 stars
+	ReviewerId    string                 `protobuf:"bytes,2,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"`
+	Score         int32                  `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty"`
 	Comment       string                 `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
-	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"` // e.g., "helpful", "punctual", "knowledgeable"
+	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1246,7 +1247,7 @@ func (x *ReportSessionRequest) GetDescription() string {
 type ReportSessionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ReportId      string                 `protobuf:"bytes,1,opt,name=report_id,json=reportId,proto3" json:"report_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // "pending", "under_review", "resolved"
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1298,7 +1299,7 @@ func (x *ReportSessionResponse) GetStatus() string {
 type GetUpcomingSessionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	DaysAhead     int32                  `protobuf:"varint,2,opt,name=days_ahead,json=daysAhead,proto3" json:"days_ahead,omitempty"` // Default 7
+	DaysAhead     int32                  `protobuf:"varint,2,opt,name=days_ahead,json=daysAhead,proto3" json:"days_ahead,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1395,126 +1396,132 @@ var File_session_v1_session_proto protoreflect.FileDescriptor
 
 const file_session_v1_session_proto_rawDesc = "" +
 	"\n" +
-	"\x18session/v1/session.proto\x12\x16skillsphere.session.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xf7\x05\n" +
-	"\aSession\x12\x1d\n" +
+	"\x18session/v1/session.proto\x12\x16skillsphere.session.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xe7\x06\n" +
+	"\aSession\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12!\n" +
-	"\finitiator_id\x18\x02 \x01(\tR\vinitiatorId\x12\x1d\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12,\n" +
+	"\finitiator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vinitiatorId\x12(\n" +
 	"\n" +
-	"partner_id\x18\x03 \x01(\tR\tpartnerId\x12)\n" +
-	"\x10initiator_offers\x18\x04 \x03(\tR\x0finitiatorOffers\x12%\n" +
-	"\x0epartner_offers\x18\x05 \x03(\tR\rpartnerOffers\x12C\n" +
+	"partner_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tpartnerId\x12;\n" +
+	"\x10initiator_offers\x18\x04 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\x0finitiatorOffers\x127\n" +
+	"\x0epartner_offers\x18\x05 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\rpartnerOffers\x12C\n" +
 	"\x0fscheduled_start\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12?\n" +
 	"\rscheduled_end\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12=\n" +
 	"\factual_start\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vactualStart\x129\n" +
 	"\n" +
-	"actual_end\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tactualEnd\x12<\n" +
+	"actual_end\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tactualEnd\x12F\n" +
 	"\x06status\x18\n" +
-	" \x01(\x0e2$.skillsphere.common.v1.SessionStatusR\x06status\x12\x1f\n" +
-	"\vmeeting_url\x18\v \x01(\tR\n" +
-	"meetingUrl\x12\x14\n" +
-	"\x05notes\x18\f \x01(\tR\x05notes\x129\n" +
+	" \x01(\x0e2$.skillsphere.common.v1.SessionStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12,\n" +
+	"\vmeeting_url\x18\v \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\n" +
+	"meetingUrl\x12\x1e\n" +
+	"\x05notes\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x05notes\x129\n" +
 	"\n" +
 	"created_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12/\n" +
-	"\x13cancellation_reason\x18\x0f \x01(\tR\x12cancellationReason\x12\x1d\n" +
+	"updated_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"\x13cancellation_reason\x18\x0f \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x12cancellationReason\x12\x1d\n" +
 	"\n" +
-	"is_premium\x18\x10 \x01(\bR\tisPremium\"\xc6\x02\n" +
-	"\x14CreateSessionRequest\x12!\n" +
-	"\finitiator_id\x18\x01 \x01(\tR\vinitiatorId\x12\x1d\n" +
+	"is_premium\x18\x10 \x01(\bR\tisPremium\"\x8e\x03\n" +
+	"\x14CreateSessionRequest\x12,\n" +
+	"\finitiator_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\vinitiatorId\x12(\n" +
 	"\n" +
-	"partner_id\x18\x02 \x01(\tR\tpartnerId\x12)\n" +
-	"\x10initiator_offers\x18\x03 \x03(\tR\x0finitiatorOffers\x12%\n" +
-	"\x0epartner_offers\x18\x04 \x03(\tR\rpartnerOffers\x12C\n" +
+	"partner_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tpartnerId\x12=\n" +
+	"\x10initiator_offers\x18\x03 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\x0finitiatorOffers\x129\n" +
+	"\x0epartner_offers\x18\x04 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\rpartnerOffers\x12C\n" +
 	"\x0fscheduled_start\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12?\n" +
-	"\rscheduled_end\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12\x14\n" +
-	"\x05notes\x18\a \x01(\tR\x05notes\"\x81\x01\n" +
+	"\rscheduled_end\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12\x1e\n" +
+	"\x05notes\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x05notes\"\x8b\x01\n" +
 	"\x15CreateSessionResponse\x129\n" +
-	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x12-\n" +
-	"\x12invitation_message\x18\x02 \x01(\tR\x11invitationMessage\"2\n" +
-	"\x11GetSessionRequest\x12\x1d\n" +
+	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x127\n" +
+	"\x12invitation_message\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x11invitationMessage\"=\n" +
+	"\x11GetSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\"\xc1\x01\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\"\xc1\x01\n" +
 	"\x12GetSessionResponse\x129\n" +
 	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x129\n" +
 	"\tinitiator\x18\x02 \x01(\v2\x1b.skillsphere.common.v1.UserR\tinitiator\x125\n" +
-	"\apartner\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\apartner\"\xa3\x02\n" +
-	"\x14UpdateSessionRequest\x12\x1d\n" +
+	"\apartner\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\apartner\"\xdc\x02\n" +
+	"\x14UpdateSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12C\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12C\n" +
 	"\x0fscheduled_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0escheduledStart\x12?\n" +
-	"\rscheduled_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12\x14\n" +
-	"\x05notes\x18\x04 \x01(\tR\x05notes\x12)\n" +
-	"\x10initiator_offers\x18\x05 \x03(\tR\x0finitiatorOffers\x12%\n" +
-	"\x0epartner_offers\x18\x06 \x03(\tR\rpartnerOffers\"R\n" +
+	"\rscheduled_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\fscheduledEnd\x12\x1e\n" +
+	"\x05notes\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x05notes\x12;\n" +
+	"\x10initiator_offers\x18\x05 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\x0finitiatorOffers\x127\n" +
+	"\x0epartner_offers\x18\x06 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x182R\rpartnerOffers\"R\n" +
 	"\x15UpdateSessionResponse\x129\n" +
-	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\"f\n" +
-	"\x14CancelSessionRequest\x12\x1d\n" +
+	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\"\x86\x01\n" +
+	"\x14CancelSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"w\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"w\n" +
 	"\x15CancelSessionResponse\x129\n" +
 	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x12#\n" +
-	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"M\n" +
-	"\x13StartSessionRequest\x12\x1d\n" +
+	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"c\n" +
+	"\x13StartSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"r\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\"r\n" +
 	"\x14StartSessionResponse\x129\n" +
 	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x12\x1f\n" +
 	"\vmeeting_url\x18\x02 \x01(\tR\n" +
-	"meetingUrl\"j\n" +
-	"\x16CompleteSessionRequest\x12\x1d\n" +
+	"meetingUrl\"\x8a\x01\n" +
+	"\x16CompleteSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
-	"\asummary\x18\x03 \x01(\tR\asummary\"\x92\x01\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\"\n" +
+	"\asummary\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\asummary\"\x92\x01\n" +
 	"\x17CompleteSessionResponse\x129\n" +
 	"\asession\x18\x01 \x01(\v2\x1f.skillsphere.session.v1.SessionR\asession\x12<\n" +
-	"\x1aeligible_for_certification\x18\x02 \x01(\bR\x18eligibleForCertification\"\xab\x02\n" +
-	"\x17ListUserSessionsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\x1aeligible_for_certification\x18\x02 \x01(\bR\x18eligibleForCertification\"\xd5\x02\n" +
+	"\x17ListUserSessionsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12I\n" +
-	"\rstatus_filter\x18\x04 \x01(\x0e2$.skillsphere.common.v1.SessionStatusR\fstatusFilter\x129\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12S\n" +
+	"\rstatus_filter\x18\x04 \x01(\x0e2$.skillsphere.common.v1.SessionStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fstatusFilter\x129\n" +
 	"\n" +
 	"start_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tstartDate\x125\n" +
-	"\bend_date\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xa0\x01\n" +
+	"\bend_date\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\"\xb3\x01\n" +
 	"\x18ListUserSessionsResponse\x12;\n" +
-	"\bsessions\x18\x01 \x03(\v2\x1f.skillsphere.session.v1.SessionR\bsessions\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\x98\x01\n" +
-	"\x12RateSessionRequest\x12\x1d\n" +
+	"\bsessions\x18\x01 \x03(\v2\x1f.skillsphere.session.v1.SessionR\bsessions\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"\xd5\x01\n" +
+	"\x12RateSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x1f\n" +
-	"\vreviewer_id\x18\x02 \x01(\tR\n" +
-	"reviewerId\x12\x14\n" +
-	"\x05score\x18\x03 \x01(\x05R\x05score\x12\x18\n" +
-	"\acomment\x18\x04 \x01(\tR\acomment\x12\x12\n" +
-	"\x04tags\x18\x05 \x03(\tR\x04tags\"\x8e\x01\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12*\n" +
+	"\vreviewer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reviewerId\x12\x1f\n" +
+	"\x05score\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x05score\x12\"\n" +
+	"\acomment\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\acomment\x12$\n" +
+	"\x04tags\x18\x05 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\n" +
+	"\"\x06r\x04\x10\x01\x18 R\x04tags\"\x8e\x01\n" +
 	"\x13RateSessionResponse\x125\n" +
 	"\x06rating\x18\x01 \x01(\v2\x1d.skillsphere.common.v1.RatingR\x06rating\x12!\n" +
 	"\fbadge_earned\x18\x02 \x01(\bR\vbadgeEarned\x12\x1d\n" +
 	"\n" +
-	"badge_name\x18\x03 \x01(\tR\tbadgeName\"\x90\x01\n" +
-	"\x14ReportSessionRequest\x12\x1d\n" +
+	"badge_name\x18\x03 \x01(\tR\tbadgeName\"\xba\x01\n" +
+	"\x14ReportSessionRequest\x12(\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x1f\n" +
-	"\vreporter_id\x18\x02 \x01(\tR\n" +
-	"reporterId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"L\n" +
-	"\x15ReportSessionResponse\x12\x1b\n" +
-	"\treport_id\x18\x01 \x01(\tR\breportId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"T\n" +
-	"\x1aGetUpcomingSessionsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"session_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tsessionId\x12*\n" +
+	"\vreporter_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"reporterId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x06reason\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\"b\n" +
+	"\x15ReportSessionResponse\x12&\n" +
+	"\treport_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\breportId\x12!\n" +
+	"\x06status\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x06status\"j\n" +
+	"\x1aGetUpcomingSessionsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12(\n" +
 	"\n" +
-	"days_ahead\x18\x02 \x01(\x05R\tdaysAhead\"Z\n" +
+	"days_ahead\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x1e(\x01R\tdaysAhead\"Z\n" +
 	"\x1bGetUpcomingSessionsResponse\x12;\n" +
 	"\bsessions\x18\x01 \x03(\v2\x1f.skillsphere.session.v1.SessionR\bsessions2\xeb\b\n" +
 	"\x0eSessionService\x12l\n" +

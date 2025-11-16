@@ -7,6 +7,7 @@
 package gigv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -219,7 +220,7 @@ type Gig struct {
 	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	// Status
 	Status           GigStatus `protobuf:"varint,16,opt,name=status,proto3,enum=skillsphere.gig.v1.GigStatus" json:"status,omitempty"`
-	AssignedTo       string    `protobuf:"bytes,17,opt,name=assigned_to,json=assignedTo,proto3" json:"assigned_to,omitempty"` // Freelancer user ID
+	AssignedTo       string    `protobuf:"bytes,17,opt,name=assigned_to,json=assignedTo,proto3" json:"assigned_to,omitempty"`
 	ApplicationCount int32     `protobuf:"varint,18,opt,name=application_count,json=applicationCount,proto3" json:"application_count,omitempty"`
 	// Completion
 	CompletedAt   *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
@@ -733,7 +734,7 @@ func (x *CreateGigRequest) GetDeadline() *timestamppb.Timestamp {
 type CreateGigResponse struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Gig             *Gig                   `protobuf:"bytes,1,opt,name=gig,proto3" json:"gig,omitempty"`
-	EscrowPaymentId string                 `protobuf:"bytes,2,opt,name=escrow_payment_id,json=escrowPaymentId,proto3" json:"escrow_payment_id,omitempty"` // Payment held in escrow
+	EscrowPaymentId string                 `protobuf:"bytes,2,opt,name=escrow_payment_id,json=escrowPaymentId,proto3" json:"escrow_payment_id,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1818,7 +1819,7 @@ type ApproveWorkRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GigId         string                 `protobuf:"bytes,1,opt,name=gig_id,json=gigId,proto3" json:"gig_id,omitempty"`
 	CreatorId     string                 `protobuf:"bytes,2,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty"`
-	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"` // 1-5 stars
+	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
 	Review        string                 `protobuf:"bytes,4,opt,name=review,proto3" json:"review,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2141,7 +2142,7 @@ func (x *DisputeGigRequest) GetEvidence() []*v1.Attachment {
 type DisputeGigResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DisputeId     string                 `protobuf:"bytes,1,opt,name=dispute_id,json=disputeId,proto3" json:"dispute_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // "pending", "under_review"
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2322,184 +2323,196 @@ var File_gig_v1_gig_proto protoreflect.FileDescriptor
 
 const file_gig_v1_gig_proto_rawDesc = "" +
 	"\n" +
-	"\x10gig/v1/gig.proto\x12\x12skillsphere.gig.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xa4\a\n" +
-	"\x03Gig\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12\x1d\n" +
+	"\x10gig/v1/gig.proto\x12\x12skillsphere.gig.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xd6\b\n" +
+	"\x03Gig\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x05 \x03(\tR\bskillIds\x12/\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\x12 \n" +
+	"\x05title\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12/\n" +
+	"\tskill_ids\x18\x05 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x12/\n" +
 	"\x04type\x18\x06 \x01(\x0e2\x1b.skillsphere.gig.v1.GigTypeR\x04type\x124\n" +
 	"\x06budget\x18\a \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06budget\x12\x1b\n" +
-	"\tis_hourly\x18\b \x01(\bR\bisHourly\x12'\n" +
-	"\x0festimated_hours\x18\t \x01(\x05R\x0eestimatedHours\x12Z\n" +
+	"\tis_hourly\x18\b \x01(\bR\bisHourly\x123\n" +
+	"\x0festimated_hours\x18\t \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x00R\x0eestimatedHours\x12d\n" +
 	"\x14required_proficiency\x18\n" +
-	" \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelR\x13requiredProficiency\x12\"\n" +
-	"\frequirements\x18\v \x03(\tR\frequirements\x12C\n" +
-	"\vattachments\x18\f \x03(\v2!.skillsphere.common.v1.AttachmentR\vattachments\x126\n" +
+	" \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x13requiredProficiency\x125\n" +
+	"\frequirements\x18\v \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\frequirements\x12M\n" +
+	"\vattachments\x18\f \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\vattachments\x126\n" +
 	"\bdeadline\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x129\n" +
 	"\n" +
 	"created_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x125\n" +
-	"\x06status\x18\x10 \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusR\x06status\x12\x1f\n" +
-	"\vassigned_to\x18\x11 \x01(\tR\n" +
-	"assignedTo\x12+\n" +
-	"\x11application_count\x18\x12 \x01(\x05R\x10applicationCount\x12=\n" +
-	"\fcompleted_at\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x12\x16\n" +
-	"\x06rating\x18\x14 \x01(\x01R\x06rating\x12\x16\n" +
-	"\x06review\x18\x15 \x01(\tR\x06review\"\xbc\x03\n" +
-	"\vApplication\x12%\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tR\rapplicationId\x12\x15\n" +
-	"\x06gig_id\x18\x02 \x01(\tR\x05gigId\x12#\n" +
-	"\rfreelancer_id\x18\x03 \x01(\tR\ffreelancerId\x12!\n" +
-	"\fcover_letter\x18\x04 \x01(\tR\vcoverLetter\x12E\n" +
-	"\x0fproposed_amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0eproposedAmount\x12'\n" +
-	"\x0festimated_hours\x18\x06 \x01(\x05R\x0eestimatedHours\x12=\n" +
-	"\x06status\x18\a \x01(\x0e2%.skillsphere.gig.v1.ApplicationStatusR\x06status\x129\n" +
+	"updated_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12?\n" +
+	"\x06status\x18\x10 \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12(\n" +
+	"\vassigned_to\x18\x11 \x01(\tB\a\xbaH\x04r\x02\x182R\n" +
+	"assignedTo\x124\n" +
+	"\x11application_count\x18\x12 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x10applicationCount\x12=\n" +
+	"\fcompleted_at\x18\x13 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x12/\n" +
+	"\x06rating\x18\x14 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\x06rating\x12 \n" +
+	"\x06review\x18\x15 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x06review\"\xfd\x03\n" +
+	"\vApplication\x120\n" +
+	"\x0eapplication_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\rapplicationId\x12 \n" +
+	"\x06gig_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12.\n" +
+	"\rfreelancer_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\ffreelancerId\x12+\n" +
+	"\fcover_letter\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vcoverLetter\x12E\n" +
+	"\x0fproposed_amount\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0eproposedAmount\x123\n" +
+	"\x0festimated_hours\x18\x06 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x00R\x0eestimatedHours\x12G\n" +
+	"\x06status\x18\a \x01(\x0e2%.skillsphere.gig.v1.ApplicationStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x129\n" +
 	"\n" +
 	"applied_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tappliedAt\x12=\n" +
-	"\fresponded_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\vrespondedAt\"\xc2\x02\n" +
-	"\x0eWorkSubmission\x12#\n" +
-	"\rsubmission_id\x18\x01 \x01(\tR\fsubmissionId\x12\x15\n" +
-	"\x06gig_id\x18\x02 \x01(\tR\x05gigId\x12#\n" +
-	"\rfreelancer_id\x18\x03 \x01(\tR\ffreelancerId\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12E\n" +
-	"\fdeliverables\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentR\fdeliverables\x12=\n" +
-	"\fsubmitted_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x12'\n" +
-	"\x0frevision_number\x18\a \x01(\x05R\x0erevisionNumber\"\xeb\x03\n" +
-	"\x10CreateGigRequest\x12\x1d\n" +
+	"\fresponded_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\vrespondedAt\"\x80\x03\n" +
+	"\x0eWorkSubmission\x12.\n" +
+	"\rsubmission_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\fsubmissionId\x12 \n" +
+	"\x06gig_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12.\n" +
+	"\rfreelancer_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\ffreelancerId\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12O\n" +
+	"\fdeliverables\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\x14R\fdeliverables\x12=\n" +
+	"\fsubmitted_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAt\x120\n" +
+	"\x0frevision_number\x18\a \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x0erevisionNumber\"\xd3\x04\n" +
+	"\x10CreateGigRequest\x12(\n" +
 	"\n" +
-	"creator_id\x18\x01 \x01(\tR\tcreatorId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tskill_ids\x18\x04 \x03(\tR\bskillIds\x12/\n" +
-	"\x04type\x18\x05 \x01(\x0e2\x1b.skillsphere.gig.v1.GigTypeR\x04type\x124\n" +
+	"creator_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12/\n" +
+	"\tskill_ids\x18\x04 \x03(\tB\x12\xbaH\x0f\x92\x01\f\b\x01\x10\x14\"\x06r\x04\x10\x01\x182R\bskillIds\x129\n" +
+	"\x04type\x18\x05 \x01(\x0e2\x1b.skillsphere.gig.v1.GigTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x124\n" +
 	"\x06budget\x18\x06 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06budget\x12\x1b\n" +
-	"\tis_hourly\x18\a \x01(\bR\bisHourly\x12'\n" +
-	"\x0festimated_hours\x18\b \x01(\x05R\x0eestimatedHours\x12Z\n" +
-	"\x14required_proficiency\x18\t \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelR\x13requiredProficiency\x12\"\n" +
+	"\tis_hourly\x18\a \x01(\bR\bisHourly\x123\n" +
+	"\x0festimated_hours\x18\b \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x00R\x0eestimatedHours\x12d\n" +
+	"\x14required_proficiency\x18\t \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x13requiredProficiency\x125\n" +
 	"\frequirements\x18\n" +
-	" \x03(\tR\frequirements\x126\n" +
-	"\bdeadline\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\"j\n" +
+	" \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\frequirements\x126\n" +
+	"\bdeadline\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\"s\n" +
 	"\x11CreateGigResponse\x12)\n" +
-	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\x12*\n" +
-	"\x11escrow_payment_id\x18\x02 \x01(\tR\x0fescrowPaymentId\"&\n" +
-	"\rGetGigRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\"\xc0\x01\n" +
+	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\x123\n" +
+	"\x11escrow_payment_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\x0fescrowPaymentId\"1\n" +
+	"\rGetGigRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\"\xc0\x01\n" +
 	"\x0eGetGigResponse\x12)\n" +
 	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\x125\n" +
 	"\acreator\x18\x02 \x01(\v2\x1b.skillsphere.common.v1.UserR\acreator\x12L\n" +
-	"\x13assigned_freelancer\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\x12assignedFreelancer\"\xcf\x01\n" +
-	"\x10UpdateGigRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x124\n" +
+	"\x13assigned_freelancer\x18\x03 \x01(\v2\x1b.skillsphere.common.v1.UserR\x12assignedFreelancer\"\xf0\x01\n" +
+	"\x10UpdateGigRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12 \n" +
+	"\x05title\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x96\x01R\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x124\n" +
 	"\x06budget\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x06budget\x126\n" +
 	"\bdeadline\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\">\n" +
 	"\x11UpdateGigResponse\x12)\n" +
-	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\"H\n" +
-	"\x10DeleteGigRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12\x1d\n" +
+	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\"^\n" +
+	"\x10DeleteGigRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\"R\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\"R\n" +
 	"\x11DeleteGigResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"\xf5\x02\n" +
-	"\x0fListGigsRequest\x12\x1b\n" +
-	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\rrefund_issued\x18\x02 \x01(\bR\frefundIssued\"\xa8\x03\n" +
+	"\x0fListGigsRequest\x12&\n" +
+	"\tpage_size\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12D\n" +
+	"page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12N\n" +
 	"\n" +
-	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12/\n" +
-	"\x04type\x18\x04 \x01(\x0e2\x1b.skillsphere.gig.v1.GigTypeR\x04type\x12;\n" +
+	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x129\n" +
+	"\x04type\x18\x04 \x01(\x0e2\x1b.skillsphere.gig.v1.GigTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12;\n" +
 	"\n" +
 	"min_budget\x18\x05 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\tminBudget\x12;\n" +
 	"\n" +
-	"max_budget\x18\x06 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\tmaxBudget\x125\n" +
-	"\x06status\x18\a \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusR\x06status\"\x88\x01\n" +
+	"max_budget\x18\x06 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\tmaxBudget\x12?\n" +
+	"\x06status\x18\a \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\"\x9b\x01\n" +
 	"\x10ListGigsResponse\x12+\n" +
-	"\x04gigs\x18\x01 \x03(\v2\x17.skillsphere.gig.v1.GigR\x04gigs\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\x85\x01\n" +
-	"\x11SearchGigsRequest\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12D\n" +
+	"\x04gigs\x18\x01 \x03(\v2\x17.skillsphere.gig.v1.GigR\x04gigs\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"\xa6\x01\n" +
+	"\x11SearchGigsRequest\x12 \n" +
+	"\x05query\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xc8\x01R\x05query\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x05limit\x12N\n" +
 	"\n" +
-	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
+	"categories\x18\x03 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
 	"categories\"A\n" +
 	"\x12SearchGigsResponse\x12+\n" +
-	"\x04gigs\x18\x01 \x03(\v2\x17.skillsphere.gig.v1.GigR\x04gigs\"\xe2\x01\n" +
-	"\x11ApplyToGigRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12#\n" +
-	"\rfreelancer_id\x18\x02 \x01(\tR\ffreelancerId\x12!\n" +
-	"\fcover_letter\x18\x03 \x01(\tR\vcoverLetter\x12E\n" +
-	"\x0fproposed_amount\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0eproposedAmount\x12'\n" +
-	"\x0festimated_hours\x18\x05 \x01(\x05R\x0eestimatedHours\"W\n" +
+	"\x04gigs\x18\x01 \x03(\v2\x17.skillsphere.gig.v1.GigR\x04gigs\"\x8e\x02\n" +
+	"\x11ApplyToGigRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12.\n" +
+	"\rfreelancer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\ffreelancerId\x12+\n" +
+	"\fcover_letter\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vcoverLetter\x12E\n" +
+	"\x0fproposed_amount\x18\x04 \x01(\v2\x1c.skillsphere.common.v1.MoneyR\x0eproposedAmount\x123\n" +
+	"\x0festimated_hours\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x00R\x0eestimatedHours\"W\n" +
 	"\x12ApplyToGigResponse\x12A\n" +
-	"\vapplication\x18\x01 \x01(\v2\x1f.skillsphere.gig.v1.ApplicationR\vapplication\"`\n" +
-	"\x18AcceptApplicationRequest\x12%\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tR\rapplicationId\x12\x1d\n" +
+	"\vapplication\x18\x01 \x01(\v2\x1f.skillsphere.gig.v1.ApplicationR\vapplication\"v\n" +
+	"\x18AcceptApplicationRequest\x120\n" +
+	"\x0eapplication_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\rapplicationId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\"\x89\x01\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\"\x89\x01\n" +
 	"\x19AcceptApplicationResponse\x12A\n" +
 	"\vapplication\x18\x01 \x01(\v2\x1f.skillsphere.gig.v1.ApplicationR\vapplication\x12)\n" +
-	"\x03gig\x18\x02 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\"x\n" +
-	"\x18RejectApplicationRequest\x12%\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tR\rapplicationId\x12\x1d\n" +
+	"\x03gig\x18\x02 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\"\x98\x01\n" +
+	"\x18RejectApplicationRequest\x120\n" +
+	"\x0eapplication_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\rapplicationId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"^\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"^\n" +
 	"\x19RejectApplicationResponse\x12A\n" +
-	"\vapplication\x18\x01 \x01(\v2\x1f.skillsphere.gig.v1.ApplicationR\vapplication\"\xb8\x01\n" +
-	"\x11SubmitWorkRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12#\n" +
-	"\rfreelancer_id\x18\x02 \x01(\tR\ffreelancerId\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12E\n" +
-	"\fdeliverables\x18\x04 \x03(\v2!.skillsphere.common.v1.AttachmentR\fdeliverables\"\x85\x01\n" +
+	"\vapplication\x18\x01 \x01(\v2\x1f.skillsphere.gig.v1.ApplicationR\vapplication\"\xe2\x01\n" +
+	"\x11SubmitWorkRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12.\n" +
+	"\rfreelancer_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\ffreelancerId\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x88'R\vdescription\x12O\n" +
+	"\fdeliverables\x18\x04 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\x14R\fdeliverables\"\x8f\x01\n" +
 	"\x12SubmitWorkResponse\x12B\n" +
 	"\n" +
 	"submission\x18\x01 \x01(\v2\".skillsphere.gig.v1.WorkSubmissionR\n" +
-	"submission\x12+\n" +
-	"\x11notification_sent\x18\x02 \x01(\tR\x10notificationSent\"z\n" +
-	"\x12ApproveWorkRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12\x1d\n" +
+	"submission\x125\n" +
+	"\x11notification_sent\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x10notificationSent\"\xa5\x01\n" +
+	"\x12ApproveWorkRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\x12\x16\n" +
-	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x16\n" +
-	"\x06review\x18\x04 \x01(\tR\x06review\"\x88\x01\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\x12!\n" +
+	"\x06rating\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x05(\x01R\x06rating\x12 \n" +
+	"\x06review\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\x06review\"\x88\x01\n" +
 	"\x13ApproveWorkResponse\x12)\n" +
 	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\x12)\n" +
 	"\x10payment_released\x18\x02 \x01(\bR\x0fpaymentReleased\x12\x1b\n" +
-	"\tpayout_id\x18\x03 \x01(\tR\bpayoutId\"\x93\x01\n" +
-	"\x16RequestRevisionRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12\x1d\n" +
+	"\tpayout_id\x18\x03 \x01(\tR\bpayoutId\"\xc6\x01\n" +
+	"\x16RequestRevisionRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x12(\n" +
 	"\n" +
-	"creator_id\x18\x02 \x01(\tR\tcreatorId\x12\x1a\n" +
-	"\bfeedback\x18\x03 \x01(\tR\bfeedback\x12'\n" +
-	"\x0frevision_points\x18\x04 \x03(\tR\x0erevisionPoints\"m\n" +
+	"creator_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tcreatorId\x12$\n" +
+	"\bfeedback\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\bfeedback\x12:\n" +
+	"\x0frevision_points\x18\x04 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf4\x03R\x0erevisionPoints\"m\n" +
 	"\x17RequestRevisionResponse\x12)\n" +
 	"\x03gig\x18\x01 \x01(\v2\x17.skillsphere.gig.v1.GigR\x03gig\x12'\n" +
-	"\x0frevision_number\x18\x02 \x01(\x05R\x0erevisionNumber\"\xcf\x01\n" +
-	"\x11DisputeGigRequest\x12\x15\n" +
-	"\x06gig_id\x18\x01 \x01(\tR\x05gigId\x12*\n" +
-	"\x11disputing_user_id\x18\x02 \x01(\tR\x0fdisputingUserId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12=\n" +
-	"\bevidence\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentR\bevidence\"K\n" +
-	"\x12DisputeGigResponse\x12\x1d\n" +
+	"\x0frevision_number\x18\x02 \x01(\x05R\x0erevisionNumber\"\x83\x02\n" +
+	"\x11DisputeGigRequest\x12 \n" +
+	"\x06gig_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x05gigId\x125\n" +
+	"\x11disputing_user_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fdisputingUserId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x06reason\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12G\n" +
+	"\bevidence\x18\x05 \x03(\v2!.skillsphere.common.v1.AttachmentB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\bevidence\"a\n" +
+	"\x12DisputeGigResponse\x12(\n" +
 	"\n" +
-	"dispute_id\x18\x01 \x01(\tR\tdisputeId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"\xb5\x01\n" +
-	"\x12GetUserGigsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"dispute_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\tdisputeId\x12!\n" +
+	"\x06status\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x06status\"\xca\x01\n" +
+	"\x12GetUserGigsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12\x1d\n" +
 	"\n" +
 	"as_creator\x18\x02 \x01(\bR\tasCreator\x12#\n" +
-	"\ras_freelancer\x18\x03 \x01(\bR\fasFreelancer\x12B\n" +
-	"\rstatus_filter\x18\x04 \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusR\fstatusFilter\"\xd6\x01\n" +
+	"\ras_freelancer\x18\x03 \x01(\bR\fasFreelancer\x12L\n" +
+	"\rstatus_filter\x18\x04 \x01(\x0e2\x1d.skillsphere.gig.v1.GigStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fstatusFilter\"\xd6\x01\n" +
 	"\x13GetUserGigsResponse\x12:\n" +
 	"\fcreated_gigs\x18\x01 \x03(\v2\x17.skillsphere.gig.v1.GigR\vcreatedGigs\x12>\n" +
 	"\x0efreelance_gigs\x18\x02 \x03(\v2\x17.skillsphere.gig.v1.GigR\rfreelanceGigs\x12C\n" +

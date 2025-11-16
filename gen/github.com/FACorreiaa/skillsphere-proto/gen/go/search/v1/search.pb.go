@@ -7,6 +7,7 @@
 package searchv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -83,7 +84,7 @@ func (SearchSortBy) EnumDescriptor() ([]byte, []int) {
 
 type SearchUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // Keyword search (name, bio, skills)
+	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	Filters       *v1.SearchFilters      `protobuf:"bytes,2,opt,name=filters,proto3" json:"filters,omitempty"`
 	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                 `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
@@ -228,10 +229,10 @@ func (x *SearchUsersResponse) GetMetadata() *SearchMetadata {
 type UserSearchResult struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	User           *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	RelevanceScore float64                `protobuf:"fixed64,2,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"` // 0.0-1.0
+	RelevanceScore float64                `protobuf:"fixed64,2,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"`
 	MatchedSkills  []string               `protobuf:"bytes,3,rep,name=matched_skills,json=matchedSkills,proto3" json:"matched_skills,omitempty"`
-	Snippet        string                 `protobuf:"bytes,4,opt,name=snippet,proto3" json:"snippet,omitempty"`                           // Highlighted text snippet
-	DistanceKm     float64                `protobuf:"fixed64,5,opt,name=distance_km,json=distanceKm,proto3" json:"distance_km,omitempty"` // If geo-search enabled
+	Snippet        string                 `protobuf:"bytes,4,opt,name=snippet,proto3" json:"snippet,omitempty"`
+	DistanceKm     float64                `protobuf:"fixed64,5,opt,name=distance_km,json=distanceKm,proto3" json:"distance_km,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -304,7 +305,7 @@ func (x *UserSearchResult) GetDistanceKm() float64 {
 type SearchMetadata struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	QueryTimeMs    int32                  `protobuf:"varint,1,opt,name=query_time_ms,json=queryTimeMs,proto3" json:"query_time_ms,omitempty"`
-	QueryId        string                 `protobuf:"bytes,2,opt,name=query_id,json=queryId,proto3" json:"query_id,omitempty"` // For analytics
+	QueryId        string                 `protobuf:"bytes,2,opt,name=query_id,json=queryId,proto3" json:"query_id,omitempty"`
 	AppliedFilters []string               `protobuf:"bytes,3,rep,name=applied_filters,json=appliedFilters,proto3" json:"applied_filters,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -469,7 +470,7 @@ type SkillSearchResult struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Skill          *v1.Skill              `protobuf:"bytes,1,opt,name=skill,proto3" json:"skill,omitempty"`
 	RelevanceScore float64                `protobuf:"fixed64,2,opt,name=relevance_score,json=relevanceScore,proto3" json:"relevance_score,omitempty"`
-	UserCount      int32                  `protobuf:"varint,3,opt,name=user_count,json=userCount,proto3" json:"user_count,omitempty"` // How many users have this skill
+	UserCount      int32                  `protobuf:"varint,3,opt,name=user_count,json=userCount,proto3" json:"user_count,omitempty"`
 	IsTrending     bool                   `protobuf:"varint,4,opt,name=is_trending,json=isTrending,proto3" json:"is_trending,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -535,10 +536,10 @@ func (x *SkillSearchResult) GetIsTrending() bool {
 
 type GetTrendingSkillsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"` // Default 10, max 50
+	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	Category      v1.SkillCategory       `protobuf:"varint,2,opt,name=category,proto3,enum=skillsphere.common.v1.SkillCategory" json:"category,omitempty"`
-	Days          int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"`    // Trending window (default 7)
-	Region        string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"` // Optional geographic filter
+	Days          int32                  `protobuf:"varint,3,opt,name=days,proto3" json:"days,omitempty"`
+	Region        string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -658,8 +659,8 @@ type TrendingSkill struct {
 	Skill         *v1.Skill              `protobuf:"bytes,1,opt,name=skill,proto3" json:"skill,omitempty"`
 	TrendScore    int32                  `protobuf:"varint,2,opt,name=trend_score,json=trendScore,proto3" json:"trend_score,omitempty"`
 	SessionsCount int32                  `protobuf:"varint,3,opt,name=sessions_count,json=sessionsCount,proto3" json:"sessions_count,omitempty"`
-	GrowthRate    float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"` // Percentage
-	Rank          int32                  `protobuf:"varint,5,opt,name=rank,proto3" json:"rank,omitempty"`                                // Position in trending list
+	GrowthRate    float64                `protobuf:"fixed64,4,opt,name=growth_rate,json=growthRate,proto3" json:"growth_rate,omitempty"`
+	Rank          int32                  `protobuf:"varint,5,opt,name=rank,proto3" json:"rank,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -828,8 +829,8 @@ func (x *GetFeaturedUsersResponse) GetUsers() []*FeaturedUser {
 type FeaturedUser struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	FeatureReason string                 `protobuf:"bytes,2,opt,name=feature_reason,json=featureReason,proto3" json:"feature_reason,omitempty"` // Why they're featured
-	Badge         string                 `protobuf:"bytes,3,opt,name=badge,proto3" json:"badge,omitempty"`                                      // e.g., "Top Contributor", "Expert"
+	FeatureReason string                 `protobuf:"bytes,2,opt,name=feature_reason,json=featureReason,proto3" json:"feature_reason,omitempty"`
+	Badge         string                 `protobuf:"bytes,3,opt,name=badge,proto3" json:"badge,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -888,7 +889,7 @@ func (x *FeaturedUser) GetBadge() string {
 type GetSearchSuggestionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	PartialQuery  string                 `protobuf:"bytes,2,opt,name=partial_query,json=partialQuery,proto3" json:"partial_query,omitempty"` // Autocomplete query
+	PartialQuery  string                 `protobuf:"bytes,2,opt,name=partial_query,json=partialQuery,proto3" json:"partial_query,omitempty"`
 	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -992,7 +993,7 @@ func (x *GetSearchSuggestionsResponse) GetSuggestions() []*Suggestion {
 type Suggestion struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
-	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"` // "skill", "user", "category"
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	Popularity    int32                  `protobuf:"varint,3,opt,name=popularity,proto3" json:"popularity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1310,103 +1311,111 @@ var File_search_v1_search_proto protoreflect.FileDescriptor
 
 const file_search_v1_search_proto_rawDesc = "" +
 	"\n" +
-	"\x16search/v1/search.proto\x12\x15skillsphere.search.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xe4\x01\n" +
-	"\x12SearchUsersRequest\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12>\n" +
-	"\afilters\x18\x02 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\x16search/v1/search.proto\x12\x15skillsphere.search.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\x8d\x02\n" +
+	"\x12SearchUsersRequest\x12\x1e\n" +
+	"\x05query\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x05query\x12>\n" +
+	"\afilters\x18\x02 \x01(\v2$.skillsphere.common.v1.SearchFiltersR\afilters\x12&\n" +
+	"\tpage_size\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x04 \x01(\tR\tpageToken\x12<\n" +
-	"\asort_by\x18\x05 \x01(\x0e2#.skillsphere.search.v1.SearchSortByR\x06sortBy\"\xe4\x01\n" +
+	"page_token\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12F\n" +
+	"\asort_by\x18\x05 \x01(\x0e2#.skillsphere.search.v1.SearchSortByB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06sortBy\"\xe4\x01\n" +
 	"\x13SearchUsersResponse\x12A\n" +
 	"\aresults\x18\x01 \x03(\v2'.skillsphere.search.v1.UserSearchResultR\aresults\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\x05R\n" +
 	"totalCount\x12A\n" +
-	"\bmetadata\x18\x04 \x01(\v2%.skillsphere.search.v1.SearchMetadataR\bmetadata\"\xce\x01\n" +
+	"\bmetadata\x18\x04 \x01(\v2%.skillsphere.search.v1.SearchMetadataR\bmetadata\"\x9c\x02\n" +
 	"\x10UserSearchResult\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12'\n" +
-	"\x0frelevance_score\x18\x02 \x01(\x01R\x0erelevanceScore\x12%\n" +
-	"\x0ematched_skills\x18\x03 \x03(\tR\rmatchedSkills\x12\x18\n" +
-	"\asnippet\x18\x04 \x01(\tR\asnippet\x12\x1f\n" +
-	"\vdistance_km\x18\x05 \x01(\x01R\n" +
-	"distanceKm\"x\n" +
-	"\x0eSearchMetadata\x12\"\n" +
-	"\rquery_time_ms\x18\x01 \x01(\x05R\vqueryTimeMs\x12\x19\n" +
-	"\bquery_id\x18\x02 \x01(\tR\aqueryId\x12'\n" +
-	"\x0fapplied_filters\x18\x03 \x03(\tR\x0eappliedFilters\"\x87\x01\n" +
-	"\x13SearchSkillsRequest\x12\x14\n" +
-	"\x05query\x18\x01 \x01(\tR\x05query\x12D\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12@\n" +
+	"\x0frelevance_score\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x0erelevanceScore\x127\n" +
+	"\x0ematched_skills\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18dR\rmatchedSkills\x12\"\n" +
+	"\asnippet\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\asnippet\x128\n" +
+	"\vdistance_km\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x88\xd3@)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"distanceKm\"\x9c\x01\n" +
+	"\x0eSearchMetadata\x12+\n" +
+	"\rquery_time_ms\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\vqueryTimeMs\x12\"\n" +
+	"\bquery_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x182R\aqueryId\x129\n" +
+	"\x0fapplied_filters\x18\x03 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\x14\"\x06r\x04\x10\x01\x18dR\x0eappliedFilters\"\xa8\x01\n" +
+	"\x13SearchSkillsRequest\x12 \n" +
+	"\x05query\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xc8\x01R\x05query\x12N\n" +
 	"\n" +
-	"categories\x18\x02 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryR\n" +
-	"categories\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"Z\n" +
+	"categories\x18\x02 \x03(\x0e2$.skillsphere.common.v1.SkillCategoryB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\n" +
+	"categories\x12\x1f\n" +
+	"\x05limit\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\"Z\n" +
 	"\x14SearchSkillsResponse\x12B\n" +
-	"\aresults\x18\x01 \x03(\v2(.skillsphere.search.v1.SkillSearchResultR\aresults\"\xb0\x01\n" +
+	"\aresults\x18\x01 \x03(\v2(.skillsphere.search.v1.SkillSearchResultR\aresults\"\xd2\x01\n" +
 	"\x11SkillSearchResult\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12'\n" +
-	"\x0frelevance_score\x18\x02 \x01(\x01R\x0erelevanceScore\x12\x1d\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12@\n" +
+	"\x0frelevance_score\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x0erelevanceScore\x12&\n" +
 	"\n" +
-	"user_count\x18\x03 \x01(\x05R\tuserCount\x12\x1f\n" +
+	"user_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tuserCount\x12\x1f\n" +
 	"\vis_trending\x18\x04 \x01(\bR\n" +
-	"isTrending\"\x9e\x01\n" +
-	"\x18GetTrendingSkillsRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12@\n" +
-	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12\x12\n" +
-	"\x04days\x18\x03 \x01(\x05R\x04days\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\"\x96\x01\n" +
+	"isTrending\"\xbd\x01\n" +
+	"\x18GetTrendingSkillsRequest\x12\x1f\n" +
+	"\x05limit\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\x12@\n" +
+	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\x12\x1d\n" +
+	"\x04days\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x1e(\x01R\x04days\x12\x1f\n" +
+	"\x06region\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\x06region\"\x96\x01\n" +
 	"\x19GetTrendingSkillsResponse\x12<\n" +
 	"\x06skills\x18\x01 \x03(\v2$.skillsphere.search.v1.TrendingSkillR\x06skills\x12;\n" +
 	"\vcomputed_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"computedAt\"\xc0\x01\n" +
+	"computedAt\"\xf7\x01\n" +
 	"\rTrendingSkill\x122\n" +
-	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12\x1f\n" +
-	"\vtrend_score\x18\x02 \x01(\x05R\n" +
-	"trendScore\x12%\n" +
-	"\x0esessions_count\x18\x03 \x01(\x05R\rsessionsCount\x12\x1f\n" +
-	"\vgrowth_rate\x18\x04 \x01(\x01R\n" +
-	"growthRate\x12\x12\n" +
-	"\x04rank\x18\x05 \x01(\x05R\x04rank\"q\n" +
-	"\x17GetFeaturedUsersRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12@\n" +
+	"\x05skill\x18\x01 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\x12(\n" +
+	"\vtrend_score\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"trendScore\x12.\n" +
+	"\x0esessions_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rsessionsCount\x128\n" +
+	"\vgrowth_rate\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00Y\xc0R\n" +
+	"growthRate\x12\x1e\n" +
+	"\x04rank\x18\x05 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x01R\x04rank\"|\n" +
+	"\x17GetFeaturedUsersRequest\x12\x1f\n" +
+	"\x05limit\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\x05limit\x12@\n" +
 	"\bcategory\x18\x02 \x01(\x0e2$.skillsphere.common.v1.SkillCategoryR\bcategory\"U\n" +
 	"\x18GetFeaturedUsersResponse\x129\n" +
-	"\x05users\x18\x01 \x03(\v2#.skillsphere.search.v1.FeaturedUserR\x05users\"|\n" +
+	"\x05users\x18\x01 \x03(\v2#.skillsphere.search.v1.FeaturedUserR\x05users\"\x8f\x01\n" +
 	"\fFeaturedUser\x12/\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12%\n" +
-	"\x0efeature_reason\x18\x02 \x01(\tR\rfeatureReason\x12\x14\n" +
-	"\x05badge\x18\x03 \x01(\tR\x05badge\"q\n" +
-	"\x1bGetSearchSuggestionsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12#\n" +
-	"\rpartial_query\x18\x02 \x01(\tR\fpartialQuery\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"c\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x12/\n" +
+	"\x0efeature_reason\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\rfeatureReason\x12\x1d\n" +
+	"\x05badge\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\x05badge\"\x92\x01\n" +
+	"\x1bGetSearchSuggestionsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12.\n" +
+	"\rpartial_query\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\fpartialQuery\x12\x1f\n" +
+	"\x05limit\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x14(\x01R\x05limit\"c\n" +
 	"\x1cGetSearchSuggestionsResponse\x12C\n" +
-	"\vsuggestions\x18\x01 \x03(\v2!.skillsphere.search.v1.SuggestionR\vsuggestions\"T\n" +
+	"\vsuggestions\x18\x01 \x03(\v2!.skillsphere.search.v1.SuggestionR\vsuggestions\"s\n" +
 	"\n" +
-	"Suggestion\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1e\n" +
+	"Suggestion\x12\x1d\n" +
+	"\x04text\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x04text\x12\x1d\n" +
+	"\x04type\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18 R\x04type\x12'\n" +
 	"\n" +
-	"popularity\x18\x03 \x01(\x05R\n" +
-	"popularity\"\x8d\x01\n" +
+	"popularity\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"popularity\"\xa2\x01\n" +
 	"\x15AdvancedSearchRequest\x128\n" +
-	"\x05query\x18\x01 \x01(\v2\".skillsphere.search.v1.SearchQueryR\x05query\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\x05query\x18\x01 \x01(\v2\".skillsphere.search.v1.SearchQueryR\x05query\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x182(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\"\xaa\x04\n" +
-	"\vSearchQuery\x12*\n" +
-	"\x11skill_ids_offered\x18\x01 \x03(\tR\x0fskillIdsOffered\x12(\n" +
-	"\x10skill_ids_wanted\x18\x02 \x03(\tR\x0eskillIdsWanted\x12P\n" +
-	"\x0fmin_proficiency\x18\x03 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelR\x0eminProficiency\x12;\n" +
-	"\blocation\x18\x04 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\x12&\n" +
-	"\x0fmax_distance_km\x18\x05 \x01(\x05R\rmaxDistanceKm\x12G\n" +
-	"\x0eavailable_days\x18\x06 \x03(\x0e2 .skillsphere.common.v1.DayOfWeekR\ravailableDays\x12\x1a\n" +
-	"\btimezone\x18\a \x01(\tR\btimezone\x12\x1d\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\"\xa7\x05\n" +
+	"\vSearchQuery\x12<\n" +
+	"\x11skill_ids_offered\x18\x01 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\x0fskillIdsOffered\x12:\n" +
+	"\x10skill_ids_wanted\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x102\"\x06r\x04\x10\x01\x182R\x0eskillIdsWanted\x12Z\n" +
+	"\x0fmin_proficiency\x18\x03 \x01(\x0e2'.skillsphere.common.v1.ProficiencyLevelB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0eminProficiency\x12;\n" +
+	"\blocation\x18\x04 \x01(\v2\x1f.skillsphere.common.v1.LocationR\blocation\x123\n" +
+	"\x0fmax_distance_km\x18\x05 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xa0\x9c\x01(\x00R\rmaxDistanceKm\x12Q\n" +
+	"\x0eavailable_days\x18\x06 \x03(\x0e2 .skillsphere.common.v1.DayOfWeekB\b\xbaH\x05\x92\x01\x02\x10\aR\ravailableDays\x12#\n" +
+	"\btimezone\x18\a \x01(\tB\a\xbaH\x04r\x02\x18dR\btimezone\x126\n" +
 	"\n" +
-	"min_rating\x18\b \x01(\x01R\tminRating\x12!\n" +
-	"\fmin_sessions\x18\t \x01(\x05R\vminSessions\x12B\n" +
+	"min_rating\x18\b \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\x14@)\x00\x00\x00\x00\x00\x00\x00\x00R\tminRating\x12-\n" +
+	"\fmin_sessions\x18\t \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x18\xe8\a(\x00R\vminSessions\x12L\n" +
 	"\bmin_tier\x18\n" +
-	" \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierR\aminTier\x12#\n" +
+	" \x01(\x0e2'.skillsphere.common.v1.SubscriptionTierB\b\xbaH\x05\x82\x01\x02\x10\x01R\aminTier\x12#\n" +
 	"\rverified_only\x18\v \x01(\bR\fverifiedOnly\"\xe7\x01\n" +
 	"\x16AdvancedSearchResponse\x12A\n" +
 	"\aresults\x18\x01 \x03(\v2'.skillsphere.search.v1.UserSearchResultR\aresults\x12&\n" +

@@ -7,6 +7,7 @@
 package certificationv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/FACorreiaa/skillsphere-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -193,14 +194,14 @@ type Certification struct {
 	// Blockchain info
 	Blockchain      BlockchainNetwork `protobuf:"varint,7,opt,name=blockchain,proto3,enum=skillsphere.certification.v1.BlockchainNetwork" json:"blockchain,omitempty"`
 	ContractAddress string            `protobuf:"bytes,8,opt,name=contract_address,json=contractAddress,proto3" json:"contract_address,omitempty"`
-	TokenId         string            `protobuf:"bytes,9,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"` // NFT token ID
+	TokenId         string            `protobuf:"bytes,9,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 	TransactionHash string            `protobuf:"bytes,10,opt,name=transaction_hash,json=transactionHash,proto3" json:"transaction_hash,omitempty"`
 	// Certificate details
-	IssuerId       string            `protobuf:"bytes,11,opt,name=issuer_id,json=issuerId,proto3" json:"issuer_id,omitempty"` // User or platform who issued
+	IssuerId       string            `protobuf:"bytes,11,opt,name=issuer_id,json=issuerId,proto3" json:"issuer_id,omitempty"`
 	IssuerName     string            `protobuf:"bytes,12,opt,name=issuer_name,json=issuerName,proto3" json:"issuer_name,omitempty"`
 	BadgeImageUrl  string            `protobuf:"bytes,13,opt,name=badge_image_url,json=badgeImageUrl,proto3" json:"badge_image_url,omitempty"`
-	CertificateUrl string            `protobuf:"bytes,14,opt,name=certificate_url,json=certificateUrl,proto3" json:"certificate_url,omitempty"`                                         // Shareable certificate page
-	Metadata       map[string]string `protobuf:"bytes,15,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // Additional data
+	CertificateUrl string            `protobuf:"bytes,14,opt,name=certificate_url,json=certificateUrl,proto3" json:"certificate_url,omitempty"`
+	Metadata       map[string]string `protobuf:"bytes,15,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Timestamps
 	IssuedAt      *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=issued_at,json=issuedAt,proto3" json:"issued_at,omitempty"`
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"` // Optional expiration
@@ -372,7 +373,7 @@ type BadgeTemplate struct {
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	ImageUrl      string                 `protobuf:"bytes,4,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Type          CertificationType      `protobuf:"varint,5,opt,name=type,proto3,enum=skillsphere.certification.v1.CertificationType" json:"type,omitempty"`
-	Requirements  map[string]string      `protobuf:"bytes,6,rep,name=requirements,proto3" json:"requirements,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // What's needed to earn it
+	Requirements  map[string]string      `protobuf:"bytes,6,rep,name=requirements,proto3" json:"requirements,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -453,10 +454,10 @@ type IssueCertificationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	SkillId       string                 `protobuf:"bytes,2,opt,name=skill_id,json=skillId,proto3" json:"skill_id,omitempty"`
-	SessionId     string                 `protobuf:"bytes,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"` // Optional reference
+	SessionId     string                 `protobuf:"bytes,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	IssuerId      string                 `protobuf:"bytes,4,opt,name=issuer_id,json=issuerId,proto3" json:"issuer_id,omitempty"`
 	Type          CertificationType      `protobuf:"varint,5,opt,name=type,proto3,enum=skillsphere.certification.v1.CertificationType" json:"type,omitempty"`
-	TemplateId    string                 `protobuf:"bytes,6,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"` // Badge template
+	TemplateId    string                 `protobuf:"bytes,6,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
 	MintAsNft     bool                   `protobuf:"varint,7,opt,name=mint_as_nft,json=mintAsNft,proto3" json:"mint_as_nft,omitempty"` // Mint on blockchain
 	Blockchain    BlockchainNetwork      `protobuf:"varint,8,opt,name=blockchain,proto3,enum=skillsphere.certification.v1.BlockchainNetwork" json:"blockchain,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -552,7 +553,7 @@ func (x *IssueCertificationRequest) GetBlockchain() BlockchainNetwork {
 type IssueCertificationResponse struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Certification     *Certification         `protobuf:"bytes,1,opt,name=certification,proto3" json:"certification,omitempty"`
-	ShareUrl          string                 `protobuf:"bytes,2,opt,name=share_url,json=shareUrl,proto3" json:"share_url,omitempty"`                             // Public certificate URL
+	ShareUrl          string                 `protobuf:"bytes,2,opt,name=share_url,json=shareUrl,proto3" json:"share_url,omitempty"`
 	BlockchainPending bool                   `protobuf:"varint,3,opt,name=blockchain_pending,json=blockchainPending,proto3" json:"blockchain_pending,omitempty"` // If NFT minting in progress
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
@@ -612,7 +613,7 @@ func (x *IssueCertificationResponse) GetBlockchainPending() bool {
 type VerifyCertificationRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	CertificationId  string                 `protobuf:"bytes,1,opt,name=certification_id,json=certificationId,proto3" json:"certification_id,omitempty"`
-	VerificationCode string                 `protobuf:"bytes,2,opt,name=verification_code,json=verificationCode,proto3" json:"verification_code,omitempty"` // Optional for QR code scans
+	VerificationCode string                 `protobuf:"bytes,2,opt,name=verification_code,json=verificationCode,proto3" json:"verification_code,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -665,7 +666,7 @@ type VerifyCertificationResponse struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Certification      *Certification         `protobuf:"bytes,1,opt,name=certification,proto3" json:"certification,omitempty"`
 	IsValid            bool                   `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
-	BlockchainProofUrl string                 `protobuf:"bytes,3,opt,name=blockchain_proof_url,json=blockchainProofUrl,proto3" json:"blockchain_proof_url,omitempty"` // Link to blockchain explorer
+	BlockchainProofUrl string                 `protobuf:"bytes,3,opt,name=blockchain_proof_url,json=blockchainProofUrl,proto3" json:"blockchain_proof_url,omitempty"`
 	Message            string                 `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -868,7 +869,7 @@ func (x *GetUserCertificationsResponse) GetTotalCount() int32 {
 type RevokeCertificationRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	CertificationId string                 `protobuf:"bytes,1,opt,name=certification_id,json=certificationId,proto3" json:"certification_id,omitempty"`
-	AdminId         string                 `protobuf:"bytes,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"` // Admin performing revocation
+	AdminId         string                 `protobuf:"bytes,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
 	Reason          string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -1084,7 +1085,7 @@ func (x *GetCertificationResponse) GetSkill() *v1.Skill {
 type ShareCertificationRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	CertificationId string                 `protobuf:"bytes,1,opt,name=certification_id,json=certificationId,proto3" json:"certification_id,omitempty"`
-	Platforms       []string               `protobuf:"bytes,2,rep,name=platforms,proto3" json:"platforms,omitempty"` // "linkedin", "twitter", "email"
+	Platforms       []string               `protobuf:"bytes,2,rep,name=platforms,proto3" json:"platforms,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1136,8 +1137,8 @@ func (x *ShareCertificationRequest) GetPlatforms() []string {
 type ShareCertificationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PublicUrl     string                 `protobuf:"bytes,1,opt,name=public_url,json=publicUrl,proto3" json:"public_url,omitempty"`
-	ShareLinks    map[string]string      `protobuf:"bytes,2,rep,name=share_links,json=shareLinks,proto3" json:"share_links,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // Platform-specific share URLs
-	QrCodeUrl     string                 `protobuf:"bytes,3,opt,name=qr_code_url,json=qrCodeUrl,proto3" json:"qr_code_url,omitempty"`                                                                            // QR code image
+	ShareLinks    map[string]string      `protobuf:"bytes,2,rep,name=share_links,json=shareLinks,proto3" json:"share_links,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	QrCodeUrl     string                 `protobuf:"bytes,3,opt,name=qr_code_url,json=qrCodeUrl,proto3" json:"qr_code_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1258,7 +1259,7 @@ type MintNFTBadgeResponse struct {
 	TransactionHash string                 `protobuf:"bytes,1,opt,name=transaction_hash,json=transactionHash,proto3" json:"transaction_hash,omitempty"`
 	TokenId         string                 `protobuf:"bytes,2,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 	ContractAddress string                 `protobuf:"bytes,3,opt,name=contract_address,json=contractAddress,proto3" json:"contract_address,omitempty"`
-	OpenseaUrl      string                 `protobuf:"bytes,4,opt,name=opensea_url,json=openseaUrl,proto3" json:"opensea_url,omitempty"` // Link to view on OpenSea
+	OpenseaUrl      string                 `protobuf:"bytes,4,opt,name=opensea_url,json=openseaUrl,proto3" json:"opensea_url,omitempty"`
 	MintedAt        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=minted_at,json=mintedAt,proto3" json:"minted_at,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -1429,28 +1430,28 @@ var File_certification_v1_certification_proto protoreflect.FileDescriptor
 
 const file_certification_v1_certification_proto_rawDesc = "" +
 	"\n" +
-	"$certification/v1/certification.proto\x12\x1cskillsphere.certification.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\"\xb1\a\n" +
-	"\rCertification\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x03 \x01(\tR\askillId\x12\x1d\n" +
+	"$certification/v1/certification.proto\x12\x1cskillsphere.certification.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16common/v1/common.proto\x1a\x1bbuf/validate/validate.proto\"\xdb\b\n" +
+	"\rCertification\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\x12\"\n" +
+	"\auser_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x03 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12(\n" +
 	"\n" +
-	"skill_name\x18\x04 \x01(\tR\tskillName\x12C\n" +
-	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeR\x04type\x12I\n" +
-	"\x06status\x18\x06 \x01(\x0e21.skillsphere.certification.v1.CertificationStatusR\x06status\x12O\n" +
+	"skill_name\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\tskillName\x12M\n" +
+	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12S\n" +
+	"\x06status\x18\x06 \x01(\x0e21.skillsphere.certification.v1.CertificationStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12Y\n" +
 	"\n" +
-	"blockchain\x18\a \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkR\n" +
-	"blockchain\x12)\n" +
-	"\x10contract_address\x18\b \x01(\tR\x0fcontractAddress\x12\x19\n" +
-	"\btoken_id\x18\t \x01(\tR\atokenId\x12)\n" +
+	"blockchain\x18\a \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"blockchain\x122\n" +
+	"\x10contract_address\x18\b \x01(\tB\a\xbaH\x04r\x02\x18dR\x0fcontractAddress\x12\"\n" +
+	"\btoken_id\x18\t \x01(\tB\a\xbaH\x04r\x02\x18dR\atokenId\x122\n" +
 	"\x10transaction_hash\x18\n" +
-	" \x01(\tR\x0ftransactionHash\x12\x1b\n" +
-	"\tissuer_id\x18\v \x01(\tR\bissuerId\x12\x1f\n" +
-	"\vissuer_name\x18\f \x01(\tR\n" +
-	"issuerName\x12&\n" +
-	"\x0fbadge_image_url\x18\r \x01(\tR\rbadgeImageUrl\x12'\n" +
-	"\x0fcertificate_url\x18\x0e \x01(\tR\x0ecertificateUrl\x12U\n" +
-	"\bmetadata\x18\x0f \x03(\v29.skillsphere.certification.v1.Certification.MetadataEntryR\bmetadata\x127\n" +
+	" \x01(\tB\a\xbaH\x04r\x02\x18dR\x0ftransactionHash\x12$\n" +
+	"\tissuer_id\x18\v \x01(\tB\a\xbaH\x04r\x02\x182R\bissuerId\x12(\n" +
+	"\vissuer_name\x18\f \x01(\tB\a\xbaH\x04r\x02\x18dR\n" +
+	"issuerName\x123\n" +
+	"\x0fbadge_image_url\x18\r \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\rbadgeImageUrl\x124\n" +
+	"\x0fcertificate_url\x18\x0e \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x0ecertificateUrl\x12n\n" +
+	"\bmetadata\x18\x0f \x03(\v29.skillsphere.certification.v1.Certification.MetadataEntryB\x17\xbaH\x14\x9a\x01\x11\x10\x14\"\x06r\x04\x10\x01\x18 *\x05r\x03\x18\xc8\x01R\bmetadata\x127\n" +
 	"\tissued_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\bissuedAt\x129\n" +
 	"\n" +
 	"expires_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x129\n" +
@@ -1458,100 +1459,103 @@ const file_certification_v1_certification_proto_rawDesc = "" +
 	"revoked_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\trevokedAt\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xec\x02\n" +
-	"\rBadgeTemplate\x12\x1f\n" +
-	"\vtemplate_id\x18\x01 \x01(\tR\n" +
-	"templateId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\timage_url\x18\x04 \x01(\tR\bimageUrl\x12C\n" +
-	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeR\x04type\x12a\n" +
-	"\frequirements\x18\x06 \x03(\v2=.skillsphere.certification.v1.BadgeTemplate.RequirementsEntryR\frequirements\x1a?\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbc\x03\n" +
+	"\rBadgeTemplate\x12*\n" +
+	"\vtemplate_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
+	"templateId\x12\x1d\n" +
+	"\x04name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18dR\x04name\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescription\x12(\n" +
+	"\timage_url\x18\x04 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\bimageUrl\x12M\n" +
+	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12z\n" +
+	"\frequirements\x18\x06 \x03(\v2=.skillsphere.certification.v1.BadgeTemplate.RequirementsEntryB\x17\xbaH\x14\x9a\x01\x11\x10\x14\"\x06r\x04\x10\x01\x18 *\x05r\x03\x18\xc8\x01R\frequirements\x1a?\n" +
 	"\x11RequirementsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe2\x02\n" +
-	"\x19IssueCertificationRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\bskill_id\x18\x02 \x01(\tR\askillId\x12\x1d\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xab\x03\n" +
+	"\x19IssueCertificationRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12$\n" +
+	"\bskill_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\askillId\x12&\n" +
 	"\n" +
-	"session_id\x18\x03 \x01(\tR\tsessionId\x12\x1b\n" +
-	"\tissuer_id\x18\x04 \x01(\tR\bissuerId\x12C\n" +
-	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeR\x04type\x12\x1f\n" +
-	"\vtemplate_id\x18\x06 \x01(\tR\n" +
+	"session_id\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\tsessionId\x12&\n" +
+	"\tissuer_id\x18\x04 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\bissuerId\x12M\n" +
+	"\x04type\x18\x05 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12*\n" +
+	"\vtemplate_id\x18\x06 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\n" +
 	"templateId\x12\x1e\n" +
-	"\vmint_as_nft\x18\a \x01(\bR\tmintAsNft\x12O\n" +
+	"\vmint_as_nft\x18\a \x01(\bR\tmintAsNft\x12Y\n" +
 	"\n" +
-	"blockchain\x18\b \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkR\n" +
-	"blockchain\"\xbb\x01\n" +
+	"blockchain\x18\b \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"blockchain\"\xc8\x01\n" +
 	"\x1aIssueCertificationResponse\x12Q\n" +
-	"\rcertification\x18\x01 \x01(\v2+.skillsphere.certification.v1.CertificationR\rcertification\x12\x1b\n" +
-	"\tshare_url\x18\x02 \x01(\tR\bshareUrl\x12-\n" +
-	"\x12blockchain_pending\x18\x03 \x01(\bR\x11blockchainPending\"t\n" +
-	"\x1aVerifyCertificationRequest\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\x12+\n" +
-	"\x11verification_code\x18\x02 \x01(\tR\x10verificationCode\"\xd7\x01\n" +
+	"\rcertification\x18\x01 \x01(\v2+.skillsphere.certification.v1.CertificationR\rcertification\x12(\n" +
+	"\tshare_url\x18\x02 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\bshareUrl\x12-\n" +
+	"\x12blockchain_pending\x18\x03 \x01(\bR\x11blockchainPending\"\x88\x01\n" +
+	"\x1aVerifyCertificationRequest\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\x124\n" +
+	"\x11verification_code\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x10verificationCode\"\xee\x01\n" +
 	"\x1bVerifyCertificationResponse\x12Q\n" +
 	"\rcertification\x18\x01 \x01(\v2+.skillsphere.certification.v1.CertificationR\rcertification\x12\x19\n" +
-	"\bis_valid\x18\x02 \x01(\bR\aisValid\x120\n" +
-	"\x14blockchain_proof_url\x18\x03 \x01(\tR\x12blockchainProofUrl\x12\x18\n" +
-	"\amessage\x18\x04 \x01(\tR\amessage\"\xee\x01\n" +
-	"\x1cGetUserCertificationsRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\bis_valid\x18\x02 \x01(\bR\aisValid\x12=\n" +
+	"\x14blockchain_proof_url\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\x12blockchainProofUrl\x12\"\n" +
+	"\amessage\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\amessage\"\x98\x02\n" +
+	"\x1cGetUserCertificationsRequest\x12\"\n" +
+	"\auser_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x06userId\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\bpageSize\x12'\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12P\n" +
-	"\vtype_filter\x18\x04 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeR\n" +
+	"page_token\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\tpageToken\x12Z\n" +
+	"\vtype_filter\x18\x04 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
 	"typeFilter\x12'\n" +
-	"\x0finclude_revoked\x18\x05 \x01(\bR\x0eincludeRevoked\"\xbd\x01\n" +
+	"\x0finclude_revoked\x18\x05 \x01(\bR\x0eincludeRevoked\"\xd0\x01\n" +
 	"\x1dGetUserCertificationsResponse\x12S\n" +
-	"\x0ecertifications\x18\x01 \x03(\v2+.skillsphere.certification.v1.CertificationR\x0ecertifications\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"z\n" +
-	"\x1aRevokeCertificationRequest\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\x12\x19\n" +
-	"\badmin_id\x18\x02 \x01(\tR\aadminId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\"\x9f\x01\n" +
+	"\x0ecertifications\x18\x01 \x03(\v2+.skillsphere.certification.v1.CertificationR\x0ecertifications\x120\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x02R\rnextPageToken\x12(\n" +
+	"\vtotal_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"totalCount\"\x9a\x01\n" +
+	"\x1aRevokeCertificationRequest\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\x12$\n" +
+	"\badmin_id\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\aadminId\x12 \n" +
+	"\x06reason\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x06reason\"\x9f\x01\n" +
 	"\x1bRevokeCertificationResponse\x12Q\n" +
 	"\rcertification\x18\x01 \x01(\v2+.skillsphere.certification.v1.CertificationR\rcertification\x12-\n" +
-	"\x12blockchain_updated\x18\x02 \x01(\bR\x11blockchainUpdated\"D\n" +
-	"\x17GetCertificationRequest\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\"\xd2\x01\n" +
+	"\x12blockchain_updated\x18\x02 \x01(\bR\x11blockchainUpdated\"O\n" +
+	"\x17GetCertificationRequest\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\"\xd2\x01\n" +
 	"\x18GetCertificationResponse\x12Q\n" +
 	"\rcertification\x18\x01 \x01(\v2+.skillsphere.certification.v1.CertificationR\rcertification\x12/\n" +
 	"\x04user\x18\x02 \x01(\v2\x1b.skillsphere.common.v1.UserR\x04user\x122\n" +
-	"\x05skill\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\"d\n" +
-	"\x19ShareCertificationRequest\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\x12\x1c\n" +
-	"\tplatforms\x18\x02 \x03(\tR\tplatforms\"\x85\x02\n" +
-	"\x1aShareCertificationResponse\x12\x1d\n" +
+	"\x05skill\x18\x03 \x01(\v2\x1c.skillsphere.common.v1.SkillR\x05skill\"\x81\x01\n" +
+	"\x19ShareCertificationRequest\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\x12.\n" +
+	"\tplatforms\x18\x02 \x03(\tB\x10\xbaH\r\x92\x01\n" +
+	"\x10\n" +
+	"\"\x06r\x04\x10\x01\x182R\tplatforms\"\xbc\x02\n" +
+	"\x1aShareCertificationResponse\x12*\n" +
 	"\n" +
-	"public_url\x18\x01 \x01(\tR\tpublicUrl\x12i\n" +
-	"\vshare_links\x18\x02 \x03(\v2H.skillsphere.certification.v1.ShareCertificationResponse.ShareLinksEntryR\n" +
-	"shareLinks\x12\x1e\n" +
-	"\vqr_code_url\x18\x03 \x01(\tR\tqrCodeUrl\x1a=\n" +
+	"public_url\x18\x01 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tpublicUrl\x12\x85\x01\n" +
+	"\vshare_links\x18\x02 \x03(\v2H.skillsphere.certification.v1.ShareCertificationResponse.ShareLinksEntryB\x1a\xbaH\x17\x9a\x01\x14\x10\x14\"\x06r\x04\x10\x01\x182*\br\x06\x18\x80\x10\x88\x01\x01R\n" +
+	"shareLinks\x12+\n" +
+	"\vqr_code_url\x18\x03 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\tqrCodeUrl\x1a=\n" +
 	"\x0fShareLinksEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc1\x01\n" +
-	"\x13MintNFTBadgeRequest\x12)\n" +
-	"\x10certification_id\x18\x01 \x01(\tR\x0fcertificationId\x12.\n" +
-	"\x13user_wallet_address\x18\x02 \x01(\tR\x11userWalletAddress\x12O\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe2\x01\n" +
+	"\x13MintNFTBadgeRequest\x124\n" +
+	"\x10certification_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x182R\x0fcertificationId\x12:\n" +
+	"\x13user_wallet_address\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\x80\x01R\x11userWalletAddress\x12Y\n" +
 	"\n" +
-	"blockchain\x18\x03 \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkR\n" +
-	"blockchain\"\xe1\x01\n" +
-	"\x14MintNFTBadgeResponse\x12)\n" +
-	"\x10transaction_hash\x18\x01 \x01(\tR\x0ftransactionHash\x12\x19\n" +
-	"\btoken_id\x18\x02 \x01(\tR\atokenId\x12)\n" +
-	"\x10contract_address\x18\x03 \x01(\tR\x0fcontractAddress\x12\x1f\n" +
-	"\vopensea_url\x18\x04 \x01(\tR\n" +
+	"blockchain\x18\x03 \x01(\x0e2/.skillsphere.certification.v1.BlockchainNetworkB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"blockchain\"\x89\x02\n" +
+	"\x14MintNFTBadgeResponse\x122\n" +
+	"\x10transaction_hash\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18dR\x0ftransactionHash\x12\"\n" +
+	"\btoken_id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\atokenId\x122\n" +
+	"\x10contract_address\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x0fcontractAddress\x12,\n" +
+	"\vopensea_url\x18\x04 \x01(\tB\v\xbaH\br\x06\x18\x80\x10\x88\x01\x01R\n" +
 	"openseaUrl\x127\n" +
-	"\tminted_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bmintedAt\"\x82\x01\n" +
-	"\x18GetBadgeTemplatesRequest\x12P\n" +
-	"\vtype_filter\x18\x01 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeR\n" +
-	"typeFilter\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"f\n" +
-	"\x19GetBadgeTemplatesResponse\x12I\n" +
-	"\ttemplates\x18\x01 \x03(\v2+.skillsphere.certification.v1.BadgeTemplateR\ttemplates*\xce\x01\n" +
+	"\tminted_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bmintedAt\"\x97\x01\n" +
+	"\x18GetBadgeTemplatesRequest\x12Z\n" +
+	"\vtype_filter\x18\x01 \x01(\x0e2/.skillsphere.certification.v1.CertificationTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"typeFilter\x12\x1f\n" +
+	"\x05limit\x18\x02 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x01R\x05limit\"p\n" +
+	"\x19GetBadgeTemplatesResponse\x12S\n" +
+	"\ttemplates\x18\x01 \x03(\v2+.skillsphere.certification.v1.BadgeTemplateB\b\xbaH\x05\x92\x01\x02\x10dR\ttemplates*\xce\x01\n" +
 	"\x11CertificationType\x12\"\n" +
 	"\x1eCERTIFICATION_TYPE_UNSPECIFIED\x10\x00\x12'\n" +
 	"#CERTIFICATION_TYPE_SKILL_COMPLETION\x10\x01\x12&\n" +
